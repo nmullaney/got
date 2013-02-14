@@ -7,6 +7,7 @@
 //
 
 #import "GOTAppDelegate.h"
+#import "GOTItemsViewController.h"
 
 @implementation GOTAppDelegate
 
@@ -14,6 +15,11 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:ivc];
+    [[self window] setRootViewController:nc];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
