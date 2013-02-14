@@ -16,6 +16,12 @@
 		88F2BCD716CC39F5003C9D90 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCD616CC39F5003C9D90 /* Default.png */; };
 		88F2BCD916CC39F5003C9D90 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCD816CC39F5003C9D90 /* Default@2x.png */; };
 		88F2BCDB16CC39F5003C9D90 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCDA16CC39F5003C9D90 /* Default-568h@2x.png */; };
+		88F2BCE316CC3AA4003C9D90 /* GOTItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCE216CC3AA4003C9D90 /* GOTItem.m */; };
+		88F2BCE516CC3B62003C9D90 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCE416CC3B62003C9D90 /* CoreLocation.framework */; };
+		88F2BCE716CC3EBA003C9D90 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCE616CC3EBA003C9D90 /* MapKit.framework */; };
+		88F2BCEA16CC40CE003C9D90 /* GOTItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */; };
+		88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */; };
+		88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +38,15 @@
 		88F2BCD616CC39F5003C9D90 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		88F2BCD816CC39F5003C9D90 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		88F2BCDA16CC39F5003C9D90 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		88F2BCE116CC3AA4003C9D90 /* GOTItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItem.h; sourceTree = "<group>"; };
+		88F2BCE216CC3AA4003C9D90 /* GOTItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItem.m; sourceTree = "<group>"; };
+		88F2BCE416CC3B62003C9D90 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		88F2BCE616CC3EBA003C9D90 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		88F2BCE816CC40CE003C9D90 /* GOTItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemsViewController.h; sourceTree = "<group>"; };
+		88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemsViewController.m; sourceTree = "<group>"; };
+		88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTItemsViewController.xib; sourceTree = "<group>"; };
+		88F2BCED16CC4FB7003C9D90 /* GOTItemsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemsStore.h; sourceTree = "<group>"; };
+		88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemsStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88F2BCE716CC3EBA003C9D90 /* MapKit.framework in Frameworks */,
+				88F2BCE516CC3B62003C9D90 /* CoreLocation.framework in Frameworks */,
 				88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */,
 				88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */,
 				88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */,
@@ -68,6 +85,8 @@
 		88F2BCC316CC39F5003C9D90 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88F2BCE616CC3EBA003C9D90 /* MapKit.framework */,
+				88F2BCE416CC3B62003C9D90 /* CoreLocation.framework */,
 				88F2BCC416CC39F5003C9D90 /* UIKit.framework */,
 				88F2BCC616CC39F5003C9D90 /* Foundation.framework */,
 				88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */,
@@ -81,6 +100,13 @@
 				88F2BCD316CC39F5003C9D90 /* GOTAppDelegate.h */,
 				88F2BCD416CC39F5003C9D90 /* GOTAppDelegate.m */,
 				88F2BCCB16CC39F5003C9D90 /* Supporting Files */,
+				88F2BCE116CC3AA4003C9D90 /* GOTItem.h */,
+				88F2BCE216CC3AA4003C9D90 /* GOTItem.m */,
+				88F2BCE816CC40CE003C9D90 /* GOTItemsViewController.h */,
+				88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */,
+				88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */,
+				88F2BCED16CC4FB7003C9D90 /* GOTItemsStore.h */,
+				88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */,
 			);
 			path = GiveOrTake;
 			sourceTree = "<group>";
@@ -155,6 +181,7 @@
 				88F2BCD716CC39F5003C9D90 /* Default.png in Resources */,
 				88F2BCD916CC39F5003C9D90 /* Default@2x.png in Resources */,
 				88F2BCDB16CC39F5003C9D90 /* Default-568h@2x.png in Resources */,
+				88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +194,9 @@
 			files = (
 				88F2BCD116CC39F5003C9D90 /* main.m in Sources */,
 				88F2BCD516CC39F5003C9D90 /* GOTAppDelegate.m in Sources */,
+				88F2BCE316CC3AA4003C9D90 /* GOTItem.m in Sources */,
+				88F2BCEA16CC40CE003C9D90 /* GOTItemsViewController.m in Sources */,
+				88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
