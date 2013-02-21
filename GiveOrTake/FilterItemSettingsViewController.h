@@ -14,6 +14,8 @@
     __weak IBOutlet UILabel *distanceLabel;
 }
 
+@property (nonatomic) BOOL filterChanged;
+
 - (IBAction)distanceChanged:(id)sender;
 - (void)updateDistanceToValue:(int)value;
 - (int)roundDistanceValue;

@@ -31,7 +31,6 @@
     NSMutableArray *items = [[NSMutableArray alloc] init];
     for (int i = 0; i < count; i++) {
         GOTItem *item = [GOTItem createRandomItem];
-        //NSLog(@"Created %@", item);
         [items addObject:item];
     }
     return items;

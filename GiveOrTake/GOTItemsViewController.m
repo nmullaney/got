@@ -15,6 +15,8 @@
 
 @implementation GOTItemsViewController
 
+@synthesize items, singleItemViewController, fisvc;
+
 - (id)init
 {
     self = [super init];
@@ -23,6 +25,10 @@
                                                                 style:UIBarButtonItemStyleDone
                                                                target:self action:@selector(filterSearch:)];
         [[self navigationItem] setLeftBarButtonItem:bbi];
+        [self setSingleItemViewController:[[GOTSingleItemViewController alloc] init]];
+        UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
+        [self setFisvc:[settingStoryboard instantiateInitialViewController]];
+        [self updateItems];
     }
     return self;
 }
@@ -30,7 +36,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updateItems];
+    if ([self shouldUpdateItems]) {
+        [self updateItems];
+    }
     [[self navigationItem] setTitle:@"Free Items"];
 }
 
@@ -41,7 +49,8 @@
 
 - (void)updateItems
 {
-    items = [[GOTItemsStore sharedStore] itemsAtDistance:[self distance]];
+    [self setItems:[[GOTItemsStore sharedStore] itemsAtDistance:[self distance]]];
+    [[self singleItemViewController] setItems:[self items]];
     [[self tableView] reloadData];
 }
 
@@ -50,10 +59,15 @@
 
 - (void)filterSearch:(id)sender
 {
-    UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
-    UIViewController *filterItemSettingsViewController = [settingStoryboard instantiateInitialViewController];
-    [[self navigationController] pushViewController:filterItemSettingsViewController
+    [[self navigationController] pushViewController:[self fisvc]
                                            animated:YES];
+}
+
+- (BOOL)shouldUpdateItems
+{
+    BOOL shouldUpdate = [[self fisvc] filterChanged];
+    [[self fisvc] setFilterChanged:NO];
+    return shouldUpdate;
 }
 
 #pragma mark -
@@ -90,8 +104,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GOTSingleItemViewController *svc = [[GOTSingleItemViewController alloc] initWithItems:items selectedIndex:[indexPath row]];
-    [[self navigationController] pushViewController:svc animated:YES];
+    [[self singleItemViewController] setSelectedIndex:[indexPath row]];
+    [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
 }
 
 #pragma mark -

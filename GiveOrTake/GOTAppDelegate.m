@@ -23,17 +23,17 @@
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
-    // Free Items Controller
-    GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
-    UINavigationController *freeNav = [[UINavigationController alloc] initWithRootViewController:ivc];
-    UITabBarItem *freeItem = [[UITabBarItem alloc] initWithTitle:@"Free Items" image:nil tag:0];
-    [freeNav setTabBarItem:freeItem];
-    
     // My Offers Controller
     GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
     UINavigationController *offerNav = [[UINavigationController alloc] initWithRootViewController:ovc];
-    UITabBarItem *offerItem = [[UITabBarItem alloc] initWithTitle:@"My Offers" image:nil tag:1];
+    UITabBarItem *offerItem = [[UITabBarItem alloc] initWithTitle:@"Give" image:nil tag:0];
     [offerNav setTabBarItem:offerItem];
+    
+    // Free Items Controller
+    GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
+    UINavigationController *freeNav = [[UINavigationController alloc] initWithRootViewController:ivc];
+    UITabBarItem *freeItem = [[UITabBarItem alloc] initWithTitle:@"Take" image:nil tag:1];
+    [freeNav setTabBarItem:freeItem];
     
     // Profile Controller
     GOTProfileViewController *pvc = [[GOTProfileViewController alloc] init];
@@ -43,8 +43,8 @@
     
     // Tab Bar
     UITabBarController *tvc = [[UITabBarController alloc] init];
-    [tvc addChildViewController:freeNav];
     [tvc addChildViewController:offerNav];
+    [tvc addChildViewController:freeNav];
     [tvc addChildViewController:profileNav];
     
     [[self window] setRootViewController:tvc];

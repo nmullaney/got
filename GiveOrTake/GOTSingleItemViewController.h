@@ -10,15 +10,17 @@
 
 @class GOTSingleItemView;
 
-@interface GOTSingleItemViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface GOTSingleItemViewController : UIViewController
+    <UIScrollViewDelegate>
 {
-    GOTSingleItemView *siView;
     UIScrollView *scrollView;
+    NSMutableArray *views;
 }
 
-
-- (id)initWithItems:(NSArray *)items selectedIndex:(NSInteger)i;
-- (void)updateViewFromItem;
+- (void)addViewAtIndex:(int)index;
+- (CGRect)frameForViewAtIndex:(int)index;
+- (void)initScrollView;
+- (void)cleanupViews:(BOOL)keepViewable;
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic) NSInteger selectedIndex;

@@ -20,21 +20,19 @@
         int descLabelHeight = frame.size.height / 2 - 60;
         int width = frame.size.width - 20;
         descLabel = [[UILabel alloc] initWithFrame:CGRectMake(topBorder, leftBorder, width, descLabelHeight - 10)];
-        [descLabel setBackgroundColor:[UIColor redColor]];
-        
+            
         int imageViewHeight = frame.size.height / 2 - 60;
         //int imageViewHeight = 0;
         imageView = [[UIImageView alloc] initWithFrame:CGRectMake(leftBorder, topBorder + descLabelHeight, width, imageViewHeight - 10)];
-        [imageView setBackgroundColor:[UIColor greenColor]];
-        
+                
         int dateLabelHeight = 20;
         dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftBorder, topBorder + descLabelHeight + imageViewHeight, width, dateLabelHeight)];
         [dateLabel setTextAlignment:NSTextAlignmentCenter];
-        [dateLabel setBackgroundColor:[UIColor blueColor]];
-        
+            
         [self addSubview:descLabel];
         [self addSubview:imageView];
         [self addSubview:dateLabel];
+        [self setBackgroundColor:[UIColor lightGrayColor]];
     }
     return self;
 }

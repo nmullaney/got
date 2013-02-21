@@ -11,6 +11,15 @@
 
 @implementation FilterItemSettingsViewController
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setFilterChanged:NO];
+    }
+    return self;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -20,8 +29,8 @@
 
 - (IBAction)distanceChanged:(id)sender {
     int value = [self roundDistanceValue];
-    NSLog(@"Distance changed: %d", value);
     [self updateDistanceToValue:value];
+    [self setFilterChanged:YES];
 }
 
 - (void)updateDistanceToValue:(int)value

@@ -8,12 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class GOTSingleItemViewController;
+@class FilterItemSettingsViewController;
+
 @interface GOTItemsViewController : UITableViewController
 {
-    NSArray *items;
     IBOutlet UITableView *tableView;
 }
 
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) GOTSingleItemViewController *singleItemViewController;
+@property (nonatomic, strong) FilterItemSettingsViewController *fisvc;
+
 - (void)filterSearch:(id)sender;
+- (BOOL)shouldUpdateItems;
 
 @end
