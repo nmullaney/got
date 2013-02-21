@@ -8,6 +8,10 @@
 
 #import "GOTAppDelegate.h"
 #import "GOTItemsViewController.h"
+#import "GOTToolbarViewController.h"
+#import "GOTOffersViewController.h"
+#import "GOTProfileViewController.h"
+#import "GOTSettings.h"
 
 @implementation GOTAppDelegate
 
@@ -16,9 +20,34 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
+    // Initialize the settings
+    [[GOTSettings instance] setupDefaults];
+    
+    // Free Items Controller
     GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:ivc];
-    [[self window] setRootViewController:nc];
+    UINavigationController *freeNav = [[UINavigationController alloc] initWithRootViewController:ivc];
+    UITabBarItem *freeItem = [[UITabBarItem alloc] initWithTitle:@"Free Items" image:nil tag:0];
+    [freeNav setTabBarItem:freeItem];
+    
+    // My Offers Controller
+    GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
+    UINavigationController *offerNav = [[UINavigationController alloc] initWithRootViewController:ovc];
+    UITabBarItem *offerItem = [[UITabBarItem alloc] initWithTitle:@"My Offers" image:nil tag:1];
+    [offerNav setTabBarItem:offerItem];
+    
+    // Profile Controller
+    GOTProfileViewController *pvc = [[GOTProfileViewController alloc] init];
+    UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:pvc];
+    UITabBarItem *profileItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:2];
+    [profileNav setTabBarItem:profileItem];
+    
+    // Tab Bar
+    UITabBarController *tvc = [[UITabBarController alloc] init];
+    [tvc addChildViewController:freeNav];
+    [tvc addChildViewController:offerNav];
+    [tvc addChildViewController:profileNav];
+    
+    [[self window] setRootViewController:tvc];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

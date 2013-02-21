@@ -31,7 +31,7 @@
     NSMutableArray *items = [[NSMutableArray alloc] init];
     for (int i = 0; i < count; i++) {
         GOTItem *item = [GOTItem createRandomItem];
-        NSLog(@"Created %@", item);
+        //NSLog(@"Created %@", item);
         [items addObject:item];
     }
     return items;
@@ -47,7 +47,7 @@
     NSString *noun = [nouns objectAtIndex:nounIdx];
     NSString *adj = [adjs objectAtIndex:adjIdx];
     
-    NSString *randomName = [[NSString alloc] initWithFormat:@"%@ %@",noun, adj];
+    NSString *randomName = [[NSString alloc] initWithFormat:@"%@ %@", adj, noun];
     
     NSString *randomDesc = [[NSString alloc] initWithFormat:@"This %@ is %@", noun, adj];
     

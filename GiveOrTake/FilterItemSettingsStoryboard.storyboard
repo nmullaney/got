@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ble-14-hYg">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+    </dependencies>
+    <scenes>
+        <!--Filter Item Settings View Controller-->
+        <scene sceneID="YwS-ca-rwF">
+            <objects>
+                <tableViewController id="ble-14-hYg" customClass="FilterItemSettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Pzx-1q-1ae">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="Distance" id="9Sf-wo-C7X">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Xka-fS-Ve2">
+                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="15" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="Umv-l2-dtB">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="153" id="Rpv-e6-Ztw"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="distanceChanged:" destination="ble-14-hYg" eventType="valueChanged" id="Xgj-0s-jS5"/>
+                                                    </connections>
+                                                </slider>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Miles: 15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMu-Mm-AYc">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="YTj-JT-j7W"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="Umv-l2-dtB" firstAttribute="leading" secondItem="Xka-fS-Ve2" secondAttribute="leading" constant="43" id="33e-QI-zrJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="eMu-Mm-AYc" secondAttribute="trailing" constant="30" id="55y-9T-cIW"/>
+                                            <constraint firstItem="eMu-Mm-AYc" firstAttribute="top" secondItem="Umv-l2-dtB" secondAttribute="top" type="default" id="YAi-0e-ElL"/>
+                                            <constraint firstItem="Umv-l2-dtB" firstAttribute="centerY" secondItem="Xka-fS-Ve2" secondAttribute="centerY" type="default" id="gHb-Ez-okF"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="ble-14-hYg" id="h1z-Gi-eQw"/>
+                            <outlet property="delegate" destination="ble-14-hYg" id="GXz-jP-t23"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="distanceLabel" destination="eMu-Mm-AYc" id="dSb-PU-fCB"/>
+                        <outlet property="distanceSlider" destination="Umv-l2-dtB" id="pGR-z6-OBT"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nbJ-uc-7JQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="39" y="-20"/>
+        </scene>
+    </scenes>
+    <classes>
+        <class className="FilterItemSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FilterItemSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="distanceChanged:"/>
+                <relationship kind="outlet" name="distanceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="distanceSlider" candidateClass="UISlider"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

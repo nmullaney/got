@@ -9,6 +9,9 @@
 #import "GOTItemsViewController.h"
 #import "GOTItem.h"
 #import "GOTItemsStore.h"
+#import "GOTSingleItemViewController.h"
+#import "FilterItemSettingsViewController.h"
+#import "GOTSettings.h"
 
 @implementation GOTItemsViewController
 
@@ -16,35 +19,54 @@
 {
     self = [super init];
     if (self) {
-        distance = 15;
-        items = [[GOTItemsStore sharedStore] itemsAtDistance:distance];
-        [[self navigationItem] setTitle:@"Free Items Near You"];
+        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Filter"
+                                                                style:UIBarButtonItemStyleDone
+                                                               target:self action:@selector(filterSearch:)];
+        [[self navigationItem] setLeftBarButtonItem:bbi];
     }
     return self;
 }
 
-- (IBAction)distanceChanged:(id)sender {
-    UISegmentedControl *distanceControl = sender;
-    distance = [[distanceControl titleForSegmentAtIndex:[distanceControl selectedSegmentIndex]] intValue];
-    NSLog(@"distance is now %d", distance);
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self updateItems];
+    [[self navigationItem] setTitle:@"Free Items"];
+}
+
+- (NSInteger)distance
+{
+    return [[GOTSettings instance] getIntValueForKey:[GOTSettings distanceKey]];
 }
 
 - (void)updateItems
 {
-    NSLog(@"Updating items");
-    items = [[GOTItemsStore sharedStore] itemsAtDistance:distance];
-    [itemTableView reloadData];
+    items = [[GOTItemsStore sharedStore] itemsAtDistance:[self distance]];
+    [[self tableView] reloadData];
 }
 
-- (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark filter items methods
+
+
+- (void)filterSearch:(id)sender
+{
+    UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
+    UIViewController *filterItemSettingsViewController = [settingStoryboard instantiateInitialViewController];
+    [[self navigationController] pushViewController:filterItemSettingsViewController
+                                           animated:YES];
+}
+
+#pragma mark -
+#pragma mark data source methods
+
+- (int)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
     return [items count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
@@ -58,10 +80,20 @@
     return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
     return [[UIView alloc] init];
 }
 
+#pragma mark -
+#pragma mark delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GOTSingleItemViewController *svc = [[GOTSingleItemViewController alloc] initWithItems:items selectedIndex:[indexPath row]];
+    [[self navigationController] pushViewController:svc animated:YES];
+}
+
+#pragma mark -
 
 @end
