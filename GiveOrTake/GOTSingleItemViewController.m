@@ -7,22 +7,16 @@
 //
 
 #import "GOTSingleItemViewController.h"
-#import "GOTItem.h"
-#import "GOTSingleItemView.h"
+
 #import <QuartzCore/QuartzCore.h>
+
+#import "GOTItem.h"
+#import "GOTFreeItemDetailViewController.h"
+
 
 @implementation GOTSingleItemViewController
 
 @synthesize items;
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
 
 - (void)setItems:(NSArray *)its
 {
@@ -30,13 +24,10 @@
     int endItemCount = [its count];
     // clean up any existing views
     [self cleanupViews:NO];
-    if ([[self items] count] != [its count]) {
-        [self initScrollView];
-    }
-    views = nil;
-    views = [[NSMutableArray alloc] init];
+    viewControllers = nil;
+    viewControllers = [[NSMutableArray alloc] init];
     for (int i = 0; i < [its count]; i++) {
-        [views addObject:[NSNull null]];
+        [viewControllers addObject:[NSNull null]];
     }
     items = its;
     if (endItemCount != startItemCount) {
@@ -48,13 +39,6 @@
 {
     _selectedIndex = index;
     [[self navigationItem] setTitle:[[self item] name]];
-}
-
-- (void)loadView
-{
-    [super loadView];
-    [self initScrollView];
-    [self setView:scrollView];
 }
 
 - (void)initScrollView
@@ -87,13 +71,14 @@
     if (index < 0 || index > [[self items] count] - 1) {
         return;
     }
-    id view = [views objectAtIndex:index];
-    if (view == [NSNull null]) {
-        view = [[GOTSingleItemView alloc]
-                initWithFrame:[self frameForViewAtIndex:index]];
-        [view setItem:[[self items] objectAtIndex:index]];
-        [views replaceObjectAtIndex:index withObject:view];
-        [scrollView addSubview:view];
+    id currentController = [viewControllers objectAtIndex:index];
+    if (currentController == [NSNull null]) {
+        GOTFreeItemDetailViewController *viewController =
+            [[GOTFreeItemDetailViewController alloc] init];
+        [viewController setItem:[[self items] objectAtIndex:index]];
+        [viewControllers replaceObjectAtIndex:index withObject:viewController];
+        [[viewController view] setFrame:[self frameForViewAtIndex:index]];
+        [scrollView addSubview:[viewController view]];
     }
 }
 
@@ -104,21 +89,40 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addViewAtIndex:[self selectedIndex]];
-    [self addViewAtIndex:[self selectedIndex] - 1];
-    [self addViewAtIndex:[self selectedIndex] + 1];
     
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
     CGRect scrollViewFrame = [scrollView frame];
     scrollViewFrame.origin.x = [self selectedIndex] * bounds.size.width;
     [scrollView scrollRectToVisible:scrollViewFrame
                            animated:NO];
+    
+    [self addViewAtIndex:[self selectedIndex]];
+    [self addViewAtIndex:[self selectedIndex] - 1];
+    [self addViewAtIndex:[self selectedIndex] + 1];
+    
+    [self notifyViewControllerAppearing:[self selectedIndex]];
+    [self notifyViewControllerAppearing:[self selectedIndex] - 1];
+    [self notifyViewControllerAppearing:[self selectedIndex] + 1];
+}
+
+// During viewWillAppear, the added viewControllers are not having
+// their own viewWillAppear called.  I'm not sure what the root cause is,
+// but this will ensure their viewWillAppear method will be called.
+// This happens correctly during scrollViewDidScroll.
+- (void)notifyViewControllerAppearing:(int)index
+{
+    if (index < 0 || index > [[self items] count]) {
+        return;
+    }
+    UIViewController *viewController = [viewControllers objectAtIndex:index];
+    [viewController viewWillAppear:NO];
 }
 
 #pragma mark Scroll handling
 
 - (void)scrollViewDidScroll:(UIScrollView *)sv
 {
+    //NSLog(@"super scrollViewDidScroll");
     CGFloat viewWidth = sv.frame.size.width;
     int index = floor((sv.contentOffset.x - viewWidth / 2) / viewWidth) + 1;
     if (index == [self selectedIndex]) {
@@ -135,18 +139,19 @@
 
 - (void)cleanupViews:(BOOL)keepViewable
 {
-    for (int i = 0; i < [views count]; i++) {
+    for (int i = 0; i < [viewControllers count]; i++) {
         if (keepViewable && i >= ([self selectedIndex] - 1) && i <= ([self selectedIndex] + 1)) {
             // This leaves the 3 viewable views
             continue;
         }
-        if ([views objectAtIndex:i] == [NSNull null]) {
+        if ([viewControllers objectAtIndex:i] == [NSNull null]) {
             continue;
         }
-        UIView *view = [views objectAtIndex:i];
-        [view removeFromSuperview];
-        [views replaceObjectAtIndex:i withObject:[NSNull null]];
-        view = nil;
+        UIViewController *viewController = [viewControllers objectAtIndex:i];
+        [viewController viewWillAppear:NO];
+        [[viewController view] removeFromSuperview];
+        [viewControllers replaceObjectAtIndex:i withObject:[NSNull null]];
+        viewController = nil;
     }
 }
 

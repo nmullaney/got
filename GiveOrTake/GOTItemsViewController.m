@@ -7,11 +7,12 @@
 //
 
 #import "GOTItemsViewController.h"
+
+#import "FilterItemSettingsViewController.h"
 #import "GOTItem.h"
 #import "GOTItemsStore.h"
-#import "GOTSingleItemViewController.h"
-#import "FilterItemSettingsViewController.h"
 #import "GOTSettings.h"
+#import "GOTSingleItemViewController.h"
 
 @implementation GOTItemsViewController
 
@@ -87,7 +88,6 @@
     }
     if ([indexPath row] < [items count]) {
         GOTItem *item = [items objectAtIndex:[indexPath row]];
-        //NSLog(@"Display cell for %@", item);
         [[cell textLabel] setText:[item name]];
         [[cell detailTextLabel] setText:[item desc]];
     }

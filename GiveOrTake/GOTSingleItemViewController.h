@@ -8,19 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@class GOTSingleItemView;
-
 @interface GOTSingleItemViewController : UIViewController
     <UIScrollViewDelegate>
 {
     UIScrollView *scrollView;
-    NSMutableArray *views;
+    NSMutableArray *viewControllers;
 }
 
 - (void)addViewAtIndex:(int)index;
 - (CGRect)frameForViewAtIndex:(int)index;
 - (void)initScrollView;
 - (void)cleanupViews:(BOOL)keepViewable;
+- (void)notifyViewControllerAppearing:(int)index;
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic) NSInteger selectedIndex;

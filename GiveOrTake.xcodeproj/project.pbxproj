@@ -13,6 +13,8 @@
 		8894FD2A16D5893D006955F6 /* FilterItemSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */; };
 		8894FD2D16D5995E006955F6 /* GOTSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD2C16D5995E006955F6 /* GOTSettings.m */; };
 		8894FD2F16D6EE49006955F6 /* GOTEditItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD2E16D6EE49006955F6 /* GOTEditItemViewController.xib */; };
+		8894FD3216D7F04F006955F6 /* GOTFreeItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */; };
+		8894FD3416D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -29,7 +31,6 @@
 		88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */; };
 		88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */; };
 		88F2BCF216CD682D003C9D90 /* GOTSingleItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCF116CD682D003C9D90 /* GOTSingleItemViewController.m */; };
-		88F2BCF716CDA5D6003C9D90 /* GOTSingleItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCF616CDA5D6003C9D90 /* GOTSingleItemView.m */; };
 		88FDE40716CF3E0A008C6519 /* GOTToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */; };
 		88FDE40A16CF45D5008C6519 /* GOTProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40916CF45D5008C6519 /* GOTProfileViewController.m */; };
 		88FDE40D16CF474E008C6519 /* GOTOffersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40C16CF474E008C6519 /* GOTOffersViewController.m */; };
@@ -45,6 +46,9 @@
 		8894FD2B16D5995E006955F6 /* GOTSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSettings.h; sourceTree = "<group>"; };
 		8894FD2C16D5995E006955F6 /* GOTSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSettings.m; sourceTree = "<group>"; };
 		8894FD2E16D6EE49006955F6 /* GOTEditItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTEditItemViewController.xib; sourceTree = "<group>"; };
+		8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTFreeItemDetailViewController.h; sourceTree = "<group>"; };
+		8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTFreeItemDetailViewController.m; sourceTree = "<group>"; };
+		8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTFreeItemDetailViewController.xib; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -69,8 +73,6 @@
 		88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemsStore.m; sourceTree = "<group>"; };
 		88F2BCF016CD682D003C9D90 /* GOTSingleItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSingleItemViewController.h; sourceTree = "<group>"; };
 		88F2BCF116CD682D003C9D90 /* GOTSingleItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSingleItemViewController.m; sourceTree = "<group>"; };
-		88F2BCF516CDA5D6003C9D90 /* GOTSingleItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSingleItemView.h; sourceTree = "<group>"; };
-		88F2BCF616CDA5D6003C9D90 /* GOTSingleItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSingleItemView.m; sourceTree = "<group>"; };
 		88FDE40516CF3E0A008C6519 /* GOTToolbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTToolbarViewController.h; sourceTree = "<group>"; };
 		88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTToolbarViewController.m; sourceTree = "<group>"; };
 		88FDE40816CF45D5008C6519 /* GOTProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTProfileViewController.h; sourceTree = "<group>"; };
@@ -138,8 +140,6 @@
 				88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */,
 				88F2BCF016CD682D003C9D90 /* GOTSingleItemViewController.h */,
 				88F2BCF116CD682D003C9D90 /* GOTSingleItemViewController.m */,
-				88F2BCF516CDA5D6003C9D90 /* GOTSingleItemView.h */,
-				88F2BCF616CDA5D6003C9D90 /* GOTSingleItemView.m */,
 				88FDE40516CF3E0A008C6519 /* GOTToolbarViewController.h */,
 				88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */,
 				88FDE40816CF45D5008C6519 /* GOTProfileViewController.h */,
@@ -156,6 +156,9 @@
 				8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */,
 				8894FD2B16D5995E006955F6 /* GOTSettings.h */,
 				8894FD2C16D5995E006955F6 /* GOTSettings.m */,
+				8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */,
+				8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */,
+				8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */,
 			);
 			path = GiveOrTake;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 				8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */,
 				8894FD2716D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard in Resources */,
 				8894FD2F16D6EE49006955F6 /* GOTEditItemViewController.xib in Resources */,
+				8894FD3416D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,13 +254,13 @@
 				88F2BCEA16CC40CE003C9D90 /* GOTItemsViewController.m in Sources */,
 				88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */,
 				88F2BCF216CD682D003C9D90 /* GOTSingleItemViewController.m in Sources */,
-				88F2BCF716CDA5D6003C9D90 /* GOTSingleItemView.m in Sources */,
 				88FDE40716CF3E0A008C6519 /* GOTToolbarViewController.m in Sources */,
 				88FDE40A16CF45D5008C6519 /* GOTProfileViewController.m in Sources */,
 				88FDE40D16CF474E008C6519 /* GOTOffersViewController.m in Sources */,
 				8894FD1C16D16CF2006955F6 /* GOTEditItemViewController.m in Sources */,
 				8894FD2A16D5893D006955F6 /* FilterItemSettingsViewController.m in Sources */,
 				8894FD2D16D5995E006955F6 /* GOTSettings.m in Sources */,
+				8894FD3216D7F04F006955F6 /* GOTFreeItemDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
