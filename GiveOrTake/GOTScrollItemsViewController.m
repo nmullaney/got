@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Nora Mullaney. All rights reserved.
 //
 
-#import "GOTSingleItemViewController.h"
+#import "GOTScrollItemsViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -14,7 +14,7 @@
 #import "GOTFreeItemDetailViewController.h"
 
 
-@implementation GOTSingleItemViewController
+@implementation GOTScrollItemsViewController
 
 @synthesize items;
 
@@ -22,16 +22,13 @@
 {
     int startItemCount = [[self items] count];
     int endItemCount = [its count];
-    // clean up any existing views
-    [self cleanupViews:NO];
-    viewControllers = nil;
-    viewControllers = [[NSMutableArray alloc] init];
-    for (int i = 0; i < [its count]; i++) {
-        [viewControllers addObject:[NSNull null]];
-    }
     items = its;
     if (endItemCount != startItemCount) {
         [self initScrollView];
+    }
+    viewControllers = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [its count]; i++) {
+        [viewControllers addObject:[NSNull null]];
     }
 }
 
@@ -50,7 +47,7 @@
     scrollView.contentSize = CGSizeMake(bounds.size.width * [[self items] count], bounds.size.height);
     [scrollView setPagingEnabled:YES];
     [scrollView setDirectionalLockEnabled:YES];
-    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = YES;
     scrollView.showsVerticalScrollIndicator = NO;
     [self setView:scrollView];
 }
@@ -103,6 +100,7 @@
     [self notifyViewControllerAppearing:[self selectedIndex]];
     [self notifyViewControllerAppearing:[self selectedIndex] - 1];
     [self notifyViewControllerAppearing:[self selectedIndex] + 1];
+    [scrollView setNeedsDisplay];
 }
 
 // During viewWillAppear, the added viewControllers are not having
@@ -161,6 +159,11 @@
 - (void)didReceiveMemoryWarning
 {
     [self cleanupViews:YES];
+}
+
+- (void)dealloc
+{
+    NSLog(@"dealloc for GOTScrollItemsViewController");
 }
 
 @end

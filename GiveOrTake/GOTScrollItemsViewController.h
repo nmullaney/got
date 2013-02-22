@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GOTSingleItemViewController : UIViewController
+@interface GOTScrollItemsViewController : UIViewController
     <UIScrollViewDelegate>
 {
     UIScrollView *scrollView;

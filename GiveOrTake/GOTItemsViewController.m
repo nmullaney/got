@@ -12,7 +12,7 @@
 #import "GOTItem.h"
 #import "GOTItemsStore.h"
 #import "GOTSettings.h"
-#import "GOTSingleItemViewController.h"
+#import "GOTScrollItemsViewController.h"
 
 @implementation GOTItemsViewController
 
@@ -26,7 +26,6 @@
                                                                 style:UIBarButtonItemStyleDone
                                                                target:self action:@selector(filterSearch:)];
         [[self navigationItem] setLeftBarButtonItem:bbi];
-        [self setSingleItemViewController:[[GOTSingleItemViewController alloc] init]];
         UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
         [self setFisvc:[settingStoryboard instantiateInitialViewController]];
         [self updateItems];
@@ -51,12 +50,11 @@
 - (void)updateItems
 {
     [self setItems:[[GOTItemsStore sharedStore] itemsAtDistance:[self distance]]];
-    [[self singleItemViewController] setItems:[self items]];
+    [self setSingleItemViewController:nil];
     [[self tableView] reloadData];
 }
 
 #pragma mark filter items methods
-
 
 - (void)filterSearch:(id)sender
 {
@@ -104,6 +102,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![self singleItemViewController]) {
+        [self setSingleItemViewController:[[GOTScrollItemsViewController alloc] init]];
+        [[self singleItemViewController] setItems:[self items]];
+    }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];
     [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
 }

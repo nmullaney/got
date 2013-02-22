@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class GOTSingleItemViewController;
+@class GOTScrollItemsViewController;
 @class FilterItemSettingsViewController;
 
 @interface GOTItemsViewController : UITableViewController
@@ -17,7 +17,7 @@
 }
 
 @property (nonatomic, strong) NSArray *items;
-@property (nonatomic, strong) GOTSingleItemViewController *singleItemViewController;
+@property (nonatomic, strong) GOTScrollItemsViewController *singleItemViewController;
 @property (nonatomic, strong) FilterItemSettingsViewController *fisvc;
 
 - (void)filterSearch:(id)sender;

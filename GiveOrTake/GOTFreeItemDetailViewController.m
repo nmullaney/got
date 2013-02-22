@@ -31,4 +31,10 @@
     // TODO
     NSLog(@"Want pressed");
 }
+
+- (void)dealloc
+{
+    NSLog(@"Dealloc for FreeItemDetailViewController: %@", [[self item] name]);
+}
+
 @end

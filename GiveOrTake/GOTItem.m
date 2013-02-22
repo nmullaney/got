@@ -38,8 +38,8 @@
 
 +(id)createRandomItem
 {
-    NSArray *nouns = [[NSArray alloc] initWithObjects:@"Lamp", @"Table", @"Hat", @"Plant", nil];
-    NSArray *adjs = [[NSArray alloc] initWithObjects:@"Fuzzy", @"Blue", @"Broken", @"Silly", @"Fluffy", nil];
+    NSArray *nouns = [[NSArray alloc] initWithObjects:@"Lamp", @"Table", @"Hat", @"Plant", @"Shoes", @"Sofa", nil];
+    NSArray *adjs = [[NSArray alloc] initWithObjects:@"Fuzzy", @"Blue", @"Broken", @"Silly", @"Fluffy", @"Large", @"Poofy", nil];
     int nounIdx = rand() % [nouns count];
     int adjIdx = rand() % [adjs count];
     
