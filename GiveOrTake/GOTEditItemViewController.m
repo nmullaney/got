@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "GOTItem.h"
+#import "GOTImageStore.h"
 
 @implementation GOTEditItemViewController
 
@@ -56,7 +57,6 @@
     
     [[self item] setName:[nameField text]];
     [[self item] setDesc:[descField text]];
-    [[self item] setImage:[imageView image]];
 }
 
 
@@ -90,6 +90,14 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    // Create a unique ID for this image, and store it in the image store
+    CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
+    CFStringRef newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
+    NSString *key = (__bridge NSString *)newUniqueIDString;
+    [item setImageKey:key];
+    [[GOTImageStore sharedStore] setImage:image forKey:key];
+    [item setThumbnailDataFromImage:image];
     
     [imageView setImage:image];
     

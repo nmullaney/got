@@ -53,7 +53,7 @@
     GOTItem *item = [offers objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item name]];
     [[cell detailTextLabel] setText:[item desc]];
-    [[cell imageView] setImage:[item image]];
+    [[cell imageView] setImage:[item thumbnail]];
     return cell;
 }
 

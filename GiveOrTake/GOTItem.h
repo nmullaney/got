@@ -15,10 +15,17 @@
 + (NSArray *)randomItems:(int)count;
 + (id)createRandomItem;
 
+- (UIImage *)image;
+- (void)setThumbnailDataFromImage:(UIImage *)i;
+
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *datePosted;
-@property (nonatomic, weak) UIImage *image;
+@property (nonatomic, copy) NSString *imageKey;
+
+@property (nonatomic, strong) UIImage *thumbnail;
+@property (nonatomic, strong) NSData *thumbnailData;
+
 
 // Eventually, we'll want the location to be taken from the user's profile
 // TODO
