@@ -16,7 +16,7 @@
 
 @implementation GOTScrollItemsViewController
 
-@synthesize items;
+@synthesize items, height;
 
 - (void)setItems:(NSArray *)its
 {
@@ -41,6 +41,8 @@
 - (void)initScrollView
 {
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
+    // height may be smaller, because of navigation and tab bar
+    bounds.size.height = [self height];
     
     scrollView = [[UIScrollView alloc] initWithFrame:bounds];
     [scrollView setDelegate:self];
@@ -54,9 +56,8 @@
 
 - (CGRect)frameForViewAtIndex:(int)index
 {
-    CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
-    int viewWidth = screenBounds.size.width;
-    int viewHeight = screenBounds.size.height;
+    int viewWidth = [scrollView bounds].size.width;
+    int viewHeight = [scrollView bounds].size.height;
     int viewOriginX = index * viewWidth;
     int viewOriginY = scrollView.contentOffset.y;
     

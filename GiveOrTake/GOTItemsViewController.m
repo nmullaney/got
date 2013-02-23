@@ -107,6 +107,10 @@
         [[self singleItemViewController] setItems:[self items]];
     }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];
+    float visibleHeight = [[UIScreen mainScreen] bounds].size.height
+        - [[[self navigationController] view] bounds].size.height
+        - [[[self tabBarController] view] bounds].size.height;
+    [[self singleItemViewController] setHeight:visibleHeight];
     [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
 }
 

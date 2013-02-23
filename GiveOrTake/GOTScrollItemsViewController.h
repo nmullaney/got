@@ -24,4 +24,7 @@
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic) NSInteger selectedIndex;
 
+// The viewable height of this controller
+@property (nonatomic) float height;
+
 @end
