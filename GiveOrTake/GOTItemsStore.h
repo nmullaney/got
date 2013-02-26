@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface GOTItemsStore : NSObject
+@class GOTItemList;
 
+@interface GOTItemsStore : NSObject
+{
+    NSURLConnection *connection;
+}
 + (GOTItemsStore *)sharedStore;
 
-- (NSArray *)itemsAtDistance:(int) distance;
+- (GOTItemList *)fetchItemsAtDistance:(int)distance withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 
 @end

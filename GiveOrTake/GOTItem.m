@@ -26,6 +26,17 @@
     return self;
 }
 
+#pragma mark load from dictionary
+
+- (void)readFromJSONDictionary:(NSDictionary *)d
+{
+    // TODO: set id
+    [self setName:[d objectForKey:@"name"]];
+    [self setDesc:[d objectForKey:@"description"]];
+    [self setDatePosted:[d objectForKey:@"datePosted"]];
+}
+
+#pragma mark -
 #pragma mark image methods
 
 // Returns the image for this item from the store

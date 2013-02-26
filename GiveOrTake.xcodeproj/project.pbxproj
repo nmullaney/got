@@ -17,6 +17,8 @@
 		8894FD3416D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */; };
 		8894FD3716D828B3006955F6 /* GOTScrollItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3616D828B2006955F6 /* GOTScrollItemsViewController.m */; };
 		8894FD3A16D83D04006955F6 /* GOTImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3916D83D04006955F6 /* GOTImageStore.m */; };
+		8894FD3D16DC2673006955F6 /* GOTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3C16DC2672006955F6 /* GOTConnection.m */; };
+		8894FD4116DC2F39006955F6 /* GOTItemList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD4016DC2F39006955F6 /* GOTItemList.m */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -54,6 +56,11 @@
 		8894FD3616D828B2006955F6 /* GOTScrollItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTScrollItemsViewController.m; sourceTree = "<group>"; };
 		8894FD3816D83D04006955F6 /* GOTImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTImageStore.h; sourceTree = "<group>"; };
 		8894FD3916D83D04006955F6 /* GOTImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTImageStore.m; sourceTree = "<group>"; };
+		8894FD3B16DC2672006955F6 /* GOTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTConnection.h; sourceTree = "<group>"; };
+		8894FD3C16DC2672006955F6 /* GOTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTConnection.m; sourceTree = "<group>"; };
+		8894FD3E16DC2CBE006955F6 /* JSONSerializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
+		8894FD3F16DC2F39006955F6 /* GOTItemList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemList.h; sourceTree = "<group>"; };
+		8894FD4016DC2F39006955F6 /* GOTItemList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemList.m; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -164,6 +171,11 @@
 				8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */,
 				8894FD3816D83D04006955F6 /* GOTImageStore.h */,
 				8894FD3916D83D04006955F6 /* GOTImageStore.m */,
+				8894FD3B16DC2672006955F6 /* GOTConnection.h */,
+				8894FD3C16DC2672006955F6 /* GOTConnection.m */,
+				8894FD3E16DC2CBE006955F6 /* JSONSerializable.h */,
+				8894FD3F16DC2F39006955F6 /* GOTItemList.h */,
+				8894FD4016DC2F39006955F6 /* GOTItemList.m */,
 			);
 			path = GiveOrTake;
 			sourceTree = "<group>";
@@ -267,6 +279,8 @@
 				8894FD3216D7F04F006955F6 /* GOTFreeItemDetailViewController.m in Sources */,
 				8894FD3716D828B3006955F6 /* GOTScrollItemsViewController.m in Sources */,
 				8894FD3A16D83D04006955F6 /* GOTImageStore.m in Sources */,
+				8894FD3D16DC2673006955F6 /* GOTConnection.m in Sources */,
+				8894FD4116DC2F39006955F6 /* GOTItemList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

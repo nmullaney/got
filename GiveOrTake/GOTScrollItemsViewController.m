@@ -42,11 +42,15 @@
 {
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
     // height may be smaller, because of navigation and tab bar
-    bounds.size.height = [self height];
+    if ([self height] > 0) {
+        bounds.size.height = [self height];
+    }
     
     scrollView = [[UIScrollView alloc] initWithFrame:bounds];
     [scrollView setDelegate:self];
-    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self items] count], bounds.size.height);
+    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self items] count],
+                                        bounds.size.height);
+    
     [scrollView setPagingEnabled:YES];
     [scrollView setDirectionalLockEnabled:YES];
     scrollView.showsHorizontalScrollIndicator = YES;
@@ -110,7 +114,7 @@
 // This happens correctly during scrollViewDidScroll.
 - (void)notifyViewControllerAppearing:(int)index
 {
-    if (index < 0 || index > [[self items] count]) {
+    if (index < 0 || index > [[self items] count] - 1) {
         return;
     }
     UIViewController *viewController = [viewControllers objectAtIndex:index];

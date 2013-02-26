@@ -10,6 +10,7 @@
 
 #import "FilterItemSettingsViewController.h"
 #import "GOTItem.h"
+#import "GOTItemList.h"
 #import "GOTItemsStore.h"
 #import "GOTSettings.h"
 #import "GOTScrollItemsViewController.h"
@@ -49,7 +50,25 @@
 
 - (void)updateItems
 {
-    [self setItems:[[GOTItemsStore sharedStore] itemsAtDistance:[self distance]]];
+    void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
+        if (list) {
+            [self setItems:[list items]];
+            [self setSingleItemViewController:nil];
+            [[self tableView] reloadData];
+        } else if (err) {
+            NSString *errorString = [NSString stringWithFormat:@"Failed to fetch items: %@",
+                                     [err localizedDescription]];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:errorString
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+        }
+    };
+    GOTItemList *list = [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance] withCompletion:completion];
+    [self setItems:[list items]];
     [self setSingleItemViewController:nil];
     [[self tableView] reloadData];
 }
@@ -104,13 +123,11 @@
 {
     if (![self singleItemViewController]) {
         [self setSingleItemViewController:[[GOTScrollItemsViewController alloc] init]];
+        float visibleHeight = [[self tableView] frame].size.height;
+        [[self singleItemViewController] setHeight:visibleHeight];
         [[self singleItemViewController] setItems:[self items]];
     }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];
-    float visibleHeight = [[UIScreen mainScreen] bounds].size.height
-        - [[[self navigationController] view] bounds].size.height
-        - [[[self tabBarController] view] bounds].size.height;
-    [[self singleItemViewController] setHeight:visibleHeight];
     [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
 }
 

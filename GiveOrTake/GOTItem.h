@@ -10,7 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface GOTItem : NSObject
+#import "JSONSerializable.h"
+
+@interface GOTItem : NSObject <JSONSerializable>
 
 + (NSArray *)randomItems:(int)count;
 + (id)createRandomItem;
