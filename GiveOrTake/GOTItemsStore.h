@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @class GOTItemList;
+@class GOTItem;
 
 @interface GOTItemsStore : NSObject
 {
@@ -18,5 +19,7 @@
 + (GOTItemsStore *)sharedStore;
 
 - (GOTItemList *)fetchItemsAtDistance:(int)distance withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
+
+- (void)uploadItem:(GOTItem *)i withCompletion:(void (^)(id itemID, NSError *err))block;
 
 @end

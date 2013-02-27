@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         [self setRequest:req];
+        receivedData = NO;
     }
     return self;
 }
@@ -40,12 +41,22 @@
         rootObject = [self jsonRootObject];
     }
     [self completionBlock](rootObject, nil);
+    receivedData = YES;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
     connection = nil;
     jsonRootObject = nil;
+    if (!receivedData) {
+        NSDictionary *info = [NSDictionary dictionaryWithObject:@"Server failed to respond"
+                                                        forKey:NSLocalizedDescriptionKey];
+        NSError *err = [NSError errorWithDomain:NSURLErrorDomain
+                                                  code:NSURLErrorBadServerResponse
+                                              userInfo:info];
+        [self completionBlock](nil, err);
+        receivedData = YES;
+    }
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error

@@ -19,7 +19,9 @@
 
 - (UIImage *)image;
 - (void)setThumbnailDataFromImage:(UIImage *)i;
+- (NSDictionary *)uploadDictionary;
 
+@property (nonatomic) NSInteger itemID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *datePosted;

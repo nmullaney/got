@@ -12,6 +12,8 @@
 
 #import "GOTItem.h"
 #import "GOTImageStore.h"
+#import "GOTItemsStore.h"
+#import "GOTItemID.h"
 
 @implementation GOTEditItemViewController
 
@@ -57,6 +59,27 @@
     
     [[self item] setName:[nameField text]];
     [[self item] setDesc:[descField text]];
+    
+    void (^block)(id, NSError *) = ^void(id obj, NSError *err) {
+        NSLog(@"calling item upload completion block");
+        if (obj) {
+            GOTItemID *itemIDHolder = (GOTItemID *)obj;
+            [[self item] setItemID:[itemIDHolder itemID]];
+        } else if (err) {
+            // TODO centralize the errror code
+            NSString *errorString = [NSString stringWithFormat:@"Failed to upload: %@",
+                                     [err localizedDescription]];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:errorString
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+        }
+    };
+    
+    [[GOTItemsStore sharedStore] uploadItem:[self item] withCompletion:block];
 }
 
 

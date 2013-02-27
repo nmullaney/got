@@ -12,7 +12,7 @@
 
 @implementation GOTItem
 
-@synthesize name, desc, imageKey, thumbnail, thumbnailData;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -30,10 +30,26 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
-    // TODO: set id
+    [self setItemID:(NSInteger)[d objectForKey:@"id"]];
     [self setName:[d objectForKey:@"name"]];
-    [self setDesc:[d objectForKey:@"description"]];
-    [self setDatePosted:[d objectForKey:@"datePosted"]];
+    // Descriptions may be empty.  This will be a NULL
+    // on the server, but we should treat it as a nil
+    id ddesc = [d objectForKey:@"description"];
+    if (ddesc == (id)[NSNull null]) {
+        desc = nil;
+    } else {
+        desc = ddesc;
+    }
+    [self setDatePosted:[d objectForKey:@"dateCreated"]];
+}
+
+// Converts the item's data into key/value pairs
+// for upload to the server.
+- (NSDictionary *)uploadDictionary
+{
+    NSArray *objs = [NSArray arrayWithObjects:[self name], [self desc], nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"name", @"desc", nil];
+    return [NSDictionary dictionaryWithObjects:objs forKeys:keys];
 }
 
 #pragma mark -

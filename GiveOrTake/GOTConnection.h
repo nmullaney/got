@@ -15,6 +15,7 @@
 {
     NSURLConnection *connection;
     NSMutableData *container;
+    BOOL receivedData;
 }
 
 - (id)initWithRequest:(NSURLRequest *)req;
