@@ -9,10 +9,11 @@
 #import "GOTItem.h"
 
 #import "GOTImageStore.h"
+#import "GOTItemsStore.h"
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -41,6 +42,12 @@
         desc = ddesc;
     }
     [self setDatePosted:[d objectForKey:@"dateCreated"]];
+    
+    id tnURLString = [d objectForKey:@"thumbnailURL"];
+    if (tnURLString) {
+        NSLog(@"Setting thumbnailURL to: %@", tnURLString);
+        thumbnailURL = [NSURL URLWithString:(NSString *)tnURLString];
+    }
 }
 
 // Converts the item's data into key/value pairs

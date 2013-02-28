@@ -18,8 +18,13 @@
 }
 + (GOTItemsStore *)sharedStore;
 
-- (GOTItemList *)fetchItemsAtDistance:(int)distance withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
+- (GOTItemList *)fetchItemsAtDistance:(int)distance
+                       withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 
-- (void)uploadItem:(GOTItem *)i withCompletion:(void (^)(id itemID, NSError *err))block;
+- (void)fetchThumbnailAtURL:(NSURL *)url
+             withCompletion:(void (^)(id image, NSError *err))block;
+
+- (void)uploadItem:(GOTItem *)i
+    withCompletion:(void (^)(id itemID, NSError *err))block;
 
 @end

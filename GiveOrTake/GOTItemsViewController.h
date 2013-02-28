@@ -10,6 +10,7 @@
 
 @class GOTScrollItemsViewController;
 @class FilterItemSettingsViewController;
+@class GOTItem;
 
 @interface GOTItemsViewController : UITableViewController
 {
@@ -22,5 +23,6 @@
 
 - (void)filterSearch:(id)sender;
 - (BOOL)shouldUpdateItems;
+- (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path;
 
 @end

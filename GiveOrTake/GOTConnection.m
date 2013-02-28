@@ -10,7 +10,7 @@
 
 @implementation GOTConnection
 
-@synthesize request, completionBlock, jsonRootObject;
+@synthesize request, completionBlock, jsonRootObject, dataObject;
 
 - (id)initWithRequest:(NSURLRequest *)req
 {
@@ -39,8 +39,11 @@
                                                             error:nil];
         [[self jsonRootObject] readFromJSONDictionary:d];
         rootObject = [self jsonRootObject];
+        [self completionBlock](rootObject, nil);
+    } else if ([self dataObject]) {
+        [[self dataObject] appendData:data];
     }
-    [self completionBlock](rootObject, nil);
+
     receivedData = YES;
 }
 
@@ -48,6 +51,11 @@
 {
     connection = nil;
     jsonRootObject = nil;
+    
+    if ([self dataObject]) {
+        [self completionBlock](dataObject, nil);
+    }
+    
     if (!receivedData) {
         NSDictionary *info = [NSDictionary dictionaryWithObject:@"Server failed to respond"
                                                         forKey:NSLocalizedDescriptionKey];

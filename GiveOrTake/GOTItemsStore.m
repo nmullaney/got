@@ -43,6 +43,17 @@
     return list;
 }
 
+- (void)fetchThumbnailAtURL:(NSURL *)url withCompletion:(void (^)(id, NSError *))block
+{
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    NSMutableData *data = [[NSMutableData alloc] init];
+    [conn setCompletionBlock:block];
+    [conn setDataObject:data];
+    [conn start];
+}
+
 - (NSString *)generateBoundary {
     CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef uuidStr = CFUUIDCreateString(kCFAllocatorDefault, uuid);
@@ -81,6 +92,23 @@ forHTTPHeaderField:@"Content-type"];
         NSLog(@"data = %@", data);
         [body appendData:[data dataUsingEncoding:NSUTF8StringEncoding]];
     }];
+    
+    if ([item thumbnailData]) {
+        NSString *fileData = [NSString stringWithFormat:@""
+                              "--%@\r\n"
+                              "Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n"
+                              "Content-Type: %@\r\n"
+                              "\r\n",
+                              boundary,
+                              @"thumbnail",
+                              @"thumbnail.png",
+                              @"image/png"
+                              ];
+        [body appendData:[fileData dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[item thumbnailData]];
+        [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
     [body appendData:[[NSString stringWithFormat:@"--%@--\r\n\r\n", boundary]
                       dataUsingEncoding:NSUTF8StringEncoding]];
 

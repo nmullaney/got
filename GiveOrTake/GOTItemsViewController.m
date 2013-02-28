@@ -73,6 +73,19 @@
     [[self tableView] reloadData];
 }
 
+- (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path
+{
+    NSURL *url = [item thumbnailURL];
+    void (^block)(id, NSError *) = ^void(id image, NSError *err) {
+        NSLog(@"Got image");
+        NSData *data = (NSData *)image;
+        [item setThumbnailData:data];
+        [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                                withRowAnimation:UITableViewRowAnimationNone];
+    };
+    [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];
+}
+
 #pragma mark filter items methods
 
 - (void)filterSearch:(id)sender
@@ -98,6 +111,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Loading cell for index: %d", [indexPath row]);
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
     if (!cell) {
@@ -107,6 +121,13 @@
         GOTItem *item = [items objectAtIndex:[indexPath row]];
         [[cell textLabel] setText:[item name]];
         [[cell detailTextLabel] setText:[item desc]];
+        if ([item thumbnail]) {
+            NSLog(@"setting image for thumbnail");
+            [[cell imageView] setImage:[item thumbnail]];
+        } else if ([item thumbnailURL]) {
+            NSLog(@"Fetching thumbnail for item");
+            [self fetchThumbnailForItem:item atIndexPath:indexPath];
+        }
     }
     return cell;
 }

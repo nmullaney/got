@@ -14,7 +14,6 @@
     <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
     NSURLConnection *connection;
-    NSMutableData *container;
     BOOL receivedData;
 }
 
@@ -23,6 +22,7 @@
 @property (nonatomic, copy) NSURLRequest *request;
 @property (nonatomic, copy) void (^completionBlock)(id obj, NSError *err);
 @property (nonatomic, strong) id <JSONSerializable> jsonRootObject;
+@property (nonatomic, strong) NSMutableData *dataObject;
 
 - (void)start;
 
