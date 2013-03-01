@@ -31,7 +31,7 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
-    [self setItemID:(NSInteger)[d objectForKey:@"id"]];
+    [self setItemID:[[d objectForKey:@"id"] intValue]];
     [self setName:[d objectForKey:@"name"]];
     // Descriptions may be empty.  This will be a NULL
     // on the server, but we should treat it as a nil
@@ -54,8 +54,16 @@
 // for upload to the server.
 - (NSDictionary *)uploadDictionary
 {
-    NSArray *objs = [NSArray arrayWithObjects:[self name], [self desc], nil];
-    NSArray *keys = [NSArray arrayWithObjects:@"name", @"desc", nil];
+    NSMutableArray *objs = [[NSMutableArray alloc] init];
+    NSMutableArray *keys = [[NSMutableArray alloc] init];
+    if ([self name]) {
+        [objs addObject:[self name]];
+        [keys addObject:@"name"];
+    }
+    if ([self desc]) {
+        [objs addObject:[self desc]];
+        [keys addObject:@"desc"];
+    }
     return [NSDictionary dictionaryWithObjects:objs forKeys:keys];
 }
 

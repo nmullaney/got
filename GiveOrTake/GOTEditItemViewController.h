@@ -9,21 +9,25 @@
 #import <Foundation/Foundation.h>
 
 @class GOTItem;
+@class GOTTextView;
 
 @interface GOTEditItemViewController : UIViewController
-    <UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+    <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    IBOutlet UIView *view;
-    __weak IBOutlet UITextField *nameField;
-    __weak IBOutlet UITextView *descField;
-    __weak IBOutlet UIImageView *imageView;
+    UIScrollView *view;
+    UITextField *nameField;
+    GOTTextView *descField;
+    UIImageView *imageView;
+    UIButton *postOfferButton;
 }
 
 @property (nonatomic, strong) GOTItem *item;
 
 - (void)enhanceDescField;
-- (IBAction)backgroundTapped:(id)sender;
-- (IBAction)takePicture:(id)sender;
-- (IBAction)nameEditingEnded:(id)sender;
+- (void)backgroundTapped:(id)sender;
+- (void)takePicture:(id)sender;
+- (void)nameEditingEnded:(id)sender;
+- (void)uploadItem;
+- (void)updateValues;
 
 @end

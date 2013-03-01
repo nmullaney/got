@@ -77,7 +77,7 @@
 {
     NSURL *url = [item thumbnailURL];
     void (^block)(id, NSError *) = ^void(id image, NSError *err) {
-        NSLog(@"Got image");
+        NSLog(@"Got image for item: %@", item);
         NSData *data = (NSData *)image;
         [item setThumbnailData:data];
         [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
@@ -111,7 +111,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Loading cell for index: %d", [indexPath row]);
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
     if (!cell) {
@@ -122,11 +121,12 @@
         [[cell textLabel] setText:[item name]];
         [[cell detailTextLabel] setText:[item desc]];
         if ([item thumbnail]) {
-            NSLog(@"setting image for thumbnail");
             [[cell imageView] setImage:[item thumbnail]];
         } else if ([item thumbnailURL]) {
-            NSLog(@"Fetching thumbnail for item");
+            [[cell imageView] setImage:nil];
             [self fetchThumbnailForItem:item atIndexPath:indexPath];
+        } else {
+            [[cell imageView] setImage:nil];
         }
     }
     return cell;
