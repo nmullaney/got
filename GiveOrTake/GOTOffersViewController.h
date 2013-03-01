@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSMutableArray *offers;
 
 - (void)addNewItem:(id)sender;
+- (void)deleteEmptyItems;
 
 @end

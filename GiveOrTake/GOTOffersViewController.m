@@ -33,6 +33,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self deleteEmptyItems];
     [[self tableView] reloadData];
 }
 
@@ -92,6 +93,20 @@
     [eic setItem:newItem];
     [[self offers] addObject:newItem];
     [[self navigationController] pushViewController:eic animated:YES];
+}
+
+// If the GOTEditItemViewController sends back a completely empty object,
+// we should just delete it.
+- (void)deleteEmptyItems
+{
+    for (GOTItem *i in [self offers]) {
+        if ([i isEmpty]) {
+            NSLog(@"Item is empty: %@", [i description]);
+            [[self offers] removeObject:i];
+        } else {
+            NSLog(@"Item is not empty: %@", [i description]);
+        }
+    }
 }
 
 #pragma mark -

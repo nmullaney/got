@@ -27,6 +27,25 @@
     return self;
 }
 
+// Returns true if this item has no data
+- (BOOL)isEmpty
+{
+    if([self itemID] || [self name] || [self desc] || [self thumbnailData]) {
+        return NO;
+    }
+    return YES;
+}
+
+// Make sure an empty string is treated as nil
+- (void)setDesc:(NSString *)newDesc
+{
+    if ([newDesc isEqualToString:@""]) {
+        desc = nil;
+    } else {
+        desc = newDesc;
+    }
+}
+
 #pragma mark load from dictionary
 
 - (void)readFromJSONDictionary:(NSDictionary *)d
