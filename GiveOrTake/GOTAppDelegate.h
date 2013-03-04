@@ -12,4 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)setupLoginController;
+- (void)setupTabBarControllers;
+- (void)logout;
+
 @end

@@ -8,5 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GOTProfileViewController : UIViewController
+@interface GOTProfileViewController : UITableViewController
+{
+    IBOutlet UITableView *tableView;
+}
+
+
+- (IBAction)logout:(id)sender;
+
 @end

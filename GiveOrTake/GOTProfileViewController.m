@@ -8,6 +8,8 @@
 
 #import "GOTProfileViewController.h"
 
+#import "GOTAppDelegate.h"
+
 @implementation GOTProfileViewController
 
 - (void)loadView
@@ -16,4 +18,11 @@
     [[self navigationItem] setTitle:@"Profile"];
 }
 
+
+
+- (IBAction)logout:(id)sender {
+    NSLog(@"logout");
+    GOTAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate logout];
+}
 @end

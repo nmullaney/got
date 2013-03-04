@@ -7,11 +7,15 @@
 //
 
 #import "GOTAppDelegate.h"
+#import "GOTLoginViewController.h"
 #import "GOTItemsViewController.h"
 #import "GOTToolbarViewController.h"
 #import "GOTOffersViewController.h"
 #import "GOTProfileViewController.h"
 #import "GOTSettings.h"
+#import "GOTUser.h"
+
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation GOTAppDelegate
 
@@ -23,6 +27,25 @@
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        [self setupTabBarControllers];
+    } else {
+        [self setupLoginController];
+    }
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+
+- (void)setupLoginController
+{
+    GOTLoginViewController *loginvc = [[GOTLoginViewController alloc] init];
+    [[self window] setRootViewController:loginvc];
+}
+
+- (void)setupTabBarControllers
+{
     // My Offers Controller
     GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
     UINavigationController *offerNav = [[UINavigationController alloc] initWithRootViewController:ovc];
@@ -36,7 +59,9 @@
     [freeNav setTabBarItem:freeItem];
     
     // Profile Controller
-    GOTProfileViewController *pvc = [[GOTProfileViewController alloc] init];
+    UIStoryboard *profileStoryboard = [UIStoryboard storyboardWithName:@"GOTProfileViewStoryboard"
+                                                                bundle:nil];
+    GOTProfileViewController *pvc = [profileStoryboard instantiateInitialViewController];
     UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:pvc];
     UITabBarItem *profileItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:2];
     [profileNav setTabBarItem:profileItem];
@@ -48,10 +73,20 @@
     [tvc addChildViewController:profileNav];
     
     [[self window] setRootViewController:tvc];
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    return YES;
+}
+
+- (void)logout
+{
+    [[FBSession activeSession] closeAndClearTokenInformation];
+    [self setupLoginController];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -74,11 +109,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBSession.activeSession handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [FBSession.activeSession close];
 }
 
 @end
