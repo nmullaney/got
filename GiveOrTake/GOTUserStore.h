@@ -20,9 +20,11 @@
 + (GOTUserStore *)sharedStore;
 
 - (NSString *)sqlStorePath;
-- (void)createActiveUserFromFBUser:(id<FBGraphUser>)user;
-- (void)fetchActiveUserFromFB;
-- (void)registerOrLoginUser:(GOTUser *)user;
+- (void)createActiveUserFromFBUser:(id<FBGraphUser>)user withCompletion:(void (^)(id user, NSError *err))block;
+- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
+                  withFacebookID:(NSString *)facebookID
+                  withCompletion:(void (^)(id user, NSError *err))block;
+- (void)loadActiveUser;
 - (BOOL)saveChanges;
 
 @property (nonatomic, strong) GOTUser *activeUser;

@@ -22,4 +22,7 @@
 - (int)getIntValueForKey:(NSString *)s;
 - (void)setIntValue:(int)v forKey:(NSString*)s;
 
+- (void)setActiveFacebookUserID:(NSString *)fbid;
+- (NSString *)activeFacebookUserID;
+
 @end

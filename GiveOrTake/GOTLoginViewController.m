@@ -50,11 +50,14 @@
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    NSLog(@"Got user info: %@", user);
-    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user];
-    
-    GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-    [myApp setupTabBarControllers];
+    [pleaseLoginLabel setText:@"Logging in..."];
+    [loginView setHidden:TRUE];
+    [activityIndicatorView startAnimating];
+    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user withCompletion:^(id user, NSError *err) {
+        NSLog(@"Switching from login to tabs");
+        GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
+        [myApp setupTabBarControllers];
+    }];
 }
 
 #pragma mark -

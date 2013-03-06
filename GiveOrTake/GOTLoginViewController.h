@@ -9,5 +9,10 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface GOTLoginViewController : UIViewController <FBLoginViewDelegate>
+{
+    __weak IBOutlet UIActivityIndicatorView *activityIndicatorView;
+    __weak IBOutlet UILabel *pleaseLoginLabel;
+}
+
 
 @end

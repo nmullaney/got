@@ -29,9 +29,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [[GOTSettings instance] setupDefaults];
     
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        // TODO: load the active user here from some sort of saved state
-        // or from the web?
-        
+        // TODO: should we wait for successful load of active user before
+        // loading the tabs?
+        [[GOTUserStore sharedStore] loadActiveUser];
         [self setupTabBarControllers];
     } else {
         [self setupLoginController];
@@ -82,6 +82,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void)logout
 {
     [[FBSession activeSession] closeAndClearTokenInformation];
+    [[GOTSettings instance] setActiveFacebookUserID:nil];
     [self setupLoginController];
 }
 
