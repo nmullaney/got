@@ -13,13 +13,14 @@
 #import "GOTOffersViewController.h"
 #import "GOTProfileViewController.h"
 #import "GOTSettings.h"
-#import "GOTUser.h"
+#import "GOTUserStore.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
 @implementation GOTAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -28,6 +29,9 @@
     [[GOTSettings instance] setupDefaults];
     
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        // TODO: load the active user here from some sort of saved state
+        // or from the web?
+        
         [self setupTabBarControllers];
     } else {
         [self setupLoginController];

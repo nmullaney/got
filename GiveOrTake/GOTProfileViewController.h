@@ -11,6 +11,8 @@
 @interface GOTProfileViewController : UITableViewController
 {
     IBOutlet UITableView *tableView;
+    __weak IBOutlet UILabel *username;
+    __weak IBOutlet UILabel *email;
 }
 
 

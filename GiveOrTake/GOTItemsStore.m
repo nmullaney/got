@@ -12,6 +12,7 @@
 #import "GOTItemList.h"
 #import "GOTItemID.h"
 #import "GOTConnection.h"
+#import "GOTMutableURLPostRequest.h"
 
 @implementation GOTItemsStore
 
@@ -70,51 +71,15 @@
 {
     NSURL *url = [NSURL URLWithString:@"http://nmullaney.dev/api/item.php"];
     
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-    [req setHTTPMethod:@"POST"];
-     NSString *boundary = [self generateBoundary];
-    [req setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=\"%@\"", boundary]
-forHTTPHeaderField:@"Content-type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    NSDictionary *values = [item uploadDictionary];
-    [values enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSString *data = [NSString stringWithFormat:@""
-                          "--%@\r\n"
-                          "Content-Disposition: form-data; name=\"%@\"\r\n"
-                          "\r\n"
-                          "%@"
-                          "\r\n",
-                          boundary,
-                          key,
-                          obj];
-        NSLog(@"data = %@", data);
-        [body appendData:[data dataUsingEncoding:NSUTF8StringEncoding]];
-    }];
-    
+    NSDictionary *imageData = nil;
     if ([item thumbnailData]) {
-        NSString *fileData = [NSString stringWithFormat:@""
-                              "--%@\r\n"
-                              "Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n"
-                              "Content-Type: %@\r\n"
-                              "\r\n",
-                              boundary,
-                              @"thumbnail",
-                              @"thumbnail.png",
-                              @"image/png"
-                              ];
-        [body appendData:[fileData dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[item thumbnailData]];
-        [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        imageData = [NSDictionary
+                     dictionaryWithObjects:[NSArray arrayWithObjects:@"thumbnail",@"thumbnail.png",@"image/png",[item thumbnailData], nil]
+                     forKeys:[NSArray arrayWithObjects:@"name",@"filename",@"contentType",@"data",nil]
+                    ];
     }
-    
-    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n\r\n", boundary]
-                      dataUsingEncoding:NSUTF8StringEncoding]];
-
-    
-    // TODO: investicate setHTTPBodyStream for image upload
-    [req setHTTPBody:body];
+    NSDictionary *formData = [item uploadDictionary];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url formData:formData imageData:imageData];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     GOTItemID *itemIDHolder = [[GOTItemID alloc] init];

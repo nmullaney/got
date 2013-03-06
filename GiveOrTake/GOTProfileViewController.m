@@ -9,6 +9,8 @@
 #import "GOTProfileViewController.h"
 
 #import "GOTAppDelegate.h"
+#import "GOTUserStore.h"
+#import "GOTUser.h"
 
 @implementation GOTProfileViewController
 
@@ -16,9 +18,10 @@
 {
     [super loadView];
     [[self navigationItem] setTitle:@"Profile"];
+    GOTUser *user = [[GOTUserStore sharedStore] activeUser];
+    [username setText:[user username]];
+    [email setText:[user emailAddress]];
 }
-
-
 
 - (IBAction)logout:(id)sender {
     NSLog(@"logout");

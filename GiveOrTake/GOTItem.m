@@ -64,7 +64,6 @@
     
     id tnURLString = [d objectForKey:@"thumbnailURL"];
     if (tnURLString) {
-        NSLog(@"Setting thumbnailURL to: %@", tnURLString);
         thumbnailURL = [NSURL URLWithString:(NSString *)tnURLString];
     }
 }

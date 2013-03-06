@@ -77,7 +77,6 @@
 {
     NSURL *url = [item thumbnailURL];
     void (^block)(id, NSError *) = ^void(id image, NSError *err) {
-        NSLog(@"Got image for item: %@", item);
         NSData *data = (NSData *)image;
         [item setThumbnailData:data];
         [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]

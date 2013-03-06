@@ -9,6 +9,7 @@
 #import "GOTLoginViewController.h"
 
 #import "GOTAppDelegate.h"
+#import "GOTUserStore.h"
 
 @implementation GOTLoginViewController
 
@@ -50,7 +51,8 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
     NSLog(@"Got user info: %@", user);
-    // This should probably be some sort of notification
+    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user];
+    
     GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
     [myApp setupTabBarControllers];
 }
