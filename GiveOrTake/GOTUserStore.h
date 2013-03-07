@@ -26,6 +26,7 @@
                   withCompletion:(void (^)(id user, NSError *err))block;
 - (void)loadActiveUser;
 - (BOOL)saveChanges;
+- (NSNumber *)activeUserID;
 
 @property (nonatomic, strong) GOTUser *activeUser;
 

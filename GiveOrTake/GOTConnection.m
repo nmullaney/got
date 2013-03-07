@@ -44,17 +44,17 @@
         [[self dataObject] appendData:data];
     }
 
-    receivedData = YES;
+    if (data) {
+        NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        receivedData = YES;
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
     connection = nil;
     jsonRootObject = nil;
-    
-    if ([self dataObject]) {
-        [self completionBlock](dataObject, nil);
-    }
+    NSLog(@"Finished loading");
     
     if (!receivedData) {
         NSDictionary *info = [NSDictionary dictionaryWithObject:@"Server failed to respond"
@@ -64,6 +64,11 @@
                                               userInfo:info];
         [self completionBlock](nil, err);
         receivedData = YES;
+    }
+
+    
+    if ([self dataObject]) {
+        [self completionBlock](dataObject, nil);
     }
 }
 

@@ -63,6 +63,15 @@
     [[GOTSettings instance] setActiveFacebookUserID:[user facebookID]];
 }
 
+- (NSNumber *)activeUserID
+{
+    if ([self activeUser]) {
+        return [[self activeUser] userID];
+    } else {
+        return nil;
+    }
+}
+
 - (NSString *)sqlStorePath
 {
     NSArray *documentDirectories =

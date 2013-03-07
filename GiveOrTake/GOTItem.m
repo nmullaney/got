@@ -10,10 +10,11 @@
 
 #import "GOTImageStore.h"
 #import "GOTItemsStore.h"
+#import "GOTUserStore.h"
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -23,8 +24,14 @@
         [self setName:itemName];
         [self setDesc:itemDescription];
         [self setDatePosted:[NSDate date]];
+        [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
     }
     return self;
+}
+
+- (id)init
+{
+    return [self initWithName:nil description:nil];
 }
 
 // Returns true if this item has no data
@@ -51,6 +58,7 @@
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
     [self setItemID:[[d objectForKey:@"id"] intValue]];
+    [self setUserID:[d objectForKey:@"userID"]];
     [self setName:[d objectForKey:@"name"]];
     // Descriptions may be empty.  This will be a NULL
     // on the server, but we should treat it as a nil
@@ -81,6 +89,12 @@
     if ([self desc]) {
         [objs addObject:[self desc]];
         [keys addObject:@"desc"];
+    }
+    if ([self userID]) {
+        [objs addObject:[self userID]];
+        [keys addObject:@"userID"];
+    } else {
+        NSLog(@"ERROR: uh oh, no user ID");
     }
     return [NSDictionary dictionaryWithObjects:objs forKeys:keys];
 }

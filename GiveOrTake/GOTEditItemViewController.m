@@ -173,7 +173,7 @@
     }
     
     void (^block)(id, NSError *) = ^void(id obj, NSError *err) {
-        NSLog(@"calling item upload completion block");
+        NSLog(@"calling item upload completion block, error: %@", err);
         if (obj) {
             GOTItemID *itemIDHolder = (GOTItemID *)obj;
             [[self item] setItemID:[itemIDHolder itemID]];

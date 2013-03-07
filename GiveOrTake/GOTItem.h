@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSDate *datePosted;
 @property (nonatomic, copy) NSString *imageKey;
 
-@property (nonatomic) NSInteger userID;
+@property (nonatomic, strong) NSNumber *userID;
 
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *thumbnailURL;
