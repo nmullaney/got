@@ -49,6 +49,7 @@
 {
     NSString *urlStr = [NSString stringWithFormat:@"http://nmullaney.dev/api/items.php?userID=%@",
                         [[GOTUserStore sharedStore] activeUserID]];
+    NSLog(@"getting my items from %@", urlStr);
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     

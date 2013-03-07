@@ -49,24 +49,29 @@
     return [NSDictionary dictionaryWithObjects:objs forKeys:keys];
 }
 
-- (void)readFromJSONDictionary:(NSDictionary *)d
+- (void)readFromJSONDictionary:(NSDictionary *)dict
 {
+    // Objects that are "null" in JSON, will be [NSNull null], instead of
+    // nil.  We'll strip thes all out before we parse, so we don't have
+    // to check each time
+    NSMutableDictionary *d = [NSMutableDictionary dictionaryWithDictionary:dict];
+    [d enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if (obj == (id)[NSNull null]) {
+            [d removeObjectForKey:key];
+        }
+    }];
+    
     int userID = [[d objectForKey:@"id"] intValue];
     [self setUserID:[NSNumber numberWithInt:userID]];
     [self setFacebookID:[d objectForKey:@"facebook_id"]];
     [self setUsername:[d objectForKey:@"username"]];
     [self setEmailAddress:[d objectForKey:@"email"]];
+
+    float latitude = [[d objectForKey:@"latitude"] floatValue];
+    [self setLatitude:[NSNumber numberWithFloat:latitude]];
     
-    id lat = [d objectForKey:@"latitude"];
-    if (lat != (id)[NSNull null]) {
-        float latitude = [[d objectForKey:@"latitude"] floatValue];
-        [self setLatitude:[NSNumber numberWithFloat:latitude]];
-    }
-    id longt = [d objectForKey:@"longitude"];
-    if (longt != (id)[NSNull null]) {
-        float longitude = [[d objectForKey:@"longitude"] floatValue];
-        [self setLongitude:[NSNumber numberWithFloat:longitude]];
-    }
+    float longitude = [[d objectForKey:@"longitude"] floatValue];
+    [self setLongitude:[NSNumber numberWithFloat:longitude]];
 }
 
 @end

@@ -24,9 +24,13 @@
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
                   withFacebookID:(NSString *)facebookID
                   withCompletion:(void (^)(id user, NSError *err))block;
-- (void)loadActiveUser;
-- (BOOL)saveChanges;
+- (void)updateUser:(GOTUser *)user withCompletion:(void (^)(id user, NSError *err))block;
+- (void)loadActiveUserWithCompletion:(void (^)(id user, NSError *err))block;
+
 - (NSNumber *)activeUserID;
+
+- (void)discardChanges;
+- (BOOL)saveChanges;
 
 @property (nonatomic, strong) GOTUser *activeUser;
 

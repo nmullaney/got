@@ -109,20 +109,36 @@
     [newUser setEmailAddress:[user objectForKey:@"email"]];
     [newUser setUsername:[user objectForKey:@"username"]];
     
+    [self updateUser:newUser withCompletion:^(id user, NSError *err) {
+        if (!err) {
+            [self setActiveUser:user];
+        }
+        if (block) {
+            block(user, err);
+        }
+    }];
+}
+
+- (void)updateUser:(GOTUser *)user withCompletion:(void (^)(id, NSError *))block
+{
+    // We can only update the logged in user, so if we have an active user
+    // make sure it matches (if not, this is likely the login step).
+    if ([self activeUser] && ![[self activeUser] isEqual:user]) {
+        [NSException raise:@"Failed to update user" format:@"Only the current user can be updated"];
+    }
+    
     NSURL *url = [NSURL URLWithString:@"http://nmullaney.dev/api/user.php"];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
-                                                                         formData:[newUser uploadDictionary]
+                                                                         formData:[user uploadDictionary]
                                                                         imageData:nil];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    [conn setJsonRootObject:newUser];
+    [conn setJsonRootObject:user];
     [conn setCompletionBlock:^(id updatedUser, NSError *error) {
         if (error) {
-            NSLog(@"Error logging in: %@", [error localizedDescription]);
+            NSLog(@"Error updating user: %@", [error localizedDescription]);
         } else {
             NSLog(@"block user: %@", updatedUser);
-            GOTUser *user = updatedUser;
-            [self saveChanges];        
-            [self setActiveUser:user];
+            [self saveChanges];
         }
         if (block) {
             block(updatedUser, error);
@@ -133,7 +149,7 @@
 }
 
 // Load the active user from the local storage or the web
-- (void)loadActiveUser
+- (void)loadActiveUserWithCompletion:(void (^)(id, NSError *))block
 {
      NSString *fbid = [[GOTSettings instance] activeFacebookUserID];
     if (!fbid) {
@@ -147,6 +163,9 @@
         }
         if (user) {
             [self setActiveUser:user];
+        }
+        if (block) {
+            block(user, err);
         }
     }];
 }
@@ -174,7 +193,8 @@
         [exception raise];
     }
     
-    GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
+    GOTUser *user = nil;
+    //GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
     if (user) {
         NSLog(@"Fetched user from local storage");
         if (block) {
@@ -213,7 +233,7 @@
                         inManagedObjectContext:context];
     [conn setJsonRootObject:newUser];
     [conn setCompletionBlock:^(id user, NSError *err) {
-        NSLog(@"Got user with username:%@", [(GOTUser *)user username]);
+        NSLog(@"Got user with username:%@, id:%@", [(GOTUser *)user username], [(GOTUser *)user userID]);
         if (user) {
             // Make sure the user is now saved
             [self saveChanges];
@@ -238,6 +258,11 @@
         NSLog(@"Storing more copies of users than we need to");
     }
     return [result objectAtIndex:0];
+}
+
+- (void)discardChanges
+{
+    [context rollback];
 }
 
 - (BOOL)saveChanges

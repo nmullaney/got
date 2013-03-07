@@ -18,6 +18,11 @@
 {
     [super loadView];
     [[self navigationItem] setTitle:@"Profile"];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     GOTUser *user = [[GOTUserStore sharedStore] activeUser];
     [username setText:[user username]];
     [email setText:[user emailAddress]];

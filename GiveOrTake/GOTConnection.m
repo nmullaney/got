@@ -33,21 +33,38 @@
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
 {
     id rootObject = nil;
+    if (!data) {
+        return;
+    } else {
+        NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        receivedData = YES;
+    }
     if ([self jsonRootObject]) {
         NSDictionary *d = [NSJSONSerialization JSONObjectWithData:data
                                                           options:0
                                                             error:nil];
+        if ([d objectForKey:@"error"]) {
+            NSLog(@"returning error");
+            NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];
+            [self completionBlock](nil, err);
+            return;
+        }
+        NSLog(@"serializing to jsonRootObject");
         [[self jsonRootObject] readFromJSONDictionary:d];
         rootObject = [self jsonRootObject];
         [self completionBlock](rootObject, nil);
     } else if ([self dataObject]) {
         [[self dataObject] appendData:data];
     }
+}
 
-    if (data) {
-        NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        receivedData = YES;
-    }
+- (NSError *)errorWithLocalizedDescription:(NSString *)description
+{
+    NSDictionary *info = [NSDictionary dictionaryWithObject:description
+                                                     forKey:NSLocalizedDescriptionKey];
+    return[NSError errorWithDomain:NSURLErrorDomain
+                              code:NSURLErrorBadServerResponse
+                          userInfo:info];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
@@ -57,11 +74,7 @@
     NSLog(@"Finished loading");
     
     if (!receivedData) {
-        NSDictionary *info = [NSDictionary dictionaryWithObject:@"Server failed to respond"
-                                                        forKey:NSLocalizedDescriptionKey];
-        NSError *err = [NSError errorWithDomain:NSURLErrorDomain
-                                                  code:NSURLErrorBadServerResponse
-                                              userInfo:info];
+        NSError *err = [self errorWithLocalizedDescription:@"Server failed to respond."];
         [self completionBlock](nil, err);
         receivedData = YES;
     }
