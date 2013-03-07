@@ -13,6 +13,7 @@
 #import "GOTItemID.h"
 #import "GOTConnection.h"
 #import "GOTMutableURLPostRequest.h"
+#import "GOTUserStore.h"
 
 @implementation GOTItemsStore
 
@@ -41,6 +42,21 @@
     [conn setJsonRootObject:list];
     [conn start];
     
+    return list;
+}
+
+- (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
+{
+    NSString *urlStr = [NSString stringWithFormat:@"http://nmullaney.dev/api/items.php?userID=%@",
+                        [[GOTUserStore sharedStore] activeUserID]];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setCompletionBlock:block];
+    GOTItemList *list = [[GOTItemList alloc] init];
+    [conn setJsonRootObject:list];
+    [conn start];
     return list;
 }
 

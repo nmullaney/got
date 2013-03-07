@@ -10,6 +10,8 @@
 
 #import "GOTEditItemViewController.h"
 #import "GOTItem.h"
+#import "GOTItemsStore.h"
+#import "GOTItemList.h"
 
 @implementation GOTOffersViewController
 
@@ -20,6 +22,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         offers = [[NSMutableArray alloc] init];
+        [self updateOffers];
         
         [[self navigationItem] setTitle:@"My Offers"];
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
@@ -54,7 +57,14 @@
     GOTItem *item = [offers objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item name]];
     [[cell detailTextLabel] setText:[item desc]];
-    [[cell imageView] setImage:[item thumbnail]];
+    if ([item thumbnail]) {
+        [[cell imageView] setImage:[item thumbnail]];
+    } else if ([item thumbnailURL]) {
+        [[cell imageView] setImage:nil];
+        [self fetchThumbnailForItem:item atIndexPath:indexPath];
+    } else {
+        [[cell imageView] setImage:nil];
+    }
     return cell;
 }
 
@@ -107,6 +117,44 @@
             NSLog(@"Item is not empty: %@", [i description]);
         }
     }
+}
+
+#pragma mark -
+
+#pragma mark update offers from web
+
+- (void)updateOffers
+{
+    [[GOTItemsStore sharedStore] fetchMyItemsWithCompletion:^(GOTItemList *list, NSError *err) {
+        if (list) {
+            [self setOffers:[list items]];
+            [[self tableView] reloadData];
+        }
+        if (err) {
+            NSString *errorString = [NSString stringWithFormat:@"Failed to fetch offers: %@",
+                                     [err localizedDescription]];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:errorString
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+        }
+    }];
+}
+
+// This is duped from GOTItemsViewController.  They can probably be combined somehow.
+- (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path
+{
+    NSURL *url = [item thumbnailURL];
+    void (^block)(id, NSError *) = ^void(id image, NSError *err) {
+        NSData *data = (NSData *)image;
+        [item setThumbnailData:data];
+        [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                                withRowAnimation:UITableViewRowAnimationNone];
+    };
+    [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];
 }
 
 #pragma mark -

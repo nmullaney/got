@@ -20,6 +20,7 @@
 
 - (GOTItemList *)fetchItemsAtDistance:(int)distance
                        withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
+- (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 
 - (void)fetchThumbnailAtURL:(NSURL *)url
              withCompletion:(void (^)(id image, NSError *err))block;

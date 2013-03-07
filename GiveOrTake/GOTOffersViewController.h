@@ -18,5 +18,6 @@
 
 - (void)addNewItem:(id)sender;
 - (void)deleteEmptyItems;
+- (void)updateOffers;
 
 @end
