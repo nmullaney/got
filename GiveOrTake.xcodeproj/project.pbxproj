@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8828071216E935EC00C13F61 /* GOTEmailUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */; };
-		8828071516E93D0A00C13F61 /* GOTUsernameUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828071416E93D0A00C13F61 /* GOTUsernameUpdateViewController.m */; };
+		8828072316E9631400C13F61 /* GOTUsernameUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072216E9631400C13F61 /* GOTUsernameUpdateViewController.m */; };
+		8828072616E9632800C13F61 /* GOTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072516E9632800C13F61 /* GOTUser.m */; };
+		8828072916E9633E00C13F61 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8828072716E9633E00C13F61 /* Model.xcdatamodeld */; };
 		8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD1316D16451006955F6 /* GOTOffersViewController.xib */; };
 		8894FD1C16D16CF2006955F6 /* GOTEditItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */; };
 		8894FD2716D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */; };
@@ -33,7 +35,6 @@
 		88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4316E5547F00ADDC8A /* GOTUserStore.m */; };
 		88957D4616E559FB00ADDC8A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88957D4516E559FB00ADDC8A /* CoreData.framework */; };
 		88957D4C16E55AA700ADDC8A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4A16E55AA700ADDC8A /* Model.xcdatamodeld */; };
-		88957D4F16E55CFF00ADDC8A /* GOTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4E16E55CFF00ADDC8A /* GOTUser.m */; };
 		88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
@@ -50,7 +51,6 @@
 		88F2BCEA16CC40CE003C9D90 /* GOTItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */; };
 		88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */; };
 		88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */; };
-		88FDE40716CF3E0A008C6519 /* GOTToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */; };
 		88FDE40A16CF45D5008C6519 /* GOTProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40916CF45D5008C6519 /* GOTProfileViewController.m */; };
 		88FDE40D16CF474E008C6519 /* GOTOffersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FDE40C16CF474E008C6519 /* GOTOffersViewController.m */; };
 /* End PBXBuildFile section */
@@ -58,8 +58,11 @@
 /* Begin PBXFileReference section */
 		8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEmailUpdateViewController.h; sourceTree = "<group>"; };
 		8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEmailUpdateViewController.m; sourceTree = "<group>"; };
-		8828071316E93D0A00C13F61 /* GOTUsernameUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GOTUsernameUpdateViewController.h; path = ../GOTUsernameUpdateViewController.h; sourceTree = "<group>"; };
-		8828071416E93D0A00C13F61 /* GOTUsernameUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GOTUsernameUpdateViewController.m; path = ../GOTUsernameUpdateViewController.m; sourceTree = "<group>"; };
+		8828072116E9631400C13F61 /* GOTUsernameUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTUsernameUpdateViewController.h; sourceTree = "<group>"; };
+		8828072216E9631400C13F61 /* GOTUsernameUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTUsernameUpdateViewController.m; sourceTree = "<group>"; };
+		8828072416E9632800C13F61 /* GOTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTUser.h; sourceTree = "<group>"; };
+		8828072516E9632800C13F61 /* GOTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTUser.m; sourceTree = "<group>"; };
+		8828072816E9633E00C13F61 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		8894FD1316D16451006955F6 /* GOTOffersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTOffersViewController.xib; sourceTree = "<group>"; };
 		8894FD1A16D16CF2006955F6 /* GOTEditItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEditItemViewController.h; sourceTree = "<group>"; };
 		8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEditItemViewController.m; sourceTree = "<group>"; };
@@ -98,8 +101,6 @@
 		88957D4316E5547F00ADDC8A /* GOTUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTUserStore.m; sourceTree = "<group>"; };
 		88957D4516E559FB00ADDC8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88957D4B16E55AA700ADDC8A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		88957D4D16E55CFF00ADDC8A /* GOTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GOTUser.h; path = ../GOTUser.h; sourceTree = "<group>"; };
-		88957D4E16E55CFF00ADDC8A /* GOTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GOTUser.m; path = ../GOTUser.m; sourceTree = "<group>"; };
 		88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMutableURLPostRequest.h; sourceTree = "<group>"; };
 		88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMutableURLPostRequest.m; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,8 +125,6 @@
 		88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTItemsViewController.xib; sourceTree = "<group>"; };
 		88F2BCED16CC4FB7003C9D90 /* GOTItemsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemsStore.h; sourceTree = "<group>"; };
 		88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemsStore.m; sourceTree = "<group>"; };
-		88FDE40516CF3E0A008C6519 /* GOTToolbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTToolbarViewController.h; sourceTree = "<group>"; };
-		88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTToolbarViewController.m; sourceTree = "<group>"; };
 		88FDE40816CF45D5008C6519 /* GOTProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTProfileViewController.h; sourceTree = "<group>"; };
 		88FDE40916CF45D5008C6519 /* GOTProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTProfileViewController.m; sourceTree = "<group>"; };
 		88FDE40B16CF474E008C6519 /* GOTOffersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTOffersViewController.h; sourceTree = "<group>"; };
@@ -153,6 +152,134 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8828071716E960AE00C13F61 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8828072716E9633E00C13F61 /* Model.xcdatamodeld */,
+				8828072416E9632800C13F61 /* GOTUser.h */,
+				8828072516E9632800C13F61 /* GOTUser.m */,
+				88957D4A16E55AA700ADDC8A /* Model.xcdatamodeld */,
+				8894FD3E16DC2CBE006955F6 /* JSONSerializable.h */,
+				88F2BCE116CC3AA4003C9D90 /* GOTItem.h */,
+				88F2BCE216CC3AA4003C9D90 /* GOTItem.m */,
+				8894FD3F16DC2F39006955F6 /* GOTItemList.h */,
+				8894FD4016DC2F39006955F6 /* GOTItemList.m */,
+				88957D2116DEA51F00ADDC8A /* GOTItemID.h */,
+				88957D2216DEA51F00ADDC8A /* GOTItemID.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		8828071816E960DB00C13F61 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				88F2BCD316CC39F5003C9D90 /* GOTAppDelegate.h */,
+				88F2BCD416CC39F5003C9D90 /* GOTAppDelegate.m */,
+				8894FD2B16D5995E006955F6 /* GOTSettings.h */,
+				8894FD2C16D5995E006955F6 /* GOTSettings.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		8828071916E960EE00C13F61 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				88F2BCED16CC4FB7003C9D90 /* GOTItemsStore.h */,
+				88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */,
+				88957D4216E5547E00ADDC8A /* GOTUserStore.h */,
+				88957D4316E5547F00ADDC8A /* GOTUserStore.m */,
+				8894FD3816D83D04006955F6 /* GOTImageStore.h */,
+				8894FD3916D83D04006955F6 /* GOTImageStore.m */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
+		8828071A16E9612F00C13F61 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				8894FD3B16DC2672006955F6 /* GOTConnection.h */,
+				8894FD3C16DC2672006955F6 /* GOTConnection.m */,
+				88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */,
+				88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
+		8828071B16E9618C00C13F61 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8828072016E961EA00C13F61 /* Login */,
+				8828071F16E961B400C13F61 /* Core */,
+				8828071E16E961AA00C13F61 /* Profile */,
+				8828071D16E9619F00C13F61 /* Offers */,
+				8828071C16E9619700C13F61 /* Items */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		8828071C16E9619700C13F61 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				88F2BCE816CC40CE003C9D90 /* GOTItemsViewController.h */,
+				88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */,
+				88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */,
+				8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */,
+				8894FD2816D5893C006955F6 /* FilterItemSettingsViewController.h */,
+				8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */,
+				8894FD3516D828B2006955F6 /* GOTScrollItemsViewController.h */,
+				8894FD3616D828B2006955F6 /* GOTScrollItemsViewController.m */,
+				8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */,
+				8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */,
+				8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */,
+			);
+			name = Items;
+			sourceTree = "<group>";
+		};
+		8828071D16E9619F00C13F61 /* Offers */ = {
+			isa = PBXGroup;
+			children = (
+				88FDE40B16CF474E008C6519 /* GOTOffersViewController.h */,
+				88FDE40C16CF474E008C6519 /* GOTOffersViewController.m */,
+				8894FD1316D16451006955F6 /* GOTOffersViewController.xib */,
+				8894FD1A16D16CF2006955F6 /* GOTEditItemViewController.h */,
+				8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */,
+			);
+			name = Offers;
+			sourceTree = "<group>";
+		};
+		8828071E16E961AA00C13F61 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8828072116E9631400C13F61 /* GOTUsernameUpdateViewController.h */,
+				8828072216E9631400C13F61 /* GOTUsernameUpdateViewController.m */,
+				88FDE40816CF45D5008C6519 /* GOTProfileViewController.h */,
+				88FDE40916CF45D5008C6519 /* GOTProfileViewController.m */,
+				88957D4016E529F400ADDC8A /* GOTProfileViewStoryboard.storyboard */,
+				8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */,
+				8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		8828071F16E961B400C13F61 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				88957D2716E0246B00ADDC8A /* GOTTextView.h */,
+				88957D2816E0246C00ADDC8A /* GOTTextView.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		8828072016E961EA00C13F61 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				88957D2F16E1786D00ADDC8A /* GOTLoginViewController.h */,
+				88957D3016E1786D00ADDC8A /* GOTLoginViewController.m */,
+				88957D3116E1786D00ADDC8A /* GOTLoginViewController.xib */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		88F2BCB816CC39F5003C9D90 = {
 			isa = PBXGroup;
 			children = (
@@ -192,61 +319,12 @@
 		88F2BCCA16CC39F5003C9D90 /* GiveOrTake */ = {
 			isa = PBXGroup;
 			children = (
-				8828071316E93D0A00C13F61 /* GOTUsernameUpdateViewController.h */,
-				8828071416E93D0A00C13F61 /* GOTUsernameUpdateViewController.m */,
-				88957D4D16E55CFF00ADDC8A /* GOTUser.h */,
-				88957D4E16E55CFF00ADDC8A /* GOTUser.m */,
-				88957D4A16E55AA700ADDC8A /* Model.xcdatamodeld */,
-				8894FD3516D828B2006955F6 /* GOTScrollItemsViewController.h */,
-				8894FD3616D828B2006955F6 /* GOTScrollItemsViewController.m */,
-				88F2BCD316CC39F5003C9D90 /* GOTAppDelegate.h */,
-				88F2BCD416CC39F5003C9D90 /* GOTAppDelegate.m */,
-				88F2BCE116CC3AA4003C9D90 /* GOTItem.h */,
-				88F2BCE216CC3AA4003C9D90 /* GOTItem.m */,
-				88F2BCE816CC40CE003C9D90 /* GOTItemsViewController.h */,
-				88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */,
-				88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */,
-				88F2BCED16CC4FB7003C9D90 /* GOTItemsStore.h */,
-				88F2BCEE16CC4FB7003C9D90 /* GOTItemsStore.m */,
-				88FDE40516CF3E0A008C6519 /* GOTToolbarViewController.h */,
-				88FDE40616CF3E0A008C6519 /* GOTToolbarViewController.m */,
-				88FDE40816CF45D5008C6519 /* GOTProfileViewController.h */,
-				88FDE40916CF45D5008C6519 /* GOTProfileViewController.m */,
-				88957D4016E529F400ADDC8A /* GOTProfileViewStoryboard.storyboard */,
-				88FDE40B16CF474E008C6519 /* GOTOffersViewController.h */,
-				88FDE40C16CF474E008C6519 /* GOTOffersViewController.m */,
-				8894FD1316D16451006955F6 /* GOTOffersViewController.xib */,
-				8894FD1A16D16CF2006955F6 /* GOTEditItemViewController.h */,
-				8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */,
+				8828071B16E9618C00C13F61 /* UI */,
+				8828071A16E9612F00C13F61 /* Connection */,
+				8828071916E960EE00C13F61 /* Store */,
+				8828071816E960DB00C13F61 /* Core */,
+				8828071716E960AE00C13F61 /* Model */,
 				88F2BCCB16CC39F5003C9D90 /* Supporting Files */,
-				8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */,
-				8894FD2816D5893C006955F6 /* FilterItemSettingsViewController.h */,
-				8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */,
-				8894FD2B16D5995E006955F6 /* GOTSettings.h */,
-				8894FD2C16D5995E006955F6 /* GOTSettings.m */,
-				8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */,
-				8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */,
-				8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */,
-				8894FD3816D83D04006955F6 /* GOTImageStore.h */,
-				8894FD3916D83D04006955F6 /* GOTImageStore.m */,
-				8894FD3B16DC2672006955F6 /* GOTConnection.h */,
-				8894FD3C16DC2672006955F6 /* GOTConnection.m */,
-				8894FD3E16DC2CBE006955F6 /* JSONSerializable.h */,
-				8894FD3F16DC2F39006955F6 /* GOTItemList.h */,
-				8894FD4016DC2F39006955F6 /* GOTItemList.m */,
-				88957D2116DEA51F00ADDC8A /* GOTItemID.h */,
-				88957D2216DEA51F00ADDC8A /* GOTItemID.m */,
-				88957D2716E0246B00ADDC8A /* GOTTextView.h */,
-				88957D2816E0246C00ADDC8A /* GOTTextView.m */,
-				88957D2F16E1786D00ADDC8A /* GOTLoginViewController.h */,
-				88957D3016E1786D00ADDC8A /* GOTLoginViewController.m */,
-				88957D3116E1786D00ADDC8A /* GOTLoginViewController.xib */,
-				88957D4216E5547E00ADDC8A /* GOTUserStore.h */,
-				88957D4316E5547F00ADDC8A /* GOTUserStore.m */,
-				88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */,
-				88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */,
-				8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */,
-				8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */,
 			);
 			path = GiveOrTake;
 			sourceTree = "<group>";
@@ -343,7 +421,6 @@
 				88F2BCE316CC3AA4003C9D90 /* GOTItem.m in Sources */,
 				88F2BCEA16CC40CE003C9D90 /* GOTItemsViewController.m in Sources */,
 				88F2BCEF16CC4FB7003C9D90 /* GOTItemsStore.m in Sources */,
-				88FDE40716CF3E0A008C6519 /* GOTToolbarViewController.m in Sources */,
 				88FDE40A16CF45D5008C6519 /* GOTProfileViewController.m in Sources */,
 				88FDE40D16CF474E008C6519 /* GOTOffersViewController.m in Sources */,
 				8894FD1C16D16CF2006955F6 /* GOTEditItemViewController.m in Sources */,
@@ -359,10 +436,11 @@
 				88957D3216E1786E00ADDC8A /* GOTLoginViewController.m in Sources */,
 				88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */,
 				88957D4C16E55AA700ADDC8A /* Model.xcdatamodeld in Sources */,
-				88957D4F16E55CFF00ADDC8A /* GOTUser.m in Sources */,
 				88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */,
 				8828071216E935EC00C13F61 /* GOTEmailUpdateViewController.m in Sources */,
-				8828071516E93D0A00C13F61 /* GOTUsernameUpdateViewController.m in Sources */,
+				8828072316E9631400C13F61 /* GOTUsernameUpdateViewController.m in Sources */,
+				8828072616E9632800C13F61 /* GOTUser.m in Sources */,
+				8828072916E9633E00C13F61 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +576,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		8828072716E9633E00C13F61 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8828072816E9633E00C13F61 /* Model.xcdatamodel */,
+			);
+			currentVersion = 8828072816E9633E00C13F61 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		88957D4A16E55AA700ADDC8A /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

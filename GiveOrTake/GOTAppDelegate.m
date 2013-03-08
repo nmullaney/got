@@ -9,7 +9,6 @@
 #import "GOTAppDelegate.h"
 #import "GOTLoginViewController.h"
 #import "GOTItemsViewController.h"
-#import "GOTToolbarViewController.h"
 #import "GOTOffersViewController.h"
 #import "GOTProfileViewController.h"
 #import "GOTSettings.h"
