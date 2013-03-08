@@ -14,6 +14,7 @@
 #import "GOTConnection.h"
 #import "GOTMutableURLPostRequest.h"
 #import "GOTUserStore.h"
+#import "GOTConstants.h"
 
 @implementation GOTItemsStore
 
@@ -30,7 +31,8 @@
 - (GOTItemList *)fetchItemsAtDistance:(int)distance
                    withCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSURL *url = [NSURL URLWithString:@"http://nmullaney.dev/api/items.php"];
+    NSURL *url = [NSURL URLWithString:@"/api/items.php"
+                        relativeToURL:[GOTConstants baseURL]];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     
@@ -47,10 +49,11 @@
 
 - (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSString *urlStr = [NSString stringWithFormat:@"http://nmullaney.dev/api/items.php?userID=%@",
+    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?userID=%@",
                         [[GOTUserStore sharedStore] activeUserID]];
     NSLog(@"getting my items from %@", urlStr);
-    NSURL *url = [NSURL URLWithString:urlStr];
+    NSURL *url = [NSURL URLWithString:urlStr
+                        relativeToURL:[GOTConstants baseURL]];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
@@ -86,7 +89,7 @@
 
 - (void)uploadItem:(GOTItem *)item withCompletion:(void (^)(id, NSError *))block
 {
-    NSURL *url = [NSURL URLWithString:@"http://nmullaney.dev/api/item.php"];
+    NSURL *url = [NSURL URLWithString:@"/api/item.php" relativeToURL:[GOTConstants baseURL]];
     
     NSDictionary *imageData = nil;
     if ([item thumbnailData]) {
@@ -96,7 +99,9 @@
                     ];
     }
     NSDictionary *formData = [item uploadDictionary];
-    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url formData:formData imageData:imageData];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
+                                                                         formData:formData
+                                                                        imageData:imageData];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     GOTItemID *itemIDHolder = [[GOTItemID alloc] init];

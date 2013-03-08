@@ -14,6 +14,7 @@
 #import "GOTMutableURLPostRequest.h"
 #import "GOTConnection.h"
 #import "GOTSettings.h"
+#import "GOTConstants.h"
 
 @implementation GOTUserStore
 
@@ -127,7 +128,7 @@
         [NSException raise:@"Failed to update user" format:@"Only the current user can be updated"];
     }
     
-    NSURL *url = [NSURL URLWithString:@"http://nmullaney.dev/api/user.php"];
+    NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:[user uploadDictionary]
                                                                         imageData:nil];
@@ -154,7 +155,7 @@
      NSString *fbid = [[GOTSettings instance] activeFacebookUserID];
     if (!fbid) {
         NSLog(@"Cannot load active user: no active facebookID");
-        return;
+        // TODO this should call block with error
     }
     
     [self fetchUserWithUserID:nil withFacebookID:fbid withCompletion:^(id user, NSError *err) {
@@ -219,13 +220,14 @@
 
 - (void)fetchUserFromWebWithParams:(NSDictionary *)params withCompletion:(void (^)(id user, NSError *err))block
 {
-    NSMutableString *stringURL = [NSMutableString stringWithString:@"http://nmullaney.dev/api/user.php?"];
+    NSMutableString *stringURL = [NSMutableString stringWithString:@"/api/user.php?"];
     NSMutableArray *paramStrs = [[NSMutableArray alloc] init];
     [params enumerateKeysAndObjectsUsingBlock:^void(id key, id obj, BOOL *stop) {
         [paramStrs addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
     }];
     [stringURL appendString:[paramStrs componentsJoinedByString:@"%"]];
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL]];
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL
+                                                            relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
     GOTUser *newUser = [NSEntityDescription
