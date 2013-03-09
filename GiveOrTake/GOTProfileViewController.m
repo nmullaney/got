@@ -26,6 +26,16 @@
     GOTUser *user = [[GOTUserStore sharedStore] activeUser];
     [username setText:[user username]];
     [email setText:[user emailAddress]];
+    
+    [mapView removeAnnotations:[mapView annotations]];
+    CLLocationCoordinate2D userCoordinate =
+        CLLocationCoordinate2DMake([[user latitude] doubleValue], [[user longitude] doubleValue]);
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    [annotation setCoordinate:userCoordinate];
+    [mapView addAnnotation:annotation];
+    [mapView setMapType:MKMapTypeStandard];
+    [mapView setRegion:MKCoordinateRegionMakeWithDistance(userCoordinate, 1000, 1000)];
+    [mapView setZoomEnabled:TRUE];
 }
 
 - (IBAction)logout:(id)sender {

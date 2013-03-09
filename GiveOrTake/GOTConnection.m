@@ -36,7 +36,7 @@
     if (!data) {
         return;
     } else {
-        NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        //NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         receivedData = YES;
     }
     if ([self jsonRootObject]) {
@@ -71,7 +71,6 @@
 {
     connection = nil;
     jsonRootObject = nil;
-    NSLog(@"Finished loading");
     
     if (!receivedData) {
         NSError *err = [self errorWithLocalizedDescription:@"Server failed to respond."];

@@ -12,6 +12,7 @@
 		8828072616E9632800C13F61 /* GOTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072516E9632800C13F61 /* GOTUser.m */; };
 		8828072916E9633E00C13F61 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8828072716E9633E00C13F61 /* Model.xcdatamodeld */; };
 		8828072C16E9711F00C13F61 /* GOTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072B16E9711F00C13F61 /* GOTConstants.m */; };
+		8828072F16EAACEE00C13F61 /* GOTLocationUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072E16EAACEE00C13F61 /* GOTLocationUpdateViewController.m */; };
 		8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD1316D16451006955F6 /* GOTOffersViewController.xib */; };
 		8894FD1C16D16CF2006955F6 /* GOTEditItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */; };
 		8894FD2716D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */; };
@@ -65,6 +66,8 @@
 		8828072816E9633E00C13F61 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		8828072A16E9711F00C13F61 /* GOTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTConstants.h; sourceTree = "<group>"; };
 		8828072B16E9711F00C13F61 /* GOTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTConstants.m; sourceTree = "<group>"; };
+		8828072D16EAACEE00C13F61 /* GOTLocationUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTLocationUpdateViewController.h; sourceTree = "<group>"; };
+		8828072E16EAACEE00C13F61 /* GOTLocationUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTLocationUpdateViewController.m; sourceTree = "<group>"; };
 		8894FD1316D16451006955F6 /* GOTOffersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTOffersViewController.xib; sourceTree = "<group>"; };
 		8894FD1A16D16CF2006955F6 /* GOTEditItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEditItemViewController.h; sourceTree = "<group>"; };
 		8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEditItemViewController.m; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 				88957D4016E529F400ADDC8A /* GOTProfileViewStoryboard.storyboard */,
 				8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */,
 				8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */,
+				8828072D16EAACEE00C13F61 /* GOTLocationUpdateViewController.h */,
+				8828072E16EAACEE00C13F61 /* GOTLocationUpdateViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -443,6 +448,7 @@
 				8828072616E9632800C13F61 /* GOTUser.m in Sources */,
 				8828072916E9633E00C13F61 /* Model.xcdatamodeld in Sources */,
 				8828072C16E9711F00C13F61 /* GOTConstants.m in Sources */,
+				8828072F16EAACEE00C13F61 /* GOTLocationUpdateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

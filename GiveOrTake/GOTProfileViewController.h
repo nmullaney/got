@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface GOTProfileViewController : UITableViewController
 {
     IBOutlet UITableView *tableView;
     __weak IBOutlet UILabel *username;
     __weak IBOutlet UILabel *email;
+    __weak IBOutlet MKMapView *mapView;
 }
 
 

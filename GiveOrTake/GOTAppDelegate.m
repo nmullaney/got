@@ -27,7 +27,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded &&
+        [[GOTSettings instance] activeFacebookUserID]) {
         // TODO: should we wait for successful load of active user before
         // loading the tabs?
         NSLog(@"logged in, loading user");
@@ -36,6 +37,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                 [self setupTabBarControllers];
             } else {
                 NSLog(@"Severe error: cannot get user");
+                [self setupLoginController];
             }
         }];
     } else {
@@ -90,6 +92,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     NSLog(@"logout and clear token info");
     [[FBSession activeSession] closeAndClearTokenInformation];
     [[GOTSettings instance] setActiveFacebookUserID:nil];
+    [[GOTUserStore sharedStore] setActiveUser:nil];
     [self setupLoginController];
 }
 

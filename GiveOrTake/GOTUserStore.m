@@ -128,6 +128,8 @@
         [NSException raise:@"Failed to update user" format:@"Only the current user can be updated"];
     }
     
+    NSLog(@"Updating user with values: %@", [user uploadDictionary]);
+    
     NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:[user uploadDictionary]
