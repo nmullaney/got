@@ -13,22 +13,47 @@
 
 @implementation GOTLoginViewController
 
-- (void)viewDidAppear:(BOOL)animated
+@synthesize loggingIn;
+
+- (id)init
 {
-    [super viewDidAppear:animated];
+    self = [super init];
+    if (self) {
+        [self setLoggingIn:NO];
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
     
     [self createLoginView];
 }
 
 - (void)createLoginView
 {
-    NSLog(@"Create login view");
-    FBLoginView *loginView = [[FBLoginView alloc]
-                              initWithReadPermissions:[NSArray arrayWithObject:@"email"]];
+    loginView = [[FBLoginView alloc]
+                 initWithReadPermissions:[NSArray arrayWithObject:@"email"]];
     [loginView setCenter:[[self view] center]];
     [loginView setDelegate:self];
     [[self view] addSubview:loginView];
     [loginView sizeToFit];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([self loggingIn]) {
+        [self showLoggingIn];
+    }
+}
+
+- (void)showLoggingIn
+{
+    [pleaseLoginLabel setText:@"Logging in..."];
+    [loginView setHidden:TRUE];
+    [activityIndicatorView startAnimating];
 }
 
 #pragma mark UILoginViewDelegate methods
@@ -48,11 +73,9 @@
     NSLog(@"loginView showing logged out user");
 }
 
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+- (void)loginViewFetchedUserInfo:(FBLoginView *)lv user:(id<FBGraphUser>)user
 {
-    [pleaseLoginLabel setText:@"Logging in..."];
-    [loginView setHidden:TRUE];
-    [activityIndicatorView startAnimating];
+    [self showLoggingIn];
     [[GOTUserStore sharedStore] createActiveUserFromFBUser:user withCompletion:^(id user, NSError *err) {
         NSLog(@"Switching from login to tabs");
         GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
@@ -61,11 +84,5 @@
 }
 
 #pragma mark -
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-}
 
 @end

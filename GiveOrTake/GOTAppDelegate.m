@@ -40,6 +40,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                 [self setupLoginController];
             }
         }];
+        // We need to show something before this method ends
+        GOTLoginViewController *lvc = [[GOTLoginViewController alloc] init];
+        [lvc setLoggingIn:YES];
+        [[self window] setRootViewController:lvc];
     } else {
         NSLog(@"not logged in");
         [self setupLoginController];

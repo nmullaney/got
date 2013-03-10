@@ -12,7 +12,12 @@
 {
     __weak IBOutlet UIActivityIndicatorView *activityIndicatorView;
     __weak IBOutlet UILabel *pleaseLoginLabel;
+    FBLoginView *loginView;
+    BOOL loggingIn;
 }
 
+- (void)showLoggingIn;
+
+@property (nonatomic) BOOL loggingIn;
 
 @end
