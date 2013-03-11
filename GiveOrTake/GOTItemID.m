@@ -12,7 +12,7 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
-    [self setItemID:(NSInteger)[d valueForKey:@"id"]];
+    [self setItemID:[d valueForKey:@"id"]];
 }
 
 @end

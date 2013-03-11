@@ -23,10 +23,12 @@
 
 - (BOOL)isEmpty;
 
-@property (nonatomic) NSInteger itemID;
+@property (nonatomic, strong) NSNumber *itemID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *datePosted;
+
+@property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, copy) NSString *imageKey;
 
 @property (nonatomic, strong) NSNumber *userID;

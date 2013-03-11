@@ -44,9 +44,15 @@
     
     [nameField setText:[[self item] name]];
     [descField setText:[[self item] desc]];
-    if ([[self item] image]) {
-        [imageView setImage:[[self item] image]];
-    }
+    [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
+        if (image) {
+            [imageView setImage:image];
+        }
+        if (err) {
+            // TODO alert view?
+            NSLog(@"An error occurred while fetching the image: %@", [err localizedDescription]);
+        }
+    }];
 }
 
 - (void)loadView {
@@ -65,8 +71,6 @@
     scrollView.showsHorizontalScrollIndicator = YES;
     scrollView.showsVerticalScrollIndicator = YES;
     scrollView.contentSize = CGSizeMake(fullScreenRect.size.width, viewHeight);
-    //scrollView.contentInset=UIEdgeInsetsMake(64.0,0.0,44.0,0.0);
-    //scrollView.scrollIndicatorInsets=UIEdgeInsetsMake(64.0,0.0,44.0,0.0);
     
     UIControl *control = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, fullScreenRect.size.width, viewHeight)];    
     [control setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.5]];
@@ -177,6 +181,9 @@
         if (obj) {
             GOTItemID *itemIDHolder = (GOTItemID *)obj;
             [[self item] setItemID:[itemIDHolder itemID]];
+            // Upload the image
+            [[GOTImageStore sharedStore] uploadImageForKey:[[self item] imageKey]
+                                                withItemID:[[self item] itemID]];
             // Go back to the table view
             [[self navigationController] popViewControllerAnimated:YES];
         } else if (err) {
@@ -255,9 +262,7 @@
                                    orientation:origImage.imageOrientation];
     
     // Create a unique ID for this image, and store it in the image store
-    CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
-    CFStringRef newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
-    NSString *key = (__bridge NSString *)newUniqueIDString;
+    NSString *key = [GOTImageStore createImageKey];
     [item setImageKey:key];
     [[GOTImageStore sharedStore] setImage:image forKey:key];
     [item setThumbnailDataFromImage:image];

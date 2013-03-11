@@ -9,6 +9,7 @@
 #import "GOTFreeItemDetailViewController.h"
 
 #import "GOTItem.h"
+#import "GOTImageStore.h"
 
 @implementation GOTFreeItemDetailViewController
 
@@ -17,7 +18,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [imageView setImage:[[self item] image]];
+    [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
+        if (image) {
+            [imageView setImage:image];
+        }
+        if (err) {
+            NSLog(@"error fetching image: %@", [err localizedDescription]);
+        }
+    }];
     [descLabel setText:[[self item] desc]];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];

@@ -14,7 +14,7 @@
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID, imageURL;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -57,7 +57,7 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
-    [self setItemID:[[d objectForKey:@"id"] intValue]];
+    [self setItemID:[d objectForKey:@"id"]];
     [self setUserID:[d objectForKey:@"userID"]];
     [self setName:[d objectForKey:@"name"]];
     // Descriptions may be empty.  This will be a NULL
@@ -73,6 +73,11 @@
     id tnURLString = [d objectForKey:@"thumbnailURL"];
     if (tnURLString) {
         thumbnailURL = [NSURL URLWithString:(NSString *)tnURLString];
+    }
+    
+    id imageURLString = [d objectForKey:@"imageURL"];
+    if (imageURLString) {
+        imageURL = [NSURL URLWithString:(NSString *)imageURLString];
     }
 }
 

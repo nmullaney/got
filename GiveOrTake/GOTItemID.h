@@ -12,6 +12,6 @@
 
 @interface GOTItemID : NSObject <JSONSerializable>
 
-@property (nonatomic) NSInteger itemID;
+@property (nonatomic, strong) NSNumber *itemID;
 
 @end
