@@ -13,11 +13,13 @@
 @interface GOTFreeItemDetailViewController : UIViewController
 {
     IBOutlet UIView *view;
+    __weak IBOutlet UIScrollView *scrollView;
     __weak IBOutlet UIImageView *imageView;
-    __weak IBOutlet UILabel *descLabel;
-    __weak IBOutlet UILabel *dateLabel;
-    __weak IBOutlet UIButton *wantButton;
+    __weak IBOutlet UIBarButtonItem *wantButton;
+    __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
+    UILabel *descLabel;
+    UILabel *dateLabel;
 }
 
 @property (nonatomic, strong) GOTItem *item;

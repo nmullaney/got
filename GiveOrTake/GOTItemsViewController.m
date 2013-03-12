@@ -148,6 +148,7 @@
         float visibleHeight = [[self tableView] frame].size.height;
         [[self singleItemViewController] setHeight:visibleHeight];
         [[self singleItemViewController] setItems:[self items]];
+        [[self singleItemViewController] setHidesBottomBarWhenPushed:YES];
     }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];
     [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];

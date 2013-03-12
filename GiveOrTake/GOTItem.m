@@ -79,6 +79,13 @@
     if (imageURLString) {
         imageURL = [NSURL URLWithString:(NSString *)imageURLString];
     }
+    
+    id dateCreated = [d objectForKey:@"dateCreated"];
+    if (dateCreated) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+        [self setDatePosted:[formatter dateFromString:dateCreated]];
+    }
 }
 
 // Converts the item's data into key/value pairs

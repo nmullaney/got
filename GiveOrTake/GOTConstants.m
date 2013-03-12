@@ -16,4 +16,9 @@
     //return [NSURL URLWithString:@"http://nmullaney.dev"];
 }
 
++ (UIFont *)defaultSmallFont
+{
+    return [UIFont systemFontOfSize:13.0];
+}
+
 @end
