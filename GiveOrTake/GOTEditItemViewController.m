@@ -53,6 +53,7 @@
             NSLog(@"An error occurred while fetching the image: %@", [err localizedDescription]);
         }
     }];
+    imageChanged = NO;
 }
 
 - (void)loadView {
@@ -122,6 +123,8 @@
     [imageView setBackgroundColor:[UIColor whiteColor]];
     [control addSubview:imageView];
     
+    // TODO: this button should change to "Update Offer"
+    // once the offer is posted
     postOfferButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [postOfferButton setFrame:CGRectMake(halfx,
                                          border * 5 + nameFieldHeight + descFieldHeight + picButtonHeight + fullWidth,
@@ -182,8 +185,11 @@
             GOTItemID *itemIDHolder = (GOTItemID *)obj;
             [[self item] setItemID:[itemIDHolder itemID]];
             // Upload the image
-            [[GOTImageStore sharedStore] uploadImageForKey:[[self item] imageKey]
-                                                withItemID:[[self item] itemID]];
+            if (imageChanged) {
+                [[GOTImageStore sharedStore] uploadImageForKey:[[self item] imageKey]
+                                                    withItemID:[[self item] itemID]];
+                imageChanged = NO;
+            }
             // Go back to the table view
             [[self navigationController] popViewControllerAnimated:YES];
         } else if (err) {
@@ -240,6 +246,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    imageChanged = YES;
     UIImage *origImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
     UIImage *image = [item imageFromPicture:origImage];

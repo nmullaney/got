@@ -94,6 +94,10 @@
 {
     NSMutableArray *objs = [[NSMutableArray alloc] init];
     NSMutableArray *keys = [[NSMutableArray alloc] init];
+    if ([self itemID]) {
+        [objs addObject:[self itemID]];
+        [keys addObject:@"id"];
+    }
     if ([self name]) {
         [objs addObject:[self name]];
         [keys addObject:@"name"];

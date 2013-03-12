@@ -19,6 +19,7 @@
     GOTTextView *descField;
     UIImageView *imageView;
     UIButton *postOfferButton;
+    BOOL imageChanged;
 }
 
 @property (nonatomic, strong) GOTItem *item;
