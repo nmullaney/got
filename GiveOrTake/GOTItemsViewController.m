@@ -29,7 +29,8 @@
         [[self navigationItem] setLeftBarButtonItem:bbi];
         UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
         [self setFisvc:[settingStoryboard instantiateInitialViewController]];
-        [self updateItems];
+        // Ensures we get an initial load
+        [[self fisvc] setFilterChanged:YES];
     }
     return self;
 }

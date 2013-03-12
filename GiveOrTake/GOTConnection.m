@@ -17,7 +17,7 @@
     self = [super init];
     if (self) {
         [self setRequest:req];
-        receivedData = NO;
+        dataObject = [[NSMutableData alloc] init];
     }
     return self;
 }
@@ -32,28 +32,9 @@
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
 {
-    id rootObject = nil;
     if (!data) {
         return;
     } else {
-        //NSLog(@"Received data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        receivedData = YES;
-    }
-    if ([self jsonRootObject]) {
-        NSDictionary *d = [NSJSONSerialization JSONObjectWithData:data
-                                                          options:0
-                                                            error:nil];
-        if ([d objectForKey:@"error"]) {
-            NSLog(@"returning error");
-            NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];
-            [self completionBlock](nil, err);
-            return;
-        }
-        NSLog(@"serializing to jsonRootObject");
-        [[self jsonRootObject] readFromJSONDictionary:d];
-        rootObject = [self jsonRootObject];
-        [self completionBlock](rootObject, nil);
-    } else if ([self dataObject]) {
         [[self dataObject] appendData:data];
     }
 }
@@ -70,18 +51,32 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
     connection = nil;
-    jsonRootObject = nil;
-    
-    if (!receivedData) {
+    if ([[self dataObject] length] == 0) {
         NSError *err = [self errorWithLocalizedDescription:@"Server failed to respond."];
         [self completionBlock](nil, err);
-        receivedData = YES;
+    }
+    
+    if ([self jsonRootObject]) {
+        NSDictionary *d = [NSJSONSerialization JSONObjectWithData:[self dataObject]
+                                                          options:0
+                                                            error:nil];
+        if ([d objectForKey:@"error"]) {
+            NSLog(@"returning error");
+            NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];
+            [self completionBlock](nil, err);
+            return;
+        }
+        NSLog(@"serializing to jsonRootObject");
+        [[self jsonRootObject] readFromJSONDictionary:d];
+        [self completionBlock]([self jsonRootObject], nil);
+        jsonRootObject = nil;
+        dataObject = nil;
+        return;
     }
 
-    
-    if ([self dataObject]) {
-        [self completionBlock](dataObject, nil);
-    }
+    [self completionBlock](dataObject, nil);
+    jsonRootObject = nil;
+    dataObject = nil;
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error

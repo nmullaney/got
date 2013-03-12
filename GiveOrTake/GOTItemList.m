@@ -26,7 +26,8 @@
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
     NSArray *dits = [d objectForKey:@"items"];
-    NSLog(@"Items: %@", dits);
+    //NSLog(@"Items: %@", dits);
+    NSLog(@"Item dict keys: %@", [d allKeys]);
     for (NSDictionary *dit in dits) {
         GOTItem *it = [[GOTItem alloc] init];
         [it readFromJSONDictionary:dit];

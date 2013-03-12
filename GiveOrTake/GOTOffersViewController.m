@@ -22,7 +22,6 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         offers = [[NSMutableArray alloc] init];
-        [self updateOffers];
         
         [[self navigationItem] setTitle:@"My Offers"];
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
@@ -37,6 +36,9 @@
 {
     [super viewWillAppear:animated];
     [self deleteEmptyItems];
+    if ([[self offers] count] == 0) {
+        [self updateOffers];
+    }
     [[self tableView] reloadData];
 }
 
@@ -111,10 +113,7 @@
 {
     for (GOTItem *i in [self offers]) {
         if ([i isEmpty]) {
-            NSLog(@"Item is empty: %@", [i description]);
             [[self offers] removeObject:i];
-        } else {
-            NSLog(@"Item is not empty: %@", [i description]);
         }
     }
 }

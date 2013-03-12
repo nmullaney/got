@@ -69,9 +69,7 @@
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    NSMutableData *data = [[NSMutableData alloc] init];
     [conn setCompletionBlock:block];
-    [conn setDataObject:data];
     [conn start];
 }
 

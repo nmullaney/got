@@ -116,8 +116,6 @@
         NSLog(@"found image url");
         NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[item imageURL]];
         GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-        NSMutableData *data = [[NSMutableData alloc] init];
-        [conn setDataObject:data];
         [conn setCompletionBlock:^(id imageData, NSError *err) {
             if (imageData) {
                 NSLog(@"Got image data");
