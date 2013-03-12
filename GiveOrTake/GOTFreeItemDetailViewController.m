@@ -21,6 +21,7 @@
     [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
         if (image) {
             [imageView setImage:image];
+            [[self view] setNeedsDisplay];
         }
         if (err) {
             NSLog(@"error fetching image: %@", [err localizedDescription]);

@@ -19,6 +19,7 @@
 
 - (UIImage *)image;
 - (void)setThumbnailDataFromImage:(UIImage *)i;
+- (UIImage *)imageFromPicture:(UIImage *)i;
 - (NSDictionary *)uploadDictionary;
 
 - (BOOL)isEmpty;

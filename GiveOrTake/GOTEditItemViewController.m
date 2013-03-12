@@ -242,24 +242,7 @@
 {
     UIImage *origImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
-    // Crop image into a square
-    // TODO: this could be better
-    float sqSize = 0;
-    float originX = 0;
-    float originY = 0;
-    if (origImage.size.width < origImage.size.height) {
-        sqSize = origImage.size.width;
-        originY = (origImage.size.height - origImage.size.width) / 2;
-    } else {
-        sqSize = origImage.size.height;
-        originX = (origImage.size.width - origImage.size.height) / 2;
-    }
-    
-    CGRect squareRect = CGRectMake(originX, originY, sqSize, sqSize);
-    CGImageRef cgImage = CGImageCreateWithImageInRect([origImage CGImage], squareRect);
-    UIImage *image = [UIImage imageWithCGImage:cgImage
-                                         scale:origImage.scale
-                                   orientation:origImage.imageOrientation];
+    UIImage *image = [item imageFromPicture:origImage];
     
     // Create a unique ID for this image, and store it in the image store
     NSString *key = [GOTImageStore createImageKey];

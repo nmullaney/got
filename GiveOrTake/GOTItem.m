@@ -131,7 +131,8 @@
 {
     CGSize origImageSize = [i size];
     
-    CGRect thumbRect = CGRectMake(0, 0, 40, 40);
+    float thumbnailPixels = 80 / [[UIScreen mainScreen] scale];
+    CGRect thumbRect = CGRectMake(0, 0, thumbnailPixels, thumbnailPixels);
     
     // Figure out a good scaling ratio
     float ratio = MAX(thumbRect.size.width / origImageSize.width,
@@ -165,6 +166,44 @@
     
     // cleanup
     UIGraphicsEndImageContext();
+}
+
+- (UIImage *)imageFromPicture:(UIImage *)i
+{
+
+    CGSize origImageSize = [i size];
+    
+    float imagePixels = 1024 / [[UIScreen mainScreen] scale];
+    CGRect imageRect = CGRectMake(0, 0, imagePixels, imagePixels);
+    
+    // Figure out a good scaling ratio
+    float ratio = MAX(imageRect.size.width / origImageSize.width,
+                      imageRect.size.height / origImageSize.height);
+    
+    // Create a transparent bitmap context
+    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, 0.0);
+    
+    // Create a rounded rect path
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:imageRect];
+    
+    // All drawing should clip to this rectangle
+    [path addClip];
+    
+    // Center the image in the rectangle
+    CGRect workRect;
+    workRect.size.width = ratio * origImageSize.width;
+    workRect.size.height = ratio * origImageSize.height;
+    workRect.origin.x = (imageRect.size.width - workRect.size.width) / 2.0;
+    workRect.origin.y = (imageRect.size.height - workRect.size.height) / 2.0;
+    
+    [i drawInRect:workRect];
+    
+    // Get the image from the image context
+    UIImage *sqImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // cleanup
+    UIGraphicsEndImageContext();
+    return sqImage;
 }
 
 #pragma mark -

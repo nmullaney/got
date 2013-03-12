@@ -52,6 +52,7 @@
 {
     void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
         if (list) {
+            NSLog(@"Got list of items in ItemsView");
             [self setItems:[list items]];
             [self setSingleItemViewController:nil];
             [[self tableView] reloadData];
