@@ -81,9 +81,15 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[self offers] removeObjectAtIndex:[indexPath row]];
-        [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                withRowAnimation:UITableViewRowAnimationFade];
+        GOTItem *deletedItem = [[self offers] objectAtIndex:[indexPath row]];
+        [deletedItem setState:DELETED];
+        [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
+            if (!err) {
+                [[self offers] removeObjectAtIndex:[indexPath row]];
+                [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                        withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }];
     }
 }
 

@@ -14,7 +14,7 @@
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID, imageURL;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID, imageURL, state;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -25,6 +25,7 @@
         [self setDesc:itemDescription];
         [self setDatePosted:[NSDate date]];
         [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
+        [self setState:DRAFT];
     }
     return self;
 }
@@ -50,6 +51,41 @@
         desc = nil;
     } else {
         desc = newDesc;
+    }
+}
+
+- (ItemState)itemStateForString:(NSString *)s
+{
+    if ([s isEqualToString:@"DRAFT"]) {
+        return DRAFT;
+    } else if ([s isEqualToString:@"AVAILABLE"]) {
+        return AVAILABLE;
+    } else if ([s isEqualToString:@"PENDING"]) {
+        return PENDING;
+    } else if ([s isEqualToString:@"TAKEN"]) {
+        return TAKEN;
+    } else if ([s isEqualToString:@"DELETED"]) {
+        return DELETED;
+    }
+    return nil;
+}
+
+- (NSString *)stringForItemState:(ItemState)s
+{
+    switch (s) {
+        case DRAFT:
+            return @"DRAFT";
+        case AVAILABLE:
+            return @"AVAILABLE";
+        case PENDING:
+            return @"PENDING";
+        case TAKEN:
+            return @"TAKEN";
+        case DELETED:
+            return @"DELETED";
+            
+        default:
+            return @"UNKNOWN";
     }
 }
 
@@ -86,6 +122,11 @@
         [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
         [self setDatePosted:[formatter dateFromString:dateCreated]];
     }
+    
+    id itemState = [d objectForKey:@"state"];
+    if (itemState) {
+        [self setState:[self itemStateForString:itemState]];
+    }
 }
 
 // Converts the item's data into key/value pairs
@@ -105,6 +146,10 @@
     if ([self desc]) {
         [objs addObject:[self desc]];
         [keys addObject:@"desc"];
+    }
+    if ([self state]) {
+        [objs addObject:[self stringForItemState:[self state]]];
+        [keys addObject:@"state"];
     }
     if ([self userID]) {
         [objs addObject:[self userID]];
