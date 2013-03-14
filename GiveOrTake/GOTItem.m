@@ -14,7 +14,8 @@
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID, imageURL, state;
+@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID,
+    distance, imageURL, state;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -67,7 +68,8 @@
     } else if ([s isEqualToString:@"DELETED"]) {
         return DELETED;
     }
-    return nil;
+    // UNKNOWN isn't a proper state: it indicates some sort of error
+    return UNKNOWN;
 }
 
 - (NSString *)stringForItemState:(ItemState)s
@@ -126,6 +128,10 @@
     id itemState = [d objectForKey:@"state"];
     if (itemState) {
         [self setState:[self itemStateForString:itemState]];
+    }
+    
+    if ([d objectForKey:@"distance"]) {
+        [self setDistance:[d objectForKey:@"distance"]];
     }
 }
 

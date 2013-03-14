@@ -196,8 +196,8 @@
         [exception raise];
     }
     
-    GOTUser *user = nil;
     //GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
+    GOTUser *user = nil;
     if (user) {
         NSLog(@"Fetched user from local storage");
         if (block) {

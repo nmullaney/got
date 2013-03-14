@@ -34,10 +34,12 @@
     [[GOTUserStore sharedStore] updateUser:activeUser withCompletion:^(id user, NSError *err) {
         [activityIndicator stopAnimating];
         if (err) {
+            NSLog(@"Error updating user's username: setting error");
             [errorLabel setText:[err localizedDescription]];
             [errorLabel setHidden:NO];
             [[GOTUserStore sharedStore] discardChanges];
         } else {
+            NSLog(@"Got updated user, poping view controller");
             [[self navigationController] popViewControllerAnimated:YES];
         }
     }];

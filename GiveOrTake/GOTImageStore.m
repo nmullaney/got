@@ -97,28 +97,29 @@
 {
     NSLog(@"Fetching image");
     if ([item image]) {
-        NSLog(@"Found image in item");
+        NSLog(@"Found image in item object");
         block([item image], nil);
         return;
     }
     
     UIImage *image = nil;
     if ([item imageKey]) {
-        NSLog(@"Found image key");
+        NSLog(@"Found image key: attempting to load image from cache");
         image = [self imageForKey:[item imageKey]];
     }
     if (image) {
+        NSLog(@"Loaded image from store cache");
         block(image, nil);
         return;
     }
     
     if ([item imageURL]) {
-        NSLog(@"found image url");
+        NSLog(@"found image url: fetching it from the web");
         NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[item imageURL]];
         GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
         [conn setCompletionBlock:^(id imageData, NSError *err) {
             if (imageData) {
-                NSLog(@"Got image data");
+                NSLog(@"Got image data from the web");
                 UIImage *image = [UIImage imageWithData:imageData];
                 NSString *imageKey = [GOTImageStore createImageKey];
                 [item setImageKey:imageKey];

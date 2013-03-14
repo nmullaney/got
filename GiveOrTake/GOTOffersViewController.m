@@ -11,6 +11,7 @@
 #import "GOTEditItemViewController.h"
 #import "GOTItem.h"
 #import "GOTItemsStore.h"
+#import "GOTImageStore.h"
 #import "GOTItemList.h"
 
 @implementation GOTOffersViewController
@@ -88,6 +89,9 @@
                 [[self offers] removeObjectAtIndex:[indexPath row]];
                 [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                         withRowAnimation:UITableViewRowAnimationFade];
+                // TODO itemsStore update?
+                [[GOTImageStore sharedStore] deleteImageForKey:[deletedItem imageKey]];
+                
             }
         }];
     }

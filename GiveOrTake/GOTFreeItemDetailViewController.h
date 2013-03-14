@@ -19,10 +19,21 @@
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
     UILabel *descLabel;
+    UILabel *distanceLabel;
+    UILabel *usernameLabel;
     UILabel *dateLabel;
+    
+    // The height of the scrollview content
+    float contentHeight;
+    float contentWidth;
 }
 
 @property (nonatomic, strong) GOTItem *item;
+
+- (void)loadDescriptionLabel;
+- (void)loadDistanceLabel;
+- (void)loadDateLabel;
+- (void)loadUsernameLabel;
 
 - (IBAction)wantButtonPressed:(id)sender;
 

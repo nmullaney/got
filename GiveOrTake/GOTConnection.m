@@ -54,6 +54,9 @@
     if ([[self dataObject] length] == 0) {
         NSError *err = [self errorWithLocalizedDescription:@"Server failed to respond."];
         [self completionBlock](nil, err);
+        jsonRootObject = nil;
+        dataObject = nil;
+        return;
     }
     
     if ([self jsonRootObject]) {

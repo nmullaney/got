@@ -12,7 +12,7 @@
 
 #import "JSONSerializable.h"
 
-typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED} ItemState;
+typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
 
 @interface GOTItem : NSObject <JSONSerializable>
 
@@ -39,6 +39,7 @@ typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED} ItemState;
 @property (nonatomic, copy) NSString *imageKey;
 
 @property (nonatomic, strong) NSNumber *userID;
+@property (nonatomic, strong) NSNumber *distance;
 
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *thumbnailURL;

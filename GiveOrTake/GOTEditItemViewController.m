@@ -26,6 +26,7 @@
     if (self) {
         // This hides the TabBar used for main navigation
         self.hidesBottomBarWhenPushed = YES;
+        imageChanged = NO;
     }
     return self;
 }
@@ -53,7 +54,6 @@
             NSLog(@"An error occurred while fetching the image: %@", [err localizedDescription]);
         }
     }];
-    imageChanged = NO;
 }
 
 - (void)loadView {
@@ -186,9 +186,12 @@
             [[self item] setItemID:[itemIDHolder itemID]];
             // Upload the image
             if (imageChanged) {
+                NSLog(@"Updating the image because it changed");
                 [[GOTImageStore sharedStore] uploadImageForKey:[[self item] imageKey]
                                                     withItemID:[[self item] itemID]];
                 imageChanged = NO;
+            } else {
+                NSLog(@"Not updating the image: no change");
             }
             // Go back to the table view
             [[self navigationController] popViewControllerAnimated:YES];
@@ -246,6 +249,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    NSLog(@"Setting imageChanged to true");
     imageChanged = YES;
     UIImage *origImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     

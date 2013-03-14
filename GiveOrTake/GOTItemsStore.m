@@ -31,7 +31,8 @@
 - (GOTItemList *)fetchItemsAtDistance:(int)distance
                    withCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSURL *url = [NSURL URLWithString:@"/api/items.php"
+    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@", distance, [[GOTUserStore sharedStore] activeUserID]];
+    NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
@@ -49,7 +50,7 @@
 
 - (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?userID=%@",
+    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?ownedBy=%@",
                         [[GOTUserStore sharedStore] activeUserID]];
     NSLog(@"getting my items from %@", urlStr);
     NSURL *url = [NSURL URLWithString:urlStr
