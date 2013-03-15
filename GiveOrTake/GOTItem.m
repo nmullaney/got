@@ -24,7 +24,6 @@
     if (self) {
         [self setName:itemName];
         [self setDesc:itemDescription];
-        [self setDatePosted:[NSDate date]];
         [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
         [self setState:DRAFT];
     }
@@ -106,7 +105,6 @@
     } else {
         desc = ddesc;
     }
-    [self setDatePosted:[d objectForKey:@"dateCreated"]];
     
     id tnURLString = [d objectForKey:@"thumbnailURL"];
     if (tnURLString) {
@@ -115,20 +113,22 @@
     
     id imageURLString = [d objectForKey:@"imageURL"];
     if (imageURLString) {
+        // For items we load from the web, we'll use their itemID
+        // as the image key.  This might mean that we'll have doubles
+        // for images the user has uploaded, but it ensures we'll never
+        // have collisions
+        [self setImageKey:[NSString stringWithFormat:@"%@", [d objectForKey:@"id"]]];
         imageURL = [NSURL URLWithString:(NSString *)imageURLString];
     }
     
-    id dateCreated = [d objectForKey:@"dateCreated"];
-    if (dateCreated) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-        [self setDatePosted:[formatter dateFromString:dateCreated]];
-    }
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    // The server is on GMT
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];    
+    [self setDatePosted:[formatter dateFromString:[d objectForKey:@"dateCreated"]]];
+    [self setDateUpdated:[formatter dateFromString:[d objectForKey:@"dateUpdated"]]];
     
-    id itemState = [d objectForKey:@"state"];
-    if (itemState) {
-        [self setState:[self itemStateForString:itemState]];
-    }
+    [self setState:[self itemStateForString:[d objectForKey:@"state"]]];
     
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];

@@ -80,7 +80,7 @@ static float kBorderSize = 5.0;
     // label of the correct size first, then asynchronously fill in the data
     // once we have it.
     UIFont *font = [GOTConstants defaultSmallFont];
-    NSString *postedByStr = [NSString stringWithFormat:@"Posted by"];
+    NSString *postedByStr = [NSString stringWithFormat:@"Posted by:"];
     CGSize labelSize = [postedByStr sizeWithFont:font
                                constrainedToSize:CGSizeMake(self->contentWidth, MAXFLOAT)];
     usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kBorderSize,
@@ -98,7 +98,7 @@ static float kBorderSize = 5.0;
         }
         if (usr) {
             GOTUser *user = (GOTUser *)usr;
-            NSString *postedByStr = [NSString stringWithFormat:@"Posted by %@", [user username]];
+            NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@", [user username]];
             [usernameLabel setText:postedByStr];
             [usernameLabel setNeedsDisplay];
         }
@@ -113,7 +113,7 @@ static float kBorderSize = 5.0;
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     NSString *dateString = [dateFormatter stringFromDate:[[self item] datePosted]];
     
-    NSString *fullDateLabelString = [NSString stringWithFormat:@"Posted on %@", dateString];
+    NSString *fullDateLabelString = [NSString stringWithFormat:@"Posted on: %@", dateString];
     CGSize dateLabelSize = [fullDateLabelString sizeWithFont:font constrainedToSize:CGSizeMake(self->contentWidth, MAXFLOAT)];
     
     dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kBorderSize, self->contentHeight, self->contentWidth, dateLabelSize.height)];

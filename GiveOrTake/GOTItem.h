@@ -33,6 +33,7 @@ typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *datePosted;
+@property (nonatomic, strong) NSDate *dateUpdated;
 @property (nonatomic) ItemState state;
 
 @property (nonatomic, strong) NSURL *imageURL;

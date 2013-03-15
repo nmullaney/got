@@ -17,13 +17,19 @@
 
 + (GOTImageStore *)sharedStore;
 + (NSString *)createImageKey;
++ (NSString *)imageCachePath;
 
 - (void)setImage:(UIImage *)i forKey:(NSString *)s;
 - (UIImage *)imageForKey:(NSString *)s;
+- (UIImage *)imageForKey:(NSString *)s updatedAfter:(NSDate *)date;
 - (void)deleteImageForKey:(NSString *)s;
 - (void)clearCache:(NSNotification *)note;
+- (void)saveCacheToDisk;
+- (void)deleteOldImagesOnDisk;
+- (NSString *)filePathForKey:(NSString *)key;
 
 - (void)uploadImageForKey:(NSString *)s withItemID:(NSNumber *)itemID;
 - (void)fetchImageForItem:(GOTItem *)item withCompletion:(void (^)(id image, NSError *err))block;
+- (UIImage *)fetchImageFromDisk:(NSString *)key updatedAfter:(NSDate *)date;
 
 @end
