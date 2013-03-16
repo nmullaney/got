@@ -86,6 +86,11 @@
         return;
     }
     [imageCache removeObjectForKey:s];
+    NSString *filePath = [self filePathForKey:s];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        [fileManager removeItemAtPath:filePath error:nil];
+    }
 }
 
 - (void)clearCache:(NSNotification *)note

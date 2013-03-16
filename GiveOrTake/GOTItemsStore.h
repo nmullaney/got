@@ -18,9 +18,9 @@
 }
 + (GOTItemsStore *)sharedStore;
 
-- (GOTItemList *)fetchItemsAtDistance:(int)distance
+- (void)fetchItemsAtDistance:(int)distance
                        withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
-- (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *list, NSError *err))block;
+- (void)fetchMyItemsWithCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 
 - (void)fetchThumbnailAtURL:(NSURL *)url
              withCompletion:(void (^)(id image, NSError *err))block;

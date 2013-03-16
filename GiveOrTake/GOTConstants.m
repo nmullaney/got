@@ -21,4 +21,9 @@
     return [UIFont systemFontOfSize:13.0];
 }
 
++ (UIFont *)defaultMediumFont
+{
+    return [UIFont systemFontOfSize:15.0];
+}
+
 @end

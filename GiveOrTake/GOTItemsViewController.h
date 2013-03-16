@@ -23,6 +23,7 @@
 
 - (void)filterSearch:(id)sender;
 - (BOOL)shouldUpdateItems;
+- (void)mergeNewItems:(NSArray *)items;
 - (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path;
 
 @end

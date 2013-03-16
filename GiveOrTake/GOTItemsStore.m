@@ -28,7 +28,7 @@
 }
 
 // TODO: distance should be a real distance
-- (GOTItemList *)fetchItemsAtDistance:(int)distance
+- (void)fetchItemsAtDistance:(int)distance
                    withCompletion:(void (^)(GOTItemList *, NSError *))block
 {
     NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@", distance, [[GOTUserStore sharedStore] activeUserID]];
@@ -44,11 +44,9 @@
     GOTItemList *list = [[GOTItemList alloc] init];
     [conn setJsonRootObject:list];
     [conn start];
-    
-    return list;
 }
 
-- (GOTItemList *)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
+- (void)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
 {
     NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?ownedBy=%@",
                         [[GOTUserStore sharedStore] activeUserID]];
@@ -62,7 +60,6 @@
     GOTItemList *list = [[GOTItemList alloc] init];
     [conn setJsonRootObject:list];
     [conn start];
-    return list;
 }
 
 - (void)fetchThumbnailAtURL:(NSURL *)url withCompletion:(void (^)(id, NSError *))block

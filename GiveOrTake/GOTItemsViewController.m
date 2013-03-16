@@ -13,6 +13,7 @@
 #import "GOTItemList.h"
 #import "GOTItemsStore.h"
 #import "GOTSettings.h"
+#import "GOTConstants.h"
 #import "GOTScrollItemsViewController.h"
 
 @implementation GOTItemsViewController
@@ -49,13 +50,41 @@
     return [[GOTSettings instance] getIntValueForKey:[GOTSettings distanceKey]];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGPoint contentOffset = [scrollView contentOffset];
+    if (contentOffset.y < 0 && abs(contentOffset.y) > [[self tableView] rowHeight] && ![[self tableView] tableHeaderView]) {
+    
+        UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
+        UIColor *headerColor = [UIColor colorWithWhite:0.5 alpha:0.3];
+        [tableHeaderView setBackgroundColor:headerColor];
+        UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        CGRect indicatorFrame = CGRectMake(0, 0, [indicatorView bounds].size.width * 2, [indicatorView bounds].size.height * 2);
+        [indicatorView setFrame:indicatorFrame];
+        [tableHeaderView addSubview:indicatorView];
+        [indicatorView startAnimating];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
+        [label setText:@"Updating items"];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setFont:[GOTConstants defaultMediumFont]];
+        [label setTextColor:[UIColor darkGrayColor]];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        [tableHeaderView addSubview:label];
+        [[self tableView] setTableHeaderView:tableHeaderView];
+        [[self tableView] setNeedsDisplay];
+        [self updateItems];
+    }
+}
+
 - (void)updateItems
 {
+    NSLog(@"Updating items from WEB");
     void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
         if (list) {
             NSLog(@"Got list of items in ItemsView");
-            [self setItems:[list items]];
+            [self mergeNewItems:[list items]];
             [self setSingleItemViewController:nil];
+            [[self tableView] setTableHeaderView:nil];
             [[self tableView] reloadData];
         } else if (err) {
             NSString *errorString = [NSString stringWithFormat:@"Failed to fetch items: %@",
@@ -69,10 +98,37 @@
             [av show];
         }
     };
-    GOTItemList *list = [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance] withCompletion:completion];
-    [self setItems:[list items]];
-    [self setSingleItemViewController:nil];
-    [[self tableView] reloadData];
+    [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance] withCompletion:completion];
+}
+
+- (void)mergeNewItems:(NSArray *)newItems
+{
+    NSMutableDictionary *itemsByID = [[NSMutableDictionary alloc] init];
+    // Add all original items to the dictionary, minus any that don't match the filter
+    [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+        if ([[item distance] integerValue] < [self distance]) {
+            [itemsByID setObject:item forKey:[item itemID]];
+        } else {
+            NSLog(@"Not adding %@ because distance is too great: item distance: %@ vs filter distance: %@", [item name], [item distance], [NSNumber numberWithInteger:[self distance]]);
+        }
+    }];
+    [newItems enumerateObjectsUsingBlock:^(GOTItem *newItem, NSUInteger idx, BOOL *stop) {
+        GOTItem *oldItem = [itemsByID objectForKey:[newItem itemID]];
+        if (!oldItem || ([[newItem dateUpdated] timeIntervalSinceDate:[oldItem dateUpdated]] > 0)) {
+            NSLog(@"Adding in new item for: %@", [newItem name]);
+            NSLog(@"New date = %@", [newItem dateUpdated]);
+            if (oldItem) {
+                NSLog(@"Old date = %@", [oldItem dateUpdated]);
+            } 
+            [itemsByID setObject:newItem forKey:[newItem itemID]];
+        }
+    }];
+    // Sort all the items by date updated
+    NSArray *allItems = [itemsByID allValues];
+    allItems = [allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
+        return [[item2 dateUpdated] compare:[item1 dateUpdated]];
+    }];
+    [self setItems:allItems];
 }
 
 - (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path

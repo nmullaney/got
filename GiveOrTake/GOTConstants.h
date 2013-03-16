@@ -13,5 +13,6 @@
 + (NSURL *)baseURL;
 
 + (UIFont *)defaultSmallFont;
++ (UIFont *)defaultMediumFont;
 
 @end
