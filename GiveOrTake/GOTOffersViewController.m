@@ -13,6 +13,7 @@
 #import "GOTItemsStore.h"
 #import "GOTImageStore.h"
 #import "GOTItemList.h"
+#import "GOTConstants.h"
 
 @implementation GOTOffersViewController
 
@@ -97,10 +98,44 @@
     }
 }
 
-// This is just a little hack to prevent empty rows from appearing
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+// If there are no rows, give information about how to add an offer.
+- (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
-    return [[UIView alloc] init];
+    UIView *footer = [[UIView alloc] init];
+    if ([[self offers] count] > 0) {
+        tv.sectionFooterHeight = 1;
+    } else {
+        // It would be nice to set the background color to gray here, but
+        // I'm getting some inconsistencies in how the background of the table
+        // affects the background of this component, so for now, I'll leave it white.
+        tv.sectionFooterHeight = [tv bounds].size.height;
+        float border = 10;
+        float width = [tv bounds].size.width - 2 * border;
+        NSString *title = @"You haven't created any offers.";
+        CGSize titleLabelSize = [title sizeWithFont:[GOTConstants defaultVeryLargeFont]];
+        UILabel *titleLabel = [[UILabel alloc]
+                               initWithFrame:CGRectMake(border, width/4, width, titleLabelSize.height)];
+        [titleLabel setText:title];
+        [titleLabel setFont:[GOTConstants defaultVeryLargeFont]];
+        [titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [titleLabel setTextColor:[UIColor darkGrayColor]];
+        [titleLabel setBackgroundColor:[UIColor clearColor]];
+        [footer addSubview:titleLabel];
+        
+        NSString *info = @"To give away an item, touch the '+' button, fill out information about your item, and press the 'Post Item' button.";
+        CGSize infoLabelSize = [info sizeWithFont:[GOTConstants defaultLargeFont] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+        float infoLabely = width/4 + titleLabelSize.height + border;
+        UILabel *infoLabel = [[UILabel alloc]
+                              initWithFrame:CGRectMake(border, infoLabely, width, infoLabelSize.height)];
+        [infoLabel setText:info];
+        [infoLabel setTextAlignment:NSTextAlignmentLeft];
+        [infoLabel setTextColor:[UIColor darkGrayColor]];
+        [infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [infoLabel setNumberOfLines:0];
+        [infoLabel setBackgroundColor:[UIColor clearColor]];
+        [footer addSubview:infoLabel];
+    }
+    return footer;
 }
 
 #pragma mark -
