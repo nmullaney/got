@@ -56,7 +56,7 @@
     if (contentOffset.y < 0 && abs(contentOffset.y) > [[self tableView] rowHeight] && ![[self tableView] tableHeaderView]) {
     
         UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
-        UIColor *headerColor = [UIColor colorWithWhite:0.5 alpha:0.3];
+        UIColor *headerColor = [GOTConstants defaultBackgroundColor];
         [tableHeaderView setBackgroundColor:headerColor];
         UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         CGRect indicatorFrame = CGRectMake(0, 0, [indicatorView bounds].size.width * 2, [indicatorView bounds].size.height * 2);
@@ -81,7 +81,7 @@
     NSLog(@"Updating items from WEB");
     void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
         if (list) {
-            NSLog(@"Got list of items in ItemsView");
+            NSLog(@"Got list of items in ItemsView: %@", list);
             [self mergeNewItems:[list items]];
             [self setSingleItemViewController:nil];
             [[self tableView] setTableHeaderView:nil];
@@ -191,7 +191,41 @@
 
 - (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
-    return [[UIView alloc] init];
+    UIView *footer = [[UIView alloc] init];
+    if ([[self items] count] > 0) {
+        tv.sectionFooterHeight = 1;
+    } else {
+        // It would be nice to set the background color to gray here, but
+        // I'm getting some inconsistencies in how the background of the table
+        // affects the background of this component, so for now, I'll leave it white.
+        tv.sectionFooterHeight = [tv bounds].size.height;
+        float border = 10;
+        float width = [tv bounds].size.width - 2 * border;
+        NSString *title = @"No free items found.";
+        CGSize titleLabelSize = [title sizeWithFont:[GOTConstants defaultVeryLargeFont]];
+        UILabel *titleLabel = [[UILabel alloc]
+                               initWithFrame:CGRectMake(border, width/4, width, titleLabelSize.height)];
+        [titleLabel setText:title];
+        [titleLabel setFont:[GOTConstants defaultVeryLargeFont]];
+        [titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [titleLabel setTextColor:[UIColor darkGrayColor]];
+        [titleLabel setBackgroundColor:[UIColor clearColor]];
+        [footer addSubview:titleLabel];
+        
+        NSString *info = @"Try changing the filter to find more items.  You can expand your search by choosing a larger distance or removing a search term.";
+        CGSize infoLabelSize = [info sizeWithFont:[GOTConstants defaultLargeFont] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+        float infoLabely = width/4 + titleLabelSize.height + border;
+        UILabel *infoLabel = [[UILabel alloc]
+                              initWithFrame:CGRectMake(border, infoLabely, width, infoLabelSize.height)];
+        [infoLabel setText:info];
+        [infoLabel setTextAlignment:NSTextAlignmentLeft];
+        [infoLabel setTextColor:[UIColor darkGrayColor]];
+        [infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [infoLabel setNumberOfLines:0];
+        [infoLabel setBackgroundColor:[UIColor clearColor]];
+        [footer addSubview:infoLabel];
+    }
+    return footer;
 }
 
 #pragma mark -

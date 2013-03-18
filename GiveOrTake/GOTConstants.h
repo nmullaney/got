@@ -14,5 +14,9 @@
 
 + (UIFont *)defaultSmallFont;
 + (UIFont *)defaultMediumFont;
++ (UIFont *)defaultLargeFont;
++ (UIFont *)defaultVeryLargeFont;
+
++ (UIColor *)defaultBackgroundColor;
 
 @end

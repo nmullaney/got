@@ -26,4 +26,20 @@
     return [UIFont systemFontOfSize:15.0];
 }
 
++ (UIFont *)defaultLargeFont
+{
+    return [UIFont systemFontOfSize:17.0];
+}
+
++ (UIFont *)defaultVeryLargeFont
+{
+    return [UIFont systemFontOfSize:19.0];
+}
+
+// This returns a light gray, partially translucent color
++ (UIColor *)defaultBackgroundColor
+{
+    return [UIColor colorWithWhite:0.5 alpha:0.25];
+}
+
 @end
