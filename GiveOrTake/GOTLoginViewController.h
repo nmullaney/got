@@ -17,6 +17,7 @@
 }
 
 - (void)showLoggingIn;
+- (void)showCanLogIn;
 
 @property (nonatomic) BOOL loggingIn;
 

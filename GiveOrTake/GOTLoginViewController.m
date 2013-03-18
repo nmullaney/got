@@ -52,8 +52,15 @@
 - (void)showLoggingIn
 {
     [pleaseLoginLabel setText:@"Logging in..."];
-    [loginView setHidden:TRUE];
+    [loginView setHidden:YES];
     [activityIndicatorView startAnimating];
+}
+
+- (void)showCanLogIn
+{
+    [pleaseLoginLabel setText:@"Please log in with Facebook"];
+    [loginView setHidden:NO];
+    [activityIndicatorView stopAnimating];
 }
 
 #pragma mark UILoginViewDelegate methods
@@ -76,10 +83,24 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)lv user:(id<FBGraphUser>)user
 {
     [self showLoggingIn];
+    NSLog(@"Logging in with: %@", user);
     [[GOTUserStore sharedStore] createActiveUserFromFBUser:user withCompletion:^(id user, NSError *err) {
-        NSLog(@"Switching from login to tabs");
-        GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-        [myApp setupTabBarControllers];
+        if (err) {
+            NSLog(@"Got an error while creating new user: %@", err);
+            UIAlertView *uav = [[UIAlertView alloc] initWithTitle:@"Login Failed"
+                                                          message:@"An error occurred while trying to login.  Please logout and try again."
+                                                         delegate:self
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+            [uav show];
+            [self showCanLogIn];
+            return;
+            
+        } else {
+            NSLog(@"Switching from login to tabs with user: %@", user);
+            GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
+            [myApp setupTabBarControllers];
+        }
     }];
 }
 

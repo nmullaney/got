@@ -12,8 +12,8 @@
 
 + (NSURL *)baseURL
 {
-    return [NSURL URLWithString:@"http://ec2-107-21-148-60.compute-1.amazonaws.com"];
-    //return [NSURL URLWithString:@"http://nmullaney.dev"];
+    //return [NSURL URLWithString:@"http://ec2-107-21-148-60.compute-1.amazonaws.com"];
+    return [NSURL URLWithString:@"http://nmullaney.dev"];
 }
 
 + (UIFont *)defaultSmallFont

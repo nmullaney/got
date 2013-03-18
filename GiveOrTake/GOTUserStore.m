@@ -45,8 +45,11 @@
                                          URL:storeURL
                                      options:nil
                                        error:&err]) {
+            NSLog(@"Open database failed");
             [NSException raise:@"Open database failed"
                         format:@"Reason: %@", err];
+        } else {
+            NSLog(@"Open database succeeded");
         }
         
         context = [[NSManagedObjectContext alloc] init];
@@ -113,6 +116,8 @@
     [self updateUser:newUser withCompletion:^(id user, NSError *err) {
         if (!err) {
             [self setActiveUser:user];
+        } else {
+            NSLog(@"Got error while trying to create new user: %@", [err localizedDescription]);
         }
         if (block) {
             block(user, err);
@@ -126,6 +131,7 @@
     // make sure it matches (if not, this is likely the login step).
     if ([self activeUser] && ![[self activeUser] isEqual:user]) {
         [NSException raise:@"Failed to update user" format:@"Only the current user can be updated"];
+        return;
     }
     
     NSLog(@"Updating user with values: %@", [user uploadDictionary]);
@@ -137,8 +143,18 @@
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setJsonRootObject:user];
     [conn setCompletionBlock:^(id updatedUser, NSError *error) {
+        GOTUser *user = updatedUser;
         if (error) {
             NSLog(@"Error updating user: %@", [error localizedDescription]);
+        } else if([[user userID] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            NSLog(@"Error: server did not return a valid user");
+            NSDictionary *info = [NSDictionary dictionaryWithObject:@"Invalid user returned from server"
+                                                            forKey:NSLocalizedDescriptionKey];
+            NSError *err = [NSError errorWithDomain:NSURLErrorDomain
+                                      code:NSURLErrorBadServerResponse
+                                  userInfo:info];
+            block(nil, err);
+            return;
         } else {
             NSLog(@"block user: %@", updatedUser);
             [self saveChanges];
