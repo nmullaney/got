@@ -30,6 +30,7 @@
         [[self navigationItem] setLeftBarButtonItem:bbi];
         UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
         [self setFisvc:[settingStoryboard instantiateInitialViewController]];
+        self->noMoreData = NO;
         // Ensures we get an initial load
         [[self fisvc] setFilterChanged:YES];
     }
@@ -40,7 +41,7 @@
 {
     [super viewWillAppear:animated];
     if ([self shouldUpdateItems]) {
-        [self updateItems];
+        [self updateItems:NO];
     }
     [[self navigationItem] setTitle:@"Free Items"];
 }
@@ -72,16 +73,21 @@
         [tableHeaderView addSubview:label];
         [[self tableView] setTableHeaderView:tableHeaderView];
         [[self tableView] setNeedsDisplay];
-        [self updateItems];
+        [self updateItems:NO];
     }
 }
 
-- (void)updateItems
+- (void)updateItems:(BOOL)loadMore
 {
     NSLog(@"Updating items from WEB");
     void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
         if (list) {
             NSLog(@"Got list of items in ItemsView: %@", list);
+            if ([[list items] count] < [GOTConstants itemRequestLimit]) {
+                // Since we got less items then we requested, we can
+                // assume there is no more data
+                self->noMoreData = YES;
+            }
             [self mergeNewItems:[list items]];
             [self setSingleItemViewController:nil];
             [[self tableView] setTableHeaderView:nil];
@@ -98,7 +104,15 @@
             [av show];
         }
     };
-    [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance] withCompletion:completion];
+    // We either load/update from the top or from the bottom
+    int offset = 0;
+    if (loadMore && !self->noMoreData) {
+        offset = [[self items] count];
+    }
+    [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance]
+                                            withLimit:[GOTConstants itemRequestLimit]
+                                           withOffset:offset
+                                       withCompletion:completion];
 }
 
 - (void)mergeNewItems:(NSArray *)newItems
@@ -154,6 +168,11 @@
 - (BOOL)shouldUpdateItems
 {
     BOOL shouldUpdate = [[self fisvc] filterChanged];
+    if (shouldUpdate) {
+        // If the filter has changed, we don't know if we have all the
+        // data
+        self->noMoreData = NO;
+    }
     [[self fisvc] setFilterChanged:NO];
     return shouldUpdate;
 }
@@ -186,6 +205,10 @@
             [[cell imageView] setImage:nil];
         }
     }
+    if ([indexPath row] == ([items count] - 1) && !self->noMoreData) {
+        [self updateItems:YES];
+    }
+    
     return cell;
 }
 

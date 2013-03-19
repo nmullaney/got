@@ -13,6 +13,8 @@
 + (NSURL *)baseURL;
 + (NSArray *)trustedHosts;
 
++ (NSInteger)itemRequestLimit;
+
 + (UIFont *)defaultSmallFont;
 + (UIFont *)defaultMediumFont;
 + (UIFont *)defaultLargeFont;

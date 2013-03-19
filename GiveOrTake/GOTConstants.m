@@ -12,8 +12,8 @@
 
 + (NSURL *)baseURL
 {
-    return [NSURL URLWithString:@"https:/www.giveortakeapp.com"];
-    //return [NSURL URLWithString:@"https://nmullaney.dev"];
+    //return [NSURL URLWithString:@"https:/www.giveortakeapp.com"];
+    return [NSURL URLWithString:@"https://nmullaney.dev"];
 }
 
 + (NSArray *)trustedHosts
@@ -24,6 +24,13 @@
             @"ec2-107-21-148-60.compute-1.amazonaws.com",
             @"nmullaney.dev",
             nil];
+}
+
+// This is the limit of how many items we request from the web
+// on a single call
++ (int)itemRequestLimit
+{
+    return 15;
 }
 
 + (UIFont *)defaultSmallFont

@@ -27,11 +27,16 @@
     return store;
 }
 
-// TODO: distance should be a real distance
 - (void)fetchItemsAtDistance:(int)distance
-                   withCompletion:(void (^)(GOTItemList *, NSError *))block
+                   withLimit:(int)limit
+                  withOffset:(int)offset
+              withCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@", distance, [[GOTUserStore sharedStore] activeUserID]];
+    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@&limit=%d&offset=%d",
+                        distance,
+                        [[GOTUserStore sharedStore] activeUserID],
+                        limit,
+                        offset];
     NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];
     
