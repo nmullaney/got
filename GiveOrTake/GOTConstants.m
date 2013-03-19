@@ -12,8 +12,18 @@
 
 + (NSURL *)baseURL
 {
-    //return [NSURL URLWithString:@"http://ec2-107-21-148-60.compute-1.amazonaws.com"];
-    return [NSURL URLWithString:@"http://nmullaney.dev"];
+    return [NSURL URLWithString:@"https:/www.giveortakeapp.com"];
+    //return [NSURL URLWithString:@"https://nmullaney.dev"];
+}
+
++ (NSArray *)trustedHosts
+{
+    return [NSArray arrayWithObjects:
+            @"localhost",
+            @"www.giveortakeapp.com",
+            @"ec2-107-21-148-60.compute-1.amazonaws.com",
+            @"nmullaney.dev",
+            nil];
 }
 
 + (UIFont *)defaultSmallFont

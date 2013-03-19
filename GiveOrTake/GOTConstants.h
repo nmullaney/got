@@ -11,6 +11,7 @@
 @interface GOTConstants : NSObject
 
 + (NSURL *)baseURL;
++ (NSArray *)trustedHosts;
 
 + (UIFont *)defaultSmallFont;
 + (UIFont *)defaultMediumFont;

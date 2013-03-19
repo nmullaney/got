@@ -8,6 +8,8 @@
 
 #import "GOTConnection.h"
 
+#import "GOTConstants.h"
+
 @implementation GOTConnection
 
 @synthesize request, completionBlock, jsonRootObject, dataObject;
@@ -87,5 +89,35 @@
     connection = nil;
     [self completionBlock](nil, error);
 }
+
+#pragma mark Methods to allow self-signed cert
+
+- (BOOL)connection:(NSURLConnection *)connection
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    // TODO: explicitly trusted our dev and prod hosts.
+    // Not sure if this is the best way long term.  We may want to
+    // use a real signing authority instead
+    NSLog(@"Challenge: %@", challenge);
+    NSLog(@"Proposed Credential: %@", challenge.proposedCredential);
+    NSArray *trustedHosts = [GOTConstants trustedHosts];
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        if ([trustedHosts containsObject:challenge.protectionSpace.host]) {
+            NSLog(@"Is trusted host");
+            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
+                 forAuthenticationChallenge:challenge];
+        } else {
+            NSLog(@"host = %@", challenge.protectionSpace.host);
+        }
+        [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+    }
+}
+
+#pragma mark -
 
 @end
