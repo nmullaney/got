@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class GOTItemList;
+
 @interface GOTScrollItemsViewController : UIViewController
     <UIScrollViewDelegate>
 {
@@ -20,8 +22,9 @@
 - (void)initScrollView;
 - (void)cleanupViews:(BOOL)keepViewable;
 - (void)notifyViewControllerAppearing:(int)index;
+- (void)itemListSizeChangedFrom:(NSUInteger)originalSize to:(NSUInteger)newSize;
 
-@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) GOTItemList *itemList;
 @property (nonatomic) NSInteger selectedIndex;
 
 // The viewable height of this controller

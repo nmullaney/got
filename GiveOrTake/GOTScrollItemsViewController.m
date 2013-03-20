@@ -11,23 +11,54 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "GOTItem.h"
+#import "GOTItemList.h"
 #import "GOTFreeItemDetailViewController.h"
 
 
 @implementation GOTScrollItemsViewController
 
-@synthesize items, height;
+@synthesize itemList, height;
 
-- (void)setItems:(NSArray *)its
+- (void)setItemList:(GOTItemList *)list
 {
-    int startItemCount = [[self items] count];
-    int endItemCount = [its count];
-    items = its;
-    if (endItemCount != startItemCount) {
-        [self initScrollView];
+    NSLog(@"Resetting item list");
+    if (itemList) {
+        // remove observer
+        [itemList removeObserver:self forKeyPath:@"items"];
     }
     viewControllers = [[NSMutableArray alloc] init];
-    for (int i = 0; i < [its count]; i++) {
+    for (int i = 0; i < [list itemCount]; i++) {
+        [viewControllers addObject:[NSNull null]];
+    }
+    itemList = list;
+    [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"items changed value!");
+    // Sanity check
+    if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
+        NSArray *oldItems = [change objectForKey:NSKeyValueChangeOldKey];
+        NSArray *newItems = [change objectForKey:NSKeyValueChangeNewKey];
+        [self itemListSizeChangedFrom:[oldItems count] to:[newItems count]];
+    }
+}
+
+- (void)itemListSizeChangedFrom:(NSUInteger)originalSize to:(NSUInteger)newSize
+{
+    if (originalSize == newSize) {
+        return;
+    }
+    CGRect bounds = [[UIScreen mainScreen] applicationFrame];
+    // height may be smaller, because of navigation and tab bar
+    if ([self height] > 0) {
+        bounds.size.height = [self height];
+    }
+    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self itemList] itemCount],
+                                        bounds.size.height);
+    viewControllers = [[NSMutableArray alloc] initWithCapacity:newSize];
+    for (int i = 0; i < newSize; i++) {
         [viewControllers addObject:[NSNull null]];
     }
 }
@@ -48,7 +79,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:bounds];
     [scrollView setDelegate:self];
-    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self items] count],
+    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self itemList] itemCount],
                                         bounds.size.height);
     
     [scrollView setPagingEnabled:YES];
@@ -70,14 +101,18 @@
 
 - (void)addViewAtIndex:(int)index
 {
-    if (index < 0 || index > [[self items] count] - 1) {
+    if (index < 0) {
+        // TODO: fetch at high end?
+        return;
+    } else if (index > [[self itemList] itemCount] - 1) {
+        [itemList fetchItemAtIndex:index withCompletion:nil];
         return;
     }
     id currentController = [viewControllers objectAtIndex:index];
     if (currentController == [NSNull null]) {
         GOTFreeItemDetailViewController *viewController =
             [[GOTFreeItemDetailViewController alloc] init];
-        [viewController setItem:[[self items] objectAtIndex:index]];
+        [viewController setItem:[[self itemList] getItemAtIndex:index]];
         [viewControllers replaceObjectAtIndex:index withObject:viewController];
         [[viewController view] setFrame:[self frameForViewAtIndex:index]];
         [scrollView addSubview:[viewController view]];
@@ -85,11 +120,12 @@
 }
 
 - (GOTItem *)item {
-    return [[self items] objectAtIndex:[self selectedIndex]];
+    return [[self itemList] getItemAtIndex:[self selectedIndex]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"View will appear");
     [super viewWillAppear:animated];
     
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
@@ -108,13 +144,20 @@
     [scrollView setNeedsDisplay];
 }
 
+- (void)loadView
+{
+    NSLog(@"Load view");
+    [super loadView];
+    [self initScrollView];
+}
+
 // During viewWillAppear, the added viewControllers are not having
 // their own viewWillAppear called.  I'm not sure what the root cause is,
 // but this will ensure their viewWillAppear method will be called.
 // This happens correctly during scrollViewDidScroll.
 - (void)notifyViewControllerAppearing:(int)index
 {
-    if (index < 0 || index > [[self items] count] - 1) {
+    if (index < 0 || index > [[self itemList] itemCount] - 1) {
         return;
     }
     UIViewController *viewController = [viewControllers objectAtIndex:index];

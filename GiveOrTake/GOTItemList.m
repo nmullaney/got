@@ -51,7 +51,8 @@
         // filter out any existing items that no longer fit the criteria
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
         [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
-            if ([[item distance] intValue] < [newDistance intValue]) {
+            NSLog(@"Checking item");
+            if ([[item distance] intValue] > [newDistance intValue]) {
                 [indicesToRemove addIndex:idx];
             }
         }];
@@ -103,9 +104,9 @@
     }];
     // Sort all the items by date updated
     NSMutableArray *allItems = [NSMutableArray arrayWithArray:[itemsByID allValues]];
-    allItems = (NSMutableArray *)[allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
+    allItems = [NSMutableArray arrayWithArray:[allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
         return [[item2 dateUpdated] compare:[item1 dateUpdated]];
-    }];
+    }]];
     [self setItems:allItems];
 }
 
@@ -172,26 +173,36 @@
     NSLog(@"Fetching item at index: %d", idx);
     if (idx < [[self items] count]) {
         GOTItem *item = [[self items] objectAtIndex:idx];
-        block(item, nil);
+        if (block) {
+            block(item, nil);
+        }
         return;
     } else if (self->isAllDataLoaded) {
         // No item for that index
-        block(nil, nil);
+        if (block) {
+            block(nil, nil);
+        }
         return;
     }
     
     void (^handler)(id list, NSError *err) = ^(id list, NSError *err){
         if (err) {
-            block(nil, err);
+            if (block) {
+                block(nil, err);
+            }
             return;
         }
         GOTItemList *myList = (GOTItemList *)list;
         if ([[myList items] count] < idx) {
-            block(nil, nil);
+            if (block) {
+                block(nil, nil);
+            }
             return;
         }
         GOTItem *item = [[myList items] objectAtIndex:idx];
-        block(item, nil);
+        if (block) {
+            block(item, nil);
+        }
     };
     [self loadMoreItemsWithCompletion:handler];
 }

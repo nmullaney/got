@@ -33,8 +33,16 @@
         // Ensures we get an initial load
         [[self fisvc] setFilterChanged:YES];
         itemList = [[GOTItemList alloc] init];
+        [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
+        [[self tableView] reloadData];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -43,9 +51,14 @@
     if ([[self fisvc] filterChanged]) {
         NSLog(@"Filter changed, should load most recent items");
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
-        [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
+        //[[self tableView] reloadData];
+        [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
+            if (err) {
+                NSLog(@"Error occurred: %@", [err localizedDescription]);
+                return;
+            }
             [[self fisvc] setFilterChanged:NO];
-            [[self tableView] reloadData];
+           // [[self tableView] reloadData];
         }];
     }
     [[self navigationItem] setTitle:@"Free Items"];
@@ -81,7 +94,8 @@
         [[self tableView] setNeedsDisplay];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
             [[self tableView] setTableHeaderView:nil];
-            [[self tableView] reloadData];
+            NSLog(@"Reloading data because most recent loaded");
+            //[[self tableView] reloadData];
         }];
     }
 }
@@ -92,7 +106,8 @@
     NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
     if (row == ([[self itemList] itemCount] - 1)) {
         [[self itemList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
-            [[self tableView] reloadData];
+            NSLog(@"Reloading data because more items loaded");
+            //[[self tableView] reloadData];
         }];
     }
 }
@@ -197,8 +212,7 @@
         [self setSingleItemViewController:[[GOTScrollItemsViewController alloc] init]];
         float visibleHeight = [[self tableView] frame].size.height;
         [[self singleItemViewController] setHeight:visibleHeight];
-        // TODO: change this to take itemList
-        [[self singleItemViewController] setItems:[[self itemList] items]];
+        [[self singleItemViewController] setItemList:[self itemList]];
         [[self singleItemViewController] setHidesBottomBarWhenPushed:YES];
     }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];
