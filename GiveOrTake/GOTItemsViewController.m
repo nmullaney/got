@@ -18,7 +18,7 @@
 
 @implementation GOTItemsViewController
 
-@synthesize items, singleItemViewController, fisvc;
+@synthesize itemList, singleItemViewController, fisvc;
 
 - (id)init
 {
@@ -30,9 +30,9 @@
         [[self navigationItem] setLeftBarButtonItem:bbi];
         UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
         [self setFisvc:[settingStoryboard instantiateInitialViewController]];
-        self->noMoreData = NO;
         // Ensures we get an initial load
         [[self fisvc] setFilterChanged:YES];
+        itemList = [[GOTItemList alloc] init];
     }
     return self;
 }
@@ -40,8 +40,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([self shouldUpdateItems]) {
-        [self updateItems:NO];
+    if ([[self fisvc] filterChanged]) {
+        NSLog(@"Filter changed, should load most recent items");
+        [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
+        [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
+            [[self fisvc] setFilterChanged:NO];
+            [[self tableView] reloadData];
+        }];
     }
     [[self navigationItem] setTitle:@"Free Items"];
 }
@@ -56,6 +61,7 @@
     CGPoint contentOffset = [scrollView contentOffset];
     if (contentOffset.y < 0 && abs(contentOffset.y) > [[self tableView] rowHeight] && ![[self tableView] tableHeaderView]) {
     
+        // Update most recent items and show a header
         UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
         UIColor *headerColor = [GOTConstants defaultBackgroundColor];
         [tableHeaderView setBackgroundColor:headerColor];
@@ -73,76 +79,22 @@
         [tableHeaderView addSubview:label];
         [[self tableView] setTableHeaderView:tableHeaderView];
         [[self tableView] setNeedsDisplay];
-        [self updateItems:NO];
-    }
-}
-
-- (void)updateItems:(BOOL)loadMore
-{
-    NSLog(@"Updating items from WEB");
-    void (^completion)(GOTItemList *, NSError *) = ^void(GOTItemList *list, NSError *err) {
-        if (list) {
-            NSLog(@"Got list of items in ItemsView: %@", list);
-            if ([[list items] count] < [GOTConstants itemRequestLimit]) {
-                // Since we got less items then we requested, we can
-                // assume there is no more data
-                self->noMoreData = YES;
-            }
-            [self mergeNewItems:[list items]];
-            [self setSingleItemViewController:nil];
+        [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
             [[self tableView] setTableHeaderView:nil];
             [[self tableView] reloadData];
-        } else if (err) {
-            NSString *errorString = [NSString stringWithFormat:@"Failed to fetch items: %@",
-                                     [err localizedDescription]];
-            
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                         message:errorString
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-            [av show];
-        }
-    };
-    // We either load/update from the top or from the bottom
-    int offset = 0;
-    if (loadMore && !self->noMoreData) {
-        offset = [[self items] count];
+        }];
     }
-    [[GOTItemsStore sharedStore] fetchItemsAtDistance:[self distance]
-                                            withLimit:[GOTConstants itemRequestLimit]
-                                           withOffset:offset
-                                       withCompletion:completion];
 }
 
-- (void)mergeNewItems:(NSArray *)newItems
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSMutableDictionary *itemsByID = [[NSMutableDictionary alloc] init];
-    // Add all original items to the dictionary, minus any that don't match the filter
-    [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
-        if ([[item distance] integerValue] < [self distance]) {
-            [itemsByID setObject:item forKey:[item itemID]];
-        } else {
-            NSLog(@"Not adding %@ because distance is too great: item distance: %@ vs filter distance: %@", [item name], [item distance], [NSNumber numberWithInteger:[self distance]]);
-        }
-    }];
-    [newItems enumerateObjectsUsingBlock:^(GOTItem *newItem, NSUInteger idx, BOOL *stop) {
-        GOTItem *oldItem = [itemsByID objectForKey:[newItem itemID]];
-        if (!oldItem || ([[newItem dateUpdated] timeIntervalSinceDate:[oldItem dateUpdated]] > 0)) {
-            NSLog(@"Adding in new item for: %@", [newItem name]);
-            NSLog(@"New date = %@", [newItem dateUpdated]);
-            if (oldItem) {
-                NSLog(@"Old date = %@", [oldItem dateUpdated]);
-            } 
-            [itemsByID setObject:newItem forKey:[newItem itemID]];
-        }
-    }];
-    // Sort all the items by date updated
-    NSArray *allItems = [itemsByID allValues];
-    allItems = [allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
-        return [[item2 dateUpdated] compare:[item1 dateUpdated]];
-    }];
-    [self setItems:allItems];
+    UITableViewCell *cell = [[[self tableView] visibleCells] lastObject];
+    NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
+    if (row == ([[self itemList] itemCount] - 1)) {
+        [[self itemList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
+            [[self tableView] reloadData];
+        }];
+    }
 }
 
 - (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path
@@ -165,24 +117,12 @@
                                            animated:YES];
 }
 
-- (BOOL)shouldUpdateItems
-{
-    BOOL shouldUpdate = [[self fisvc] filterChanged];
-    if (shouldUpdate) {
-        // If the filter has changed, we don't know if we have all the
-        // data
-        self->noMoreData = NO;
-    }
-    [[self fisvc] setFilterChanged:NO];
-    return shouldUpdate;
-}
-
 #pragma mark -
 #pragma mark data source methods
 
 - (int)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    return [items count];
+    return [[self itemList] itemCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -192,8 +132,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
     }
-    if ([indexPath row] < [items count]) {
-        GOTItem *item = [items objectAtIndex:[indexPath row]];
+    if ([indexPath row] < [[self itemList] itemCount]) {
+        GOTItem *item = [[self itemList] getItemAtIndex:[indexPath row]];
         [[cell textLabel] setText:[item name]];
         [[cell detailTextLabel] setText:[item desc]];
         if ([item thumbnail]) {
@@ -205,9 +145,6 @@
             [[cell imageView] setImage:nil];
         }
     }
-    if ([indexPath row] == ([items count] - 1) && !self->noMoreData) {
-        [self updateItems:YES];
-    }
     
     return cell;
 }
@@ -215,7 +152,7 @@
 - (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
     UIView *footer = [[UIView alloc] init];
-    if ([[self items] count] > 0) {
+    if ([[self itemList] itemCount] > 0) {
         tv.sectionFooterHeight = 1;
     } else {
         // It would be nice to set the background color to gray here, but
@@ -260,7 +197,8 @@
         [self setSingleItemViewController:[[GOTScrollItemsViewController alloc] init]];
         float visibleHeight = [[self tableView] frame].size.height;
         [[self singleItemViewController] setHeight:visibleHeight];
-        [[self singleItemViewController] setItems:[self items]];
+        // TODO: change this to take itemList
+        [[self singleItemViewController] setItems:[[self itemList] items]];
         [[self singleItemViewController] setHidesBottomBarWhenPushed:YES];
     }
     [[self singleItemViewController] setSelectedIndex:[indexPath row]];

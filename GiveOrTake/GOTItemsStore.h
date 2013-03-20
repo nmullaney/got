@@ -18,6 +18,9 @@
 }
 + (GOTItemsStore *)sharedStore;
 
+- (void)fetchItemsWithParams:(NSDictionary *)params
+              forRootObject:(GOTItemList *)list
+              withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 - (void)fetchItemsAtDistance:(int)distance
                    withLimit:(int)limit
                   withOffset:(int)offset

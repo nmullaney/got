@@ -27,6 +27,31 @@
     return store;
 }
 
+- (void)fetchItemsWithParams:(NSDictionary *)params
+               forRootObject:(GOTItemList *)list
+              withCompletion:(void (^)(GOTItemList *, NSError *))block {
+    
+    NSMutableString *urlStr = [NSMutableString stringWithString:@"/api/items.php?"];
+    NSMutableArray *strParams = [[NSMutableArray alloc] init];
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *param = [NSString stringWithFormat:@"%@=%@", key, obj];
+        [strParams addObject:param];
+    }];
+    [urlStr appendString:[strParams componentsJoinedByString:@"&"]];
+    NSLog(@"Loading items from: %@", urlStr);
+    
+    NSURL *url = [NSURL URLWithString:urlStr
+                        relativeToURL:[GOTConstants baseURL]];
+    
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    
+    [conn setCompletionBlock:block];
+    [conn setJsonRootObject:list];
+    [conn start];
+}
+
 - (void)fetchItemsAtDistance:(int)distance
                    withLimit:(int)limit
                   withOffset:(int)offset
