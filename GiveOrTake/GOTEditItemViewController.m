@@ -45,7 +45,9 @@
     
     [nameField setText:[[self item] name]];
     [descField setText:[[self item] desc]];
+    [imageActivityIndicator startAnimating];
     [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
+        [imageActivityIndicator stopAnimating];
         if (image) {
             [imageView setImage:image];
         }
@@ -122,6 +124,13 @@
                                           fullWidth)];
     [imageView setBackgroundColor:[UIColor whiteColor]];
     [control addSubview:imageView];
+    
+    imageActivityIndicator = [[UIActivityIndicatorView alloc]
+                              initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [imageActivityIndicator setHidesWhenStopped:YES];
+    [imageActivityIndicator stopAnimating];
+    [imageActivityIndicator setFrame:[imageView frame]];
+    [control addSubview:imageActivityIndicator];
     
     // TODO: this button should change to "Update Offer"
     // once the offer is posted

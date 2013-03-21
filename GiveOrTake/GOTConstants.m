@@ -12,8 +12,8 @@
 
 + (NSURL *)baseURL
 {
-    //return [NSURL URLWithString:@"https:/www.giveortakeapp.com"];
-    return [NSURL URLWithString:@"https://nmullaney.dev"];
+    return [NSURL URLWithString:@"https://www.giveortakeapp.com"];
+    //return [NSURL URLWithString:@"https://nmullaney.dev"];
 }
 
 + (NSArray *)trustedHosts
@@ -30,7 +30,7 @@
 // on a single call
 + (int)itemRequestLimit
 {
-    return 15;
+    return 5;
 }
 
 + (UIFont *)defaultSmallFont

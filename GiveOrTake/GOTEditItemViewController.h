@@ -18,6 +18,7 @@
     UITextField *nameField;
     GOTTextView *descField;
     UIImageView *imageView;
+    UIActivityIndicatorView *imageActivityIndicator;
     UIButton *postOfferButton;
     BOOL imageChanged;
 }

@@ -26,7 +26,7 @@
         // remove observer
         [itemList removeObserver:self forKeyPath:@"items"];
     }
-    viewControllers = [[NSMutableArray alloc] init];
+    viewControllers = [[NSMutableArray alloc] initWithCapacity:[list itemCount]];
     for (int i = 0; i < [list itemCount]; i++) {
         [viewControllers addObject:[NSNull null]];
     }
@@ -212,6 +212,7 @@
 - (void)dealloc
 {
     NSLog(@"dealloc for GOTScrollItemsViewController");
+    [[self itemList] removeObserver:self forKeyPath:@"items"];
 }
 
 @end

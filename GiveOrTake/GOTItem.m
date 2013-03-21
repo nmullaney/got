@@ -302,7 +302,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Name:%@, Desc:%@", [self name], [self desc]];
+    return [NSString stringWithFormat:@"ID: %@, Name:%@, Desc:%@", [self itemID], [self name], [self desc]];
 }
 
 @end

@@ -221,4 +221,9 @@
 
 #pragma mark -
 
+- (void)dealloc
+{
+    [[self itemList] removeObserver:self forKeyPath:@"items"];
+}
+
 @end

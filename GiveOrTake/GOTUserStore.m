@@ -85,6 +85,10 @@
     // There is only one document directory
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
     NSString *path = [documentDirectory stringByAppendingPathComponent:@"GOTData.sql3"];
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if ([fileMgr fileExistsAtPath:path]) {
+        [fileMgr removeItemAtPath:path error:nil];
+    }
     return path;
 }
 
@@ -96,9 +100,10 @@
     NSPredicate *userPredicate =
         [NSPredicate predicateWithFormat:@"facebookID = %@"
                            argumentArray:[NSArray arrayWithObject:[user objectForKey:@"id"]]];
+    
     GOTUser *localUser = [self fetchUserFromDBWithPredicate:userPredicate];
     if (localUser) {
-        NSLog(@"Found active user locally after login");
+        NSLog(@"Found active user locally after login: %@", localUser);
         [self setActiveUser:localUser];
         block(localUser, nil);
         return;
@@ -137,6 +142,7 @@
     NSLog(@"Updating user with values: %@", [user uploadDictionary]);
     
     NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
+    NSLog(@"Updating user at: %@", url);
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:[user uploadDictionary]
                                                                         imageData:nil];
@@ -156,7 +162,7 @@
             block(nil, err);
             return;
         } else {
-            NSLog(@"block user: %@", updatedUser);
+            NSLog(@"saving block user: %@", updatedUser);
             [self saveChanges];
         }
         if (block) {
@@ -212,8 +218,7 @@
         [exception raise];
     }
     
-    //GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
-    GOTUser *user = nil;
+    GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
     if (user) {
         NSLog(@"Fetched user from local storage");
         if (block) {
@@ -244,6 +249,7 @@
         [paramStrs addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
     }];
     [stringURL appendString:[paramStrs componentsJoinedByString:@"%"]];
+    NSLog(@"Fetching user from %@", stringURL);
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL
                                                             relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
@@ -256,6 +262,7 @@
         NSLog(@"Got user with username:%@, id:%@", [(GOTUser *)user username], [(GOTUser *)user userID]);
         if (user) {
             // Make sure the user is now saved
+            NSLog(@"Saving user: %@", user);
             [self saveChanges];
         }
         block(user, err);
