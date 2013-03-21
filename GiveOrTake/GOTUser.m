@@ -57,11 +57,13 @@
     // nil.  We'll strip thes all out before we parse, so we don't have
     // to check each time
     NSMutableDictionary *d = [NSMutableDictionary dictionaryWithDictionary:dict];
+    NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
     [d enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         if (obj == (id)[NSNull null]) {
-            [d removeObjectForKey:key];
+            [keysToRemove addObject:key];
         }
     }];
+    [d removeObjectsForKeys:keysToRemove];
     
     int userID = [[d objectForKey:@"id"] intValue];
     [self setUserID:[NSNumber numberWithInt:userID]];

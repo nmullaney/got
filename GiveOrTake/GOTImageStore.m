@@ -28,7 +28,9 @@
 {
     CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
-    return (__bridge NSString *)newUniqueIDString;
+    NSString *strID = (NSString *)CFBridgingRelease(newUniqueIDString);
+    CFRelease(newUniqueID);
+    return strID;
 }
 
 - (id)init

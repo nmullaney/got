@@ -16,9 +16,6 @@ typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
 
 @interface GOTItem : NSObject <JSONSerializable>
 
-+ (NSArray *)randomItems:(int)count;
-+ (id)createRandomItem;
-
 - (UIImage *)image;
 - (void)setThumbnailDataFromImage:(UIImage *)i;
 - (UIImage *)imageFromPicture:(UIImage *)i;

@@ -41,26 +41,35 @@
     if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
         NSArray *oldItems = [change objectForKey:NSKeyValueChangeOldKey];
         NSArray *newItems = [change objectForKey:NSKeyValueChangeNewKey];
-        [self itemListSizeChangedFrom:[oldItems count] to:[newItems count]];
+        if (![oldItems isEqualToArray:newItems]) {
+            [self itemListSizeChangedFrom:[oldItems count] to:[newItems count]];
+        }
     }
 }
 
 - (void)itemListSizeChangedFrom:(NSUInteger)originalSize to:(NSUInteger)newSize
 {
-    if (originalSize == newSize) {
-        return;
-    }
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
     // height may be smaller, because of navigation and tab bar
     if ([self height] > 0) {
         bounds.size.height = [self height];
     }
-    scrollView.contentSize = CGSizeMake(bounds.size.width * [[self itemList] itemCount],
+    float width = bounds.size.width * [[self itemList] itemCount];
+    NSLog(@"Setting content width to %f, (for %d items)", width, [[self itemList] itemCount]);
+    scrollView.contentSize = CGSizeMake(width,
                                         bounds.size.height);
-    viewControllers = [[NSMutableArray alloc] initWithCapacity:newSize];
-    for (int i = 0; i < newSize; i++) {
+    [self cleanupViews:NO];
+    NSLog(@"Clearing viewControllers because items changed");
+    viewControllers = [[NSMutableArray alloc] initWithCapacity:[[self itemList] itemCount]];
+    for (int i = 0; i < [[self itemList] itemCount]; i++) {
         [viewControllers addObject:[NSNull null]];
     }
+    // Re-adding viewable indices
+    [self addViewAtIndex:[self selectedIndex] - 1];
+    [self addViewAtIndex:[self selectedIndex]];
+    [self addViewAtIndex:[self selectedIndex] + 1];
+    [[self view] setNeedsDisplay];
+    
 }
 
 - (void)setSelectedIndex:(NSInteger)index
@@ -108,6 +117,7 @@
         [itemList fetchItemAtIndex:index withCompletion:nil];
         return;
     }
+    NSLog(@"addViewAtIndex");
     id currentController = [viewControllers objectAtIndex:index];
     if (currentController == [NSNull null]) {
         GOTFreeItemDetailViewController *viewController =
@@ -160,6 +170,7 @@
     if (index < 0 || index > [[self itemList] itemCount] - 1) {
         return;
     }
+    NSLog(@"notifyViewControllerAppearing");
     UIViewController *viewController = [viewControllers objectAtIndex:index];
     [viewController viewWillAppear:NO];
 }
@@ -190,6 +201,7 @@
             // This leaves the 3 viewable views
             continue;
         }
+        NSLog(@"Cleanup views");
         if ([viewControllers objectAtIndex:i] == [NSNull null]) {
             continue;
         }

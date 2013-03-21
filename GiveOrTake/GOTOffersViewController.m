@@ -58,6 +58,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
     }
     
+    NSLog(@"cellForRowAtIndexPath");
     GOTItem *item = [offers objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item name]];
     [[cell detailTextLabel] setText:[item desc]];
@@ -74,6 +75,7 @@
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"didSelectRowAtIndexPath");
     GOTItem *editItem = [[self offers] objectAtIndex:[indexPath row]];
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:editItem];
@@ -83,10 +85,12 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSLog(@"commitEditingStyle");
         GOTItem *deletedItem = [[self offers] objectAtIndex:[indexPath row]];
         [deletedItem setState:DELETED];
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
+                NSLog(@"Removing object at index");
                 [[self offers] removeObjectAtIndex:[indexPath row]];
                 [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                         withRowAnimation:UITableViewRowAnimationFade];

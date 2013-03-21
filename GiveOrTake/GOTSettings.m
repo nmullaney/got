@@ -76,6 +76,7 @@
     
     if (data) {
         NSString *fbid = [[NSString alloc] initWithData:(__bridge NSData *)data encoding:NSUTF8StringEncoding];
+        CFRelease(data);
         NSLog(@"fbid = %@", fbid);
         return fbid;
     } else {

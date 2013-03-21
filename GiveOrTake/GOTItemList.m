@@ -83,6 +83,9 @@
 
 - (void)mergeNewItems:(NSMutableArray *)newItems
 {
+    if ([newItems count] == 0) {
+        return;
+    }
     NSMutableDictionary *itemsByID = [[NSMutableDictionary alloc] init];
     // Add all original items to the dictionary
     [[self items] enumerateObjectsUsingBlock:^(GOTItem *item,
@@ -164,6 +167,7 @@
     if (idx > [self itemCount] - 1) {
         [NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil];
     }
+    NSLog(@"in getItemAtIndex in ItemList");
     return [[self items] objectAtIndex:idx];
 }
 
@@ -193,12 +197,13 @@
             return;
         }
         GOTItemList *myList = (GOTItemList *)list;
-        if ([[myList items] count] < idx) {
+        if ([[myList items] count] <= idx) {
             if (block) {
                 block(nil, nil);
             }
             return;
         }
+        NSLog(@"Getting item from mylist");
         GOTItem *item = [[myList items] objectAtIndex:idx];
         if (block) {
             block(item, nil);

@@ -50,6 +50,7 @@
     [super viewWillAppear:animated];
     if ([[self fisvc] filterChanged]) {
         NSLog(@"Filter changed, should load most recent items");
+        [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         //[[self tableView] reloadData];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {

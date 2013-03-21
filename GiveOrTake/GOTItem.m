@@ -270,36 +270,6 @@
 
 #pragma mark -
 
-// This is just for generating test data
-+ (NSArray *)randomItems:(int) count;
-{
-    
-    NSMutableArray *items = [[NSMutableArray alloc] init];
-    for (int i = 0; i < count; i++) {
-        GOTItem *item = [GOTItem createRandomItem];
-        [items addObject:item];
-    }
-    return items;
-}
-
-+(id)createRandomItem
-{
-    NSArray *nouns = [[NSArray alloc] initWithObjects:@"Lamp", @"Table", @"Hat", @"Plant", @"Shoes", @"Sofa", nil];
-    NSArray *adjs = [[NSArray alloc] initWithObjects:@"Fuzzy", @"Blue", @"Broken", @"Silly", @"Fluffy", @"Large", @"Poofy", nil];
-    int nounIdx = rand() % [nouns count];
-    int adjIdx = rand() % [adjs count];
-    
-    NSString *noun = [nouns objectAtIndex:nounIdx];
-    NSString *adj = [adjs objectAtIndex:adjIdx];
-    
-    NSString *randomName = [[NSString alloc] initWithFormat:@"%@ %@", adj, noun];
-    
-    NSString *randomDesc = [[NSString alloc] initWithFormat:@"This %@ is %@", noun, adj];
-    
-    return [[GOTItem alloc] initWithName:randomName
-                             description:randomDesc];
-}
-
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"ID: %@, Name:%@, Desc:%@", [self itemID], [self name], [self desc]];
