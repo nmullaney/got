@@ -185,14 +185,17 @@
     return nil;
 }
 
-- (void)uploadImageForKey:(NSString *)s withItemID:(NSNumber *)itemID
+- (void)uploadImageForItem:(GOTItem *)item
 {
-    UIImage *image = [self imageForKey:s];
+    if (![item imageNeedsUpload]) {
+        return;
+    }
+    UIImage *image = [self imageForKey:[item imageKey]];
     NSData *jpgData = UIImageJPEGRepresentation(image, 0.8);
     
     
     NSURL *url = [NSURL URLWithString:@"/api/item/image.php" relativeToURL:[GOTConstants baseURL]];
-    NSDictionary *formData = [NSDictionary dictionaryWithObject:itemID
+    NSDictionary *formData = [NSDictionary dictionaryWithObject:[item itemID]
                                                          forKey:@"id"];
     NSDictionary *imageData = [NSDictionary
                                dictionaryWithObjects:[NSArray arrayWithObjects:@"image",@"image.jpg",@"image/jpg",jpgData, nil]
@@ -203,6 +206,7 @@
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url formData:formData imageData:imageData];
     GOTConnection *connection = [[GOTConnection alloc] initWithRequest:req];
     [connection setCompletionBlock:^(id result, NSError *err) {
+        [item setImageNeedsUpload:NO];
         NSLog(@"result = %@", result);
     }];
     [connection start];

@@ -20,7 +20,6 @@
     UIImageView *imageView;
     UIActivityIndicatorView *imageActivityIndicator;
     UIButton *postOfferButton;
-    BOOL imageChanged;
 }
 
 @property (nonatomic, strong) GOTItem *item;

@@ -14,7 +14,7 @@
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, thumbnail, thumbnailData, thumbnailURL, userID,
+@synthesize itemID, name, desc, imageKey, imageNeedsUpload, thumbnail, thumbnailData, thumbnailURL, userID,
     distance, imageURL, state;
 
 - (id)initWithName:(NSString *)itemName
@@ -26,6 +26,7 @@
         [self setDesc:itemDescription];
         [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
         [self setState:DRAFT];
+        [self setImageNeedsUpload:NO];
     }
     return self;
 }

@@ -35,6 +35,7 @@ typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
 
 @property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, copy) NSString *imageKey;
+@property (nonatomic) BOOL imageNeedsUpload;
 
 @property (nonatomic, strong) NSNumber *userID;
 @property (nonatomic, strong) NSNumber *distance;

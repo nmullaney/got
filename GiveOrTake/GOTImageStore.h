@@ -28,7 +28,7 @@
 - (void)deleteOldImagesOnDisk;
 - (NSString *)filePathForKey:(NSString *)key;
 
-- (void)uploadImageForKey:(NSString *)s withItemID:(NSNumber *)itemID;
+- (void)uploadImageForItem:(GOTItem *)item;
 - (void)fetchImageForItem:(GOTItem *)item withCompletion:(void (^)(id image, NSError *err))block;
 - (UIImage *)fetchImageFromDisk:(NSString *)key updatedAfter:(NSDate *)date;
 

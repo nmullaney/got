@@ -26,7 +26,6 @@
     if (self) {
         // This hides the TabBar used for main navigation
         self.hidesBottomBarWhenPushed = YES;
-        imageChanged = NO;
     }
     return self;
 }
@@ -194,11 +193,9 @@
             GOTItemID *itemIDHolder = (GOTItemID *)obj;
             [[self item] setItemID:[itemIDHolder itemID]];
             // Upload the image
-            if (imageChanged) {
+            if ([[self item] imageNeedsUpload]) {
                 NSLog(@"Updating the image because it changed");
-                [[GOTImageStore sharedStore] uploadImageForKey:[[self item] imageKey]
-                                                    withItemID:[[self item] itemID]];
-                imageChanged = NO;
+                [[GOTImageStore sharedStore] uploadImageForItem:[self item]];
             } else {
                 NSLog(@"Not updating the image: no change");
             }
@@ -258,8 +255,6 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSLog(@"Setting imageChanged to true");
-    imageChanged = YES;
     UIImage *origImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
     UIImage *image = [item imageFromPicture:origImage];
@@ -267,6 +262,7 @@
     // Create a unique ID for this image, and store it in the image store
     NSString *key = [GOTImageStore createImageKey];
     [item setImageKey:key];
+    [item setImageNeedsUpload:YES];
     [[GOTImageStore sharedStore] setImage:image forKey:key];
     [item setThumbnailDataFromImage:image];
     
