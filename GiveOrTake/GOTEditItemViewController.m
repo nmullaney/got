@@ -242,6 +242,7 @@
     } else {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
+    [imagePicker setAllowsEditing:YES];
     [imagePicker setDelegate:self];
     void (^takingPictureDone)() = ^void() {
         // Make sure the user can clearly see the "Post Offer" button, after
@@ -255,9 +256,12 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *origImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *pickerImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!pickerImage) {
+        pickerImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
     
-    UIImage *image = [item imageFromPicture:origImage];
+    UIImage *image = [item imageFromPicture:pickerImage];
     
     // Create a unique ID for this image, and store it in the image store
     NSString *key = [GOTImageStore createImageKey];
