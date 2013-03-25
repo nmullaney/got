@@ -24,6 +24,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+                                  
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
@@ -135,6 +137,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [FBSession.activeSession close];
+}
+
+void uncaughtExceptionHandler(NSException *exception)
+{
+    NSLog(@"Unhandled exception: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
 
 @end

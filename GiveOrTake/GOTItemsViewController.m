@@ -15,6 +15,7 @@
 #import "GOTSettings.h"
 #import "GOTConstants.h"
 #import "GOTScrollItemsViewController.h"
+#import "GOTMessageFooterViewBuilder.h"
 
 @implementation GOTItemsViewController
 
@@ -52,14 +53,12 @@
         NSLog(@"Filter changed, should load most recent items");
         [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
-        //[[self tableView] reloadData];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
             if (err) {
                 NSLog(@"Error occurred: %@", [err localizedDescription]);
                 return;
             }
             [[self fisvc] setFilterChanged:NO];
-           // [[self tableView] reloadData];
         }];
     }
     [[self navigationItem] setTitle:@"Free Items"];
@@ -96,7 +95,6 @@
         [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
             [[self tableView] setTableHeaderView:nil];
             NSLog(@"Reloading data because most recent loaded");
-            //[[self tableView] reloadData];
         }];
     }
 }
@@ -107,8 +105,7 @@
     NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
     if (row == ([[self itemList] itemCount] - 1)) {
         [[self itemList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
-            NSLog(@"Reloading data because more items loaded");
-            //[[self tableView] reloadData];
+            // reload by observer
         }];
     }
 }
@@ -171,35 +168,13 @@
     if ([[self itemList] itemCount] > 0) {
         tv.sectionFooterHeight = 1;
     } else {
-        // It would be nice to set the background color to gray here, but
-        // I'm getting some inconsistencies in how the background of the table
-        // affects the background of this component, so for now, I'll leave it white.
+        CGRect viewFrame = CGRectMake(0, 0, [tv bounds].size.width, [tv bounds].size.height);
+        UIView *messageView = [[[GOTMessageFooterViewBuilder alloc]
+                               initWithFrame:viewFrame
+                               title:@"No free items found."
+                                message:@"Try changing the filter to find more items.  You can expand your search by choosing a larger distance or removing a search term."] view];
         tv.sectionFooterHeight = [tv bounds].size.height;
-        float border = 10;
-        float width = [tv bounds].size.width - 2 * border;
-        NSString *title = @"No free items found.";
-        CGSize titleLabelSize = [title sizeWithFont:[GOTConstants defaultVeryLargeFont]];
-        UILabel *titleLabel = [[UILabel alloc]
-                               initWithFrame:CGRectMake(border, width/4, width, titleLabelSize.height)];
-        [titleLabel setText:title];
-        [titleLabel setFont:[GOTConstants defaultVeryLargeFont]];
-        [titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [titleLabel setTextColor:[UIColor darkGrayColor]];
-        [titleLabel setBackgroundColor:[UIColor clearColor]];
-        [footer addSubview:titleLabel];
-        
-        NSString *info = @"Try changing the filter to find more items.  You can expand your search by choosing a larger distance or removing a search term.";
-        CGSize infoLabelSize = [info sizeWithFont:[GOTConstants defaultLargeFont] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
-        float infoLabely = width/4 + titleLabelSize.height + border;
-        UILabel *infoLabel = [[UILabel alloc]
-                              initWithFrame:CGRectMake(border, infoLabely, width, infoLabelSize.height)];
-        [infoLabel setText:info];
-        [infoLabel setTextAlignment:NSTextAlignmentLeft];
-        [infoLabel setTextColor:[UIColor darkGrayColor]];
-        [infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [infoLabel setNumberOfLines:0];
-        [infoLabel setBackgroundColor:[UIColor clearColor]];
-        [footer addSubview:infoLabel];
+        [footer addSubview:messageView];
     }
     return footer;
 }

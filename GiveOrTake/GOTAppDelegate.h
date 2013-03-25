@@ -16,4 +16,6 @@
 - (void)setupTabBarControllers;
 - (void)logout;
 
+void uncaughtExceptionHandler(NSException *exception);
+
 @end

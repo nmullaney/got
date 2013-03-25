@@ -37,6 +37,7 @@
 		88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4316E5547F00ADDC8A /* GOTUserStore.m */; };
 		88957D4616E559FB00ADDC8A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88957D4516E559FB00ADDC8A /* CoreData.framework */; };
 		88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */; };
+		88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -107,6 +108,8 @@
 		88957D4516E559FB00ADDC8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMutableURLPostRequest.h; sourceTree = "<group>"; };
 		88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMutableURLPostRequest.m; sourceTree = "<group>"; };
+		88AD62B71700EF820091E80E /* GOTMessageFooterViewBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMessageFooterViewBuilder.h; sourceTree = "<group>"; };
+		88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMessageFooterViewBuilder.m; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -273,6 +276,8 @@
 			children = (
 				88957D2716E0246B00ADDC8A /* GOTTextView.h */,
 				88957D2816E0246C00ADDC8A /* GOTTextView.m */,
+				88AD62B71700EF820091E80E /* GOTMessageFooterViewBuilder.h */,
+				88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -449,6 +454,7 @@
 				8828072916E9633E00C13F61 /* Model.xcdatamodeld in Sources */,
 				8828072C16E9711F00C13F61 /* GOTConstants.m in Sources */,
 				8828072F16EAACEE00C13F61 /* GOTLocationUpdateViewController.m in Sources */,
+				88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

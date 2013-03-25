@@ -57,6 +57,8 @@
             }
         }];
         [[self items] removeObjectsAtIndexes:indicesToRemove];
+        // Explicitly setting the items ensures that the observers reload data
+        [self setItems:[self items]];
     }
     self->isAllDataLoaded = NO;
     distance = newDistance;
@@ -164,8 +166,9 @@
 
 - (GOTItem *)getItemAtIndex:(NSUInteger)idx
 {
-    if (idx > [self itemCount] - 1) {
-        [NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil];
+    int count = [self itemCount];
+    if (count == 0 || idx > (count - 1)) {
+        [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
     NSLog(@"in getItemAtIndex in ItemList");
     return [[self items] objectAtIndex:idx];
