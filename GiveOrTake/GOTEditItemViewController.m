@@ -13,7 +13,6 @@
 #import "GOTItem.h"
 #import "GOTImageStore.h"
 #import "GOTItemsStore.h"
-#import "GOTItemID.h"
 #import "GOTTextView.h"
 
 @implementation GOTEditItemViewController
@@ -187,11 +186,11 @@
         return;
     }
     
-    void (^block)(id, NSError *) = ^void(id obj, NSError *err) {
+    void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
         NSLog(@"calling item upload completion block, error: %@", err);
-        if (obj) {
-            GOTItemID *itemIDHolder = (GOTItemID *)obj;
-            [[self item] setItemID:[itemIDHolder itemID]];
+        if (dict) {
+            NSNumber *itemID = [dict objectForKey:@"id"];
+            [[self item] setItemID:itemID];
             // Upload the image
             if ([[self item] imageNeedsUpload]) {
                 NSLog(@"Updating the image because it changed");

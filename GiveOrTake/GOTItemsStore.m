@@ -10,7 +10,6 @@
 
 #import "GOTItem.h"
 #import "GOTItemList.h"
-#import "GOTItemID.h"
 #import "GOTConnection.h"
 #import "GOTMutableURLPostRequest.h"
 #import "GOTUserStore.h"
@@ -130,8 +129,7 @@
                                                                         imageData:imageData];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    GOTItemID *itemIDHolder = [[GOTItemID alloc] init];
-    [conn setJsonRootObject:itemIDHolder];
+    [conn setDataType:JSON];
     [conn setCompletionBlock:block];
     [conn start];
 }

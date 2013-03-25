@@ -24,7 +24,6 @@
 		8894FD3A16D83D04006955F6 /* GOTImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3916D83D04006955F6 /* GOTImageStore.m */; };
 		8894FD3D16DC2673006955F6 /* GOTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3C16DC2672006955F6 /* GOTConnection.m */; };
 		8894FD4116DC2F39006955F6 /* GOTItemList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD4016DC2F39006955F6 /* GOTItemList.m */; };
-		88957D2316DEA51F00ADDC8A /* GOTItemID.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D2216DEA51F00ADDC8A /* GOTItemID.m */; };
 		88957D2916E0246C00ADDC8A /* GOTTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D2816E0246C00ADDC8A /* GOTTextView.m */; };
 		88957D2B16E176AE00ADDC8A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88957D2A16E176AE00ADDC8A /* FacebookSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		88957D3216E1786E00ADDC8A /* GOTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D3016E1786D00ADDC8A /* GOTLoginViewController.m */; };
@@ -89,8 +88,6 @@
 		8894FD3E16DC2CBE006955F6 /* JSONSerializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
 		8894FD3F16DC2F39006955F6 /* GOTItemList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemList.h; sourceTree = "<group>"; };
 		8894FD4016DC2F39006955F6 /* GOTItemList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemList.m; sourceTree = "<group>"; };
-		88957D2116DEA51F00ADDC8A /* GOTItemID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemID.h; sourceTree = "<group>"; };
-		88957D2216DEA51F00ADDC8A /* GOTItemID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemID.m; sourceTree = "<group>"; };
 		88957D2716E0246B00ADDC8A /* GOTTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTTextView.h; sourceTree = "<group>"; };
 		88957D2816E0246C00ADDC8A /* GOTTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTTextView.m; sourceTree = "<group>"; };
 		88957D2A16E176AE00ADDC8A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
@@ -170,8 +167,6 @@
 				88F2BCE216CC3AA4003C9D90 /* GOTItem.m */,
 				8894FD3F16DC2F39006955F6 /* GOTItemList.h */,
 				8894FD4016DC2F39006955F6 /* GOTItemList.m */,
-				88957D2116DEA51F00ADDC8A /* GOTItemID.h */,
-				88957D2216DEA51F00ADDC8A /* GOTItemID.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -443,7 +438,6 @@
 				8894FD3A16D83D04006955F6 /* GOTImageStore.m in Sources */,
 				8894FD3D16DC2673006955F6 /* GOTConnection.m in Sources */,
 				8894FD4116DC2F39006955F6 /* GOTItemList.m in Sources */,
-				88957D2316DEA51F00ADDC8A /* GOTItemID.m in Sources */,
 				88957D2916E0246C00ADDC8A /* GOTTextView.m in Sources */,
 				88957D3216E1786E00ADDC8A /* GOTLoginViewController.m in Sources */,
 				88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */,
