@@ -173,6 +173,38 @@
     [conn start];
 }
 
+- (void)addPendingEmail:(NSString *)email withCompletion:(void (^)(id, NSError *))block
+{
+    GOTUser *user = [self activeUser];
+    NSArray *keys = [NSArray arrayWithObjects:@"id", @"email", nil];
+    NSArray *values = [NSArray arrayWithObjects:[user userID], email, nil];
+    NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
+    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
+                                                                         formData:formData
+                                                                        imageData:nil];
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:block];
+    [conn start];
+}
+
+- (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id, NSError *))block
+{
+    GOTUser *user = [self activeUser];
+    NSArray *keys = [NSArray arrayWithObjects:@"id", @"code", nil];
+    NSArray *values = [NSArray arrayWithObjects:[user userID], code, nil];
+    NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
+    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
+                                                                         formData:formData
+                                                                        imageData:nil];
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:block];
+    [conn start];
+}
+
 // Load the active user from the local storage or the web
 - (void)loadActiveUserWithCompletion:(void (^)(id, NSError *))block
 {

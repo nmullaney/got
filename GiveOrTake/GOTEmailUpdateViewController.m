@@ -17,16 +17,67 @@
 {
     [super viewDidLoad];
     NSString *currentEmail = [[[GOTUserStore sharedStore] activeUser] emailAddress];
+    self->hasPendingEmail = NO;
     [emailField setText:currentEmail];
+    [errorLabel setTextColor:[UIColor redColor]];
 }
 
 - (IBAction)updateEmail:(id)sender
 {
-    // We need to make sure we get the flow here correct, so we're not
-    // spamming people.
-    // I'm thinking send out a 4-5 digit code to the new email.
-    // ask the user to type it in.  If it's correct, the email is update.
-    NSLog(@"Update email: TODO");
+    if (self->hasPendingEmail) {
+        NSString *code = [codeField text];
+        [[GOTUserStore sharedStore] verifyPendingEmailCode:code withCompletion:^(id result, NSError *err) {
+            if (err) {
+                [errorLabel setText:[err localizedDescription]];
+                return;
+            } else {
+                // successfully updated!
+                [[self navigationController] popViewControllerAnimated:YES];
+            }
+            
+        }];
+    } else {
+        NSString *newEmail = [emailField text];
+        // TODO: real email validation
+        if (!newEmail || [newEmail length] == 0) {
+            [errorLabel setText:@"Unable to update email to an empty string"];
+            return;
+        } else {
+            [errorLabel setText:@""];
+        }
+        
+        [[GOTUserStore sharedStore] addPendingEmail:newEmail withCompletion:^(id result, NSError *err) {
+            if (err) {
+                [errorLabel setText:[err localizedDescription]];
+                return;
+            }
+            // Otherwise, we got a positive result
+            [self showCodeVerification];
+        }];
+    }
 }
 
+- (IBAction)backgroundTapped:(id)sender {
+    [[self view] endEditing:YES];
+    [[self view] becomeFirstResponder];
+}
+
+- (void)showCodeVerification {
+    self->hasPendingEmail = YES;
+    [infoLabel setText:@"An email has been sent to the new address with a 4 digit code.  Please enter it below to update your email address."];
+    [emailField setEnabled:NO];
+    [codeField setHidden:NO];
+    [codeField setDelegate:self];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([textField isEqual:codeField]) {
+        // limit to 4 charaters
+        NSUInteger newLength = [[textField text] length] + [string length] - range.length;
+        return (newLength > 4)? NO : YES;
+    }
+    return YES;
+}
+     
 @end

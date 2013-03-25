@@ -12,16 +12,23 @@
 
 @implementation GOTConnection
 
-@synthesize request, completionBlock, jsonRootObject, dataObject;
+@synthesize request, completionBlock, dataType, jsonRootObject, dataObject;
 
 - (id)initWithRequest:(NSURLRequest *)req
 {
     self = [super init];
     if (self) {
+        [self setDataType:DATA];
         [self setRequest:req];
         dataObject = [[NSMutableData alloc] init];
     }
     return self;
+}
+
+- (void)setJsonRootObject:(id<JSONSerializable>)rootObject
+{
+    [self setDataType:JSON];
+    jsonRootObject = rootObject;
 }
 
 - (void)start
@@ -50,6 +57,11 @@
                           userInfo:info];
 }
 
+/**
+ * This collect the data and returns it.  If a specific type of data is set, the
+ * data will be parsed before being returned.  If a rootObject is set, it
+ * will be parsed via that object.
+ **/
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
     connection = nil;
@@ -61,7 +73,8 @@
         return;
     }
     
-    if ([self jsonRootObject]) {
+    
+    if ([self dataType] == JSON) {
         NSDictionary *d = [NSJSONSerialization JSONObjectWithData:[self dataObject]
                                                           options:0
                                                             error:nil];
@@ -71,9 +84,14 @@
             [self completionBlock](nil, err);
             return;
         }
-        NSLog(@"serializing to jsonRootObject");
-        [[self jsonRootObject] readFromJSONDictionary:d];
-        [self completionBlock]([self jsonRootObject], nil);
+        
+        if ([self jsonRootObject]) {
+            [[self jsonRootObject] readFromJSONDictionary:d];
+            [self completionBlock]([self jsonRootObject], nil);
+        } else {
+            // Return the dictionary itself
+            [self completionBlock](d, nil);
+        }
         jsonRootObject = nil;
         dataObject = nil;
         return;
@@ -85,7 +103,9 @@
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error
-{    
+{
+    jsonRootObject = nil;
+    dataObject = nil;
     connection = nil;
     [self completionBlock](nil, error);
 }

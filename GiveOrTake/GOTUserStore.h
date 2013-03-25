@@ -25,6 +25,8 @@
                   withFacebookID:(NSString *)facebookID
                   withCompletion:(void (^)(id user, NSError *err))block;
 - (void)updateUser:(GOTUser *)user withCompletion:(void (^)(id user, NSError *err))block;
+- (void)addPendingEmail:(NSString *)email withCompletion:(void (^)(id result, NSError *err))block;
+- (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id result, NSError *err))block;
 - (void)loadActiveUserWithCompletion:(void (^)(id user, NSError *err))block;
 
 - (NSNumber *)activeUserID;

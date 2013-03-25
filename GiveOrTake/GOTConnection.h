@@ -16,10 +16,17 @@
     NSURLConnection *connection;
 }
 
+enum {
+    DATA = 0,
+    JSON = 1
+};
+typedef NSUInteger GOTConnectionDataType;
+
 - (id)initWithRequest:(NSURLRequest *)req;
 
 @property (nonatomic, copy) NSURLRequest *request;
 @property (nonatomic, copy) void (^completionBlock)(id obj, NSError *err);
+@property (nonatomic) GOTConnectionDataType dataType;
 @property (nonatomic, strong) id <JSONSerializable> jsonRootObject;
 @property (nonatomic, readonly, strong) NSMutableData *dataObject;
 
