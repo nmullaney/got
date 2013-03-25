@@ -182,6 +182,11 @@
     //NSLog(@"super scrollViewDidScroll");
     CGFloat viewWidth = sv.frame.size.width;
     int index = floor((sv.contentOffset.x - viewWidth / 2) / viewWidth) + 1;
+    if (index < 0) {
+        index = 0;
+    } else if (index > ([[self itemList] itemCount] - 1)) {
+        index = [[self itemList] itemCount];
+    }
     if (index == [self selectedIndex]) {
         // We're on the same view, so we can just wait
         return;
