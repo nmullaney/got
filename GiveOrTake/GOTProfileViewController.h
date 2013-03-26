@@ -15,8 +15,11 @@
     __weak IBOutlet UILabel *username;
     __weak IBOutlet UILabel *email;
     __weak IBOutlet MKMapView *mapView;
+    __weak IBOutlet UILabel *karmaLabel;
 }
 
+
+- (IBAction)karmaInfoPressed:(id)sender;
 
 - (IBAction)logout:(id)sender;
 

@@ -38,7 +38,19 @@
         [mapView setMapType:MKMapTypeStandard];
         [mapView setRegion:MKCoordinateRegionMakeWithDistance(userCoordinate, 1000, 1000)];
         [mapView setZoomEnabled:TRUE];
+        
+        [karmaLabel setText:[[user karma] stringValue]];
     }];
+}
+
+- (IBAction)karmaInfoPressed:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Karma"
+                              message:@"Everyone starts with 100 points of karma.  You can get more karma by posting, giving, or taking items.  You might lose karma if you fail to pick something up after you've agree to."
+                              delegate:self
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+    [alertView show];
 }
 
 - (IBAction)logout:(id)sender {

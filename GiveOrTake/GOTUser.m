@@ -16,6 +16,7 @@
 @dynamic emailAddress;
 @dynamic latitude;
 @dynamic longitude;
+@dynamic karma;
 
 - (NSDictionary *)uploadDictionary
 {
@@ -76,6 +77,9 @@
     
     float longitude = [[d objectForKey:@"longitude"] floatValue];
     [self setLongitude:[NSNumber numberWithFloat:longitude]];
+    
+    int karma = [[d objectForKey:@"karma"] intValue];
+    [self setKarma:[NSNumber numberWithInt:karma]];
 }
 
 @end

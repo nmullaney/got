@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * emailAddress;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
+@property (nonatomic, retain) NSNumber * karma;
 
 - (NSDictionary *)uploadDictionary;
 

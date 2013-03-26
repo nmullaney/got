@@ -98,7 +98,7 @@ static float kBorderSize = 5.0;
         }
         if (usr) {
             GOTUser *user = (GOTUser *)usr;
-            NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@", [user username]];
+            NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@ (karma: %@)", [user username], [user karma]];
             [usernameLabel setText:postedByStr];
             [usernameLabel setNeedsDisplay];
         }
