@@ -21,8 +21,12 @@
 
 - (NSString *)sqlStorePath;
 - (void)createActiveUserFromFBUser:(id<FBGraphUser>)user withCompletion:(void (^)(id user, NSError *err))block;
+- (GOTUser *)fetchUserWithFacebookID:(NSString *)facebookID
+                  withCompletion:(void (^)(id user, NSError *err))block;
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
-                  withFacebookID:(NSString *)facebookID
+                  withCompletion:(void (^)(id user, NSError *err))block;
+- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
+                 withExtraFields:(NSArray *)extraFields
                   withCompletion:(void (^)(id user, NSError *err))block;
 - (void)updateUser:(GOTUser *)user withCompletion:(void (^)(id user, NSError *err))block;
 - (void)addPendingEmail:(NSString *)email withCompletion:(void (^)(id result, NSError *err))block;

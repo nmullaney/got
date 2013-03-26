@@ -92,7 +92,7 @@ static float kBorderSize = 5.0;
     [scrollView addSubview:usernameLabel];
     self->contentHeight = self->contentHeight + labelSize.height + kBorderSize;
     
-    [[GOTUserStore sharedStore] fetchUserWithUserID:[[self item] userID] withFacebookID:nil withCompletion:^(id usr, NSError *err) {
+    [[GOTUserStore sharedStore] fetchUserWithUserID:[[self item] userID] withCompletion:^(id usr, NSError *err) {
         if (err) {
             NSLog(@"Could not load user: %@", [err localizedDescription]);
         }

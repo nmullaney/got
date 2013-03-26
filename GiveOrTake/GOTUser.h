@@ -22,6 +22,8 @@
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSNumber * karma;
 
+@property (nonatomic, strong) NSString *pendingEmail;
+
 - (NSDictionary *)uploadDictionary;
 
 @end

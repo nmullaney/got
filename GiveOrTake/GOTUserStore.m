@@ -214,7 +214,7 @@
         // TODO this should call block with error
     }
     
-    [self fetchUserWithUserID:nil withFacebookID:fbid withCompletion:^(id user, NSError *err) {
+    [self fetchUserWithFacebookID:fbid withCompletion:^(id user, NSError *err) {
         if (err) {
             NSLog(@"Error fetching  user to set as active: %@", [err localizedDescription]);
         }
@@ -227,6 +227,8 @@
     }];
 }
 
+#pragma mark public user fetch functions
+
 /**
  * Try to load the user from local storage.  If not found,
  * hit the web.  Local storage will return a user immediately.
@@ -235,6 +237,7 @@
  */
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
                   withFacebookID:(NSString *)facebookID
+                 withExtraFields:(NSArray *)extraFields
                   withCompletion:(void (^)(id, NSError *))block
 {
     NSPredicate *userPredicate = nil;
@@ -250,13 +253,15 @@
         [exception raise];
     }
     
-    GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
-    if (user) {
-        NSLog(@"Fetched user from local storage");
-        if (block) {
-            block(user, nil);
+    if (!extraFields) {
+        GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
+        if (user) {
+            NSLog(@"Fetched user from local storage");
+            if (block) {
+                block(user, nil);
+            }
+            return user;
         }
-        return user;
     }
     
     // If no user is found, we'll need to hit the web
@@ -267,10 +272,30 @@
     if (facebookID) {
         [params setObject:facebookID forKey:@"facebook_id"];
     }
+    if (extraFields) {
+        [params setObject:extraFields forKey:@"extra"];
+    }
     NSLog(@"Fetching user from the web");
     [self fetchUserFromWebWithParams:params withCompletion:block];
     
     return nil;
+}
+
+// The following methods are wrappers around the one above
+
+- (GOTUser *)fetchUserWithFacebookID:(NSString *)facebookID withCompletion:(void (^)(id, NSError *))block
+{
+    return [self fetchUserWithUserID:nil withFacebookID:facebookID withExtraFields:nil withCompletion:block];
+}
+
+- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID withCompletion:(void (^)(id, NSError *))block
+{
+    return [self fetchUserWithUserID:userID withFacebookID:nil withExtraFields:nil withCompletion:block];
+}
+
+- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID withExtraFields:(NSArray *)extraFields withCompletion:(void (^)(id, NSError *))block
+{
+    return [self fetchUserWithUserID:userID withFacebookID:nil withExtraFields:extraFields withCompletion:block];
 }
 
 - (void)fetchUserFromWebWithParams:(NSDictionary *)params withCompletion:(void (^)(id user, NSError *err))block
@@ -278,9 +303,16 @@
     NSMutableString *stringURL = [NSMutableString stringWithString:@"/api/user.php?"];
     NSMutableArray *paramStrs = [[NSMutableArray alloc] init];
     [params enumerateKeysAndObjectsUsingBlock:^void(id key, id obj, BOOL *stop) {
-        [paramStrs addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
+        if ([obj isKindOfClass:[NSArray class]]) {
+            NSArray *array = (NSArray *)obj;
+            [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [paramStrs addObject:[NSString stringWithFormat:@"%@[%d]=%@", key, idx, obj]];
+            }];
+        } else {
+            [paramStrs addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
+        }
     }];
-    [stringURL appendString:[paramStrs componentsJoinedByString:@"%"]];
+    [stringURL appendString:[paramStrs componentsJoinedByString:@"&"]];
     NSLog(@"Fetching user from %@", stringURL);
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL
                                                             relativeToURL:[GOTConstants baseURL]]];
@@ -291,16 +323,22 @@
                         inManagedObjectContext:context];
     [conn setJsonRootObject:newUser];
     [conn setCompletionBlock:^(id user, NSError *err) {
-        NSLog(@"Got user with username:%@, id:%@", [(GOTUser *)user username], [(GOTUser *)user userID]);
+        NSLog(@"Got user with username:%@, id:%@, pending_email:%@", [(GOTUser *)user username], [(GOTUser *)user userID], [(GOTUser *)user pendingEmail]);
         if (user) {
             // Make sure the user is now saved
             NSLog(@"Saving user: %@", user);
+            if ([[user userID] intValue] == [[self activeUserID] intValue]) {
+                // update the active user
+                [self setActiveUser:user];
+            }
             [self saveChanges];
         }
         block(user, err);
     }];
     [conn start];
 }
+
+#pragma mark -
 
 - (GOTUser *)fetchUserFromDBWithPredicate:(NSPredicate *)userPredicate
 {

@@ -18,6 +18,8 @@
 @dynamic longitude;
 @dynamic karma;
 
+@synthesize pendingEmail;
+
 - (NSDictionary *)uploadDictionary
 {
     NSMutableArray *objs = [[NSMutableArray alloc] init];
@@ -71,6 +73,9 @@
     [self setFacebookID:[d objectForKey:@"facebook_id"]];
     [self setUsername:[d objectForKey:@"username"]];
     [self setEmailAddress:[d objectForKey:@"email"]];
+    
+    // Note: this is only set if requested as extra param
+    [self setPendingEmail:[d objectForKey:@"pending_email"]];
 
     float latitude = [[d objectForKey:@"latitude"] floatValue];
     [self setLatitude:[NSNumber numberWithFloat:latitude]];

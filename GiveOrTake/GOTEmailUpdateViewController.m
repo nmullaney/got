@@ -16,9 +16,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSString *currentEmail = [[[GOTUserStore sharedStore] activeUser] emailAddress];
-    self->hasPendingEmail = NO;
-    [emailField setText:currentEmail];
+    GOTUser *activeUser = [[GOTUserStore sharedStore] activeUser];
+    NSString *currentEmail = [activeUser emailAddress];
+    NSString *pendingEmail = [activeUser pendingEmail];
+    if (pendingEmail) {
+        self->hasPendingEmail = YES;
+        [emailField setText:pendingEmail];
+        [self showCodeVerification];
+    } else {
+        self->hasPendingEmail = NO;
+        [emailField setText:currentEmail];
+    }
+    
     [errorLabel setTextColor:[UIColor redColor]];
 }
 

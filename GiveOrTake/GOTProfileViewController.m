@@ -25,7 +25,11 @@
     [super viewWillAppear:animated];
     
     // Refresh the user
-    [[GOTUserStore sharedStore] fetchUserWithUserID:[[GOTUserStore sharedStore] activeUserID] withFacebookID:nil withCompletion:^(id user, NSError *err) {
+    NSArray *extraFields = [NSArray arrayWithObject:@"pending_email"];
+    [[GOTUserStore sharedStore] fetchUserWithUserID:[[GOTUserStore sharedStore] activeUserID]
+                                    withExtraFields:extraFields
+                                     withCompletion:^(id user, NSError *err) {
+                                         
         [username setText:[user username]];
         [email setText:[user emailAddress]];
         
