@@ -16,6 +16,7 @@
 #import "GOTConstants.h"
 #import "GOTScrollItemsViewController.h"
 #import "GOTMessageFooterViewBuilder.h"
+#import "GOTItemCell.h"
 
 @implementation GOTItemsViewController
 
@@ -140,22 +141,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    
+    GOTItemCell *cell = (GOTItemCell *)[tv dequeueReusableCellWithIdentifier:@"GOTItemCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GOTItemCell" owner:[GOTItemCell class] options:nil];
+        cell = [nib objectAtIndex:0];
     }
     if ([indexPath row] < [[self itemList] itemCount]) {
         GOTItem *item = [[self itemList] getItemAtIndex:[indexPath row]];
-        [[cell textLabel] setText:[item name]];
-        [[cell detailTextLabel] setText:[item desc]];
+        [cell setTitle:[item name]];
+        [cell setState:[item state]];
         if ([item thumbnail]) {
-            [[cell imageView] setImage:[item thumbnail]];
+            [cell setItemImage:[item thumbnail]];
         } else if ([item thumbnailURL]) {
-            [[cell imageView] setImage:nil];
+            [cell setItemImage:nil];
             [self fetchThumbnailForItem:item atIndexPath:indexPath];
         } else {
-            [[cell imageView] setImage:nil];
+            [cell setItemImage:nil];
         }
     }
     

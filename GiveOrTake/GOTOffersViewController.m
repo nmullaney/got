@@ -14,6 +14,7 @@
 #import "GOTImageStore.h"
 #import "GOTItemList.h"
 #import "GOTMessageFooterViewBuilder.h"
+#import "GOTItemCell.h"
 #import "GOTConstants.h"
 
 @implementation GOTOffersViewController
@@ -54,22 +55,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    GOTItemCell *cell = (GOTItemCell *)[tv dequeueReusableCellWithIdentifier:@"GOTItemCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GOTItemCell" owner:[GOTItemCell class] options:nil];
+        cell = [nib objectAtIndex:0];
     }
     
     NSLog(@"cellForRowAtIndexPath");
     GOTItem *item = [offers objectAtIndex:[indexPath row]];
-    [[cell textLabel] setText:[item name]];
-    [[cell detailTextLabel] setText:[item desc]];
+    [cell setTitle:[item name]];
+    [cell setState:[item state]];
     if ([item thumbnail]) {
-        [[cell imageView] setImage:[item thumbnail]];
+        [cell setItemImage:[item thumbnail]];
     } else if ([item thumbnailURL]) {
-        [[cell imageView] setImage:nil];
+        [cell setItemImage:nil];
         [self fetchThumbnailForItem:item atIndexPath:indexPath];
     } else {
-        [[cell imageView] setImage:nil];
+        [cell setItemImage:nil];
     }
     return cell;
 }
