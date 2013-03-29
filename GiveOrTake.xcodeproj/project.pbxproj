@@ -45,6 +45,7 @@
 		88AD62C817039C550091E80E /* red-noitem.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62C717039C550091E80E /* red-noitem.png */; };
 		88AD62CB1703A9590091E80E /* GOTItemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62CA1703A9580091E80E /* GOTItemState.m */; };
 		88AD62D11704F3430091E80E /* chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D01704F3430091E80E /* chevron.png */; };
+		88AD62D7170640FA0091E80E /* GOTUsernameUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -125,6 +126,7 @@
 		88AD62C91703A9580091E80E /* GOTItemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemState.h; sourceTree = "<group>"; };
 		88AD62CA1703A9580091E80E /* GOTItemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemState.m; sourceTree = "<group>"; };
 		88AD62D01704F3430091E80E /* chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron.png; sourceTree = "<group>"; };
+		88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTUsernameUpdateViewController.xib; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -282,6 +284,7 @@
 				8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */,
 				8828072D16EAACEE00C13F61 /* GOTLocationUpdateViewController.h */,
 				8828072E16EAACEE00C13F61 /* GOTLocationUpdateViewController.m */,
+				88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				88AD62C617039A260091E80E /* pink-heart.png in Resources */,
 				88AD62C817039C550091E80E /* red-noitem.png in Resources */,
 				88AD62D11704F3430091E80E /* chevron.png in Resources */,
+				88AD62D7170640FA0091E80E /* GOTUsernameUpdateViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

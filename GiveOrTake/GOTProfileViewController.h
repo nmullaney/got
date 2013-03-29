@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface GOTProfileViewController : UITableViewController
+@interface GOTProfileViewController : UITableViewController <UITableViewDelegate>
 {
     IBOutlet UITableView *tableView;
     __weak IBOutlet UILabel *username;

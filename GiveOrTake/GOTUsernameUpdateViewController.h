@@ -11,6 +11,7 @@
 @interface GOTUsernameUpdateViewController : UIViewController
 {
     
+    IBOutlet UIView *view;
     __weak IBOutlet UITextField *usernameField;
     __weak IBOutlet UILabel *errorLabel;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;

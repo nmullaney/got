@@ -17,6 +17,7 @@
 {
     NSString *currentUsername = [[[GOTUserStore sharedStore] activeUser] username];
     [usernameField setText:currentUsername];
+    [[self navigationItem] setTitle:@"Edit Username"];
 }
 
 - (IBAction)updateUsername:(id)sender

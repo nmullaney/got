@@ -12,6 +12,8 @@
 #import "GOTUserStore.h"
 #import "GOTUser.h"
 
+#import "GOTUsernameUpdateViewController.h"
+
 @implementation GOTProfileViewController
 
 - (void)loadView
@@ -45,6 +47,16 @@
         
         [karmaLabel setText:[[user karma] stringValue]];
     }];
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath section] == 0 && [indexPath row] == 0) {
+        GOTUsernameUpdateViewController *usernameUpdateVC = [[GOTUsernameUpdateViewController alloc] init];
+        [[self navigationController] pushViewController:usernameUpdateVC animated:YES];
+        
+    }
+    NSLog(@"Tapped accessory at: %@", indexPath);
 }
 
 - (IBAction)karmaInfoPressed:(id)sender {

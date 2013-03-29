@@ -49,9 +49,6 @@
                                             <constraint firstItem="k06-Ox-Q49" firstAttribute="bottom" secondItem="EAU-W9-f5b" secondAttribute="bottom" type="default" id="t6G-yy-a6j"/>
                                             <constraint firstItem="EAU-W9-f5b" firstAttribute="top" secondItem="k06-Ox-Q49" secondAttribute="top" type="default" id="uhQ-97-FqP"/>
                                         </constraints>
-                                        <connections>
-                                            <segue destination="PwU-eM-SfH" kind="push" trigger="accessoryAction" id="fab-Du-ki5"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ovg-hV-hfq">
                                         <rect key="frame" x="0.0" y="91" width="320" height="45"/>
@@ -399,88 +396,6 @@
             </objects>
             <point key="canvasLocation" x="677" y="698"/>
         </scene>
-        <!--Username Update View Controller-->
-        <scene sceneID="GJi-pk-ulW">
-            <objects>
-                <viewController id="PwU-eM-SfH" customClass="GOTUsernameUpdateViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Sg2-mq-tv1">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJ8-jM-oQA">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JXV-qi-6xI">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qz1-Z7-s1H">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="158" id="aMl-bK-TZm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Update">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="updateUsername:" destination="PwU-eM-SfH" eventType="touchUpInside" id="B0q-fS-Ay5"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please choose a unique username. This name is how you will appear to other users." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="254" translatesAutoresizingMaskIntoConstraints="NO" id="GOp-FI-rlK">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="254" id="Nag-hK-nTK"/>
-                                    <constraint firstAttribute="height" constant="58" id="UtC-tG-mcn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Error" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="rGi-dM-BIx">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="RRx-mn-bPs"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="0.80000000000000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ROi-RI-uXJ"/>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="rGi-dM-BIx" firstAttribute="top" secondItem="Sg2-mq-tv1" secondAttribute="top" constant="160" id="270-Dd-C2J"/>
-                            <constraint firstItem="yJ8-jM-oQA" firstAttribute="centerX" secondItem="GOp-FI-rlK" secondAttribute="centerX" type="default" id="6Z0-9Q-B23"/>
-                            <constraint firstItem="JXV-qi-6xI" firstAttribute="top" secondItem="GOp-FI-rlK" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="7D6-E2-zc7"/>
-                            <constraint firstItem="rGi-dM-BIx" firstAttribute="bottom" secondItem="ROi-RI-uXJ" secondAttribute="bottom" type="default" id="LJ8-bL-oX0"/>
-                            <constraint firstItem="JXV-qi-6xI" firstAttribute="leading" secondItem="Sg2-mq-tv1" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Mnu-Re-71S"/>
-                            <constraint firstAttribute="trailing" secondItem="rGi-dM-BIx" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="PAW-Rj-Vua"/>
-                            <constraint firstAttribute="trailing" secondItem="JXV-qi-6xI" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="QPT-wO-E4L"/>
-                            <constraint firstItem="rGi-dM-BIx" firstAttribute="leading" secondItem="Sg2-mq-tv1" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Wv9-im-Jfj"/>
-                            <constraint firstItem="yJ8-jM-oQA" firstAttribute="top" secondItem="Sg2-mq-tv1" secondAttribute="top" constant="20" symbolic="YES" type="default" id="ckN-7U-McR"/>
-                            <constraint firstAttribute="trailing" secondItem="yJ8-jM-oQA" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ejL-ra-K8N"/>
-                            <constraint firstItem="Qz1-Z7-s1H" firstAttribute="centerX" secondItem="ROi-RI-uXJ" secondAttribute="centerX" type="default" id="ihz-yY-kTf"/>
-                            <constraint firstItem="yJ8-jM-oQA" firstAttribute="leading" secondItem="Sg2-mq-tv1" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="lZG-sU-E9r"/>
-                            <constraint firstItem="Qz1-Z7-s1H" firstAttribute="top" secondItem="Sg2-mq-tv1" secondAttribute="top" constant="217" id="pZM-Gt-t8D"/>
-                            <constraint firstItem="ROi-RI-uXJ" firstAttribute="centerX" secondItem="rGi-dM-BIx" secondAttribute="centerX" type="default" id="pjN-Qt-Azb"/>
-                            <constraint firstItem="GOp-FI-rlK" firstAttribute="top" secondItem="yJ8-jM-oQA" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="uC5-lC-8wP"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="nKG-9s-lIW"/>
-                    <connections>
-                        <outlet property="activityIndicator" destination="ROi-RI-uXJ" id="uxo-1s-RWo"/>
-                        <outlet property="errorLabel" destination="rGi-dM-BIx" id="dlP-ZS-Nit"/>
-                        <outlet property="usernameField" destination="JXV-qi-6xI" id="VKc-lf-E1n"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wGS-m3-h4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="565" y="-1"/>
-        </scene>
     </scenes>
     <classes>
         <class className="GOTEmailUpdateViewController" superclassName="UIViewController">
@@ -514,15 +429,6 @@
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="username" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="GOTUsernameUpdateViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GOTUsernameUpdateViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="updateUsername:"/>
-                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="errorLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
