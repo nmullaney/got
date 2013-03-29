@@ -14,11 +14,11 @@
  */
 @implementation GOTItemState
 
-static NSString *DRAFT = @"DRAFT";
-static NSString *AVAILABLE = @"AVAILABLE";
-static NSString *PENDING = @"PENDING";
-static NSString *TAKEN = @"TAKEN";
-static NSString *DELETED = @"DELETED";
+static NSString *DRAFT = @"Draft";
+static NSString *AVAILABLE = @"Available";
+static NSString *PENDING = @"Promised";
+static NSString *TAKEN = @"Taken";
+static NSString *DELETED = @"Deleted";
 
 + (GOTItemState *)DRAFT
 {
