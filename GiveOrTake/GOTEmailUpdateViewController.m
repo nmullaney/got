@@ -16,6 +16,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[self navigationItem] setTitle:@"Edit Email Address"];
     GOTUser *activeUser = [[GOTUserStore sharedStore] activeUser];
     NSString *currentEmail = [activeUser emailAddress];
     NSString *pendingEmail = [activeUser pendingEmail];
@@ -33,14 +34,18 @@
 
 - (IBAction)updateEmail:(id)sender
 {
+    [activityIndicator startAnimating];
     if (self->hasPendingEmail) {
         NSString *code = [codeField text];
         [[GOTUserStore sharedStore] verifyPendingEmailCode:code withCompletion:^(id result, NSError *err) {
+            [activityIndicator stopAnimating];
             if (err) {
                 [errorLabel setText:[err localizedDescription]];
+                [errorLabel setHidden:NO];
                 return;
             } else {
                 // successfully updated!
+                [errorLabel setHidden:YES];
                 [[self navigationController] popViewControllerAnimated:YES];
             }
             
@@ -50,17 +55,22 @@
         // TODO: real email validation
         if (!newEmail || [newEmail length] == 0) {
             [errorLabel setText:@"Unable to update email to an empty string"];
+            [errorLabel setHidden:NO];
             return;
         } else {
+            [errorLabel setHidden:YES];
             [errorLabel setText:@""];
         }
         
         [[GOTUserStore sharedStore] addPendingEmail:newEmail withCompletion:^(id result, NSError *err) {
+            [activityIndicator stopAnimating];
             if (err) {
                 [errorLabel setText:[err localizedDescription]];
+                [errorLabel setHidden:NO];
                 return;
             }
             // Otherwise, we got a positive result
+            [errorLabel setHidden:YES];
             [self showCodeVerification];
         }];
     }

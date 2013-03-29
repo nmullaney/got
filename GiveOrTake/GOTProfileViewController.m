@@ -13,6 +13,7 @@
 #import "GOTUser.h"
 
 #import "GOTUsernameUpdateViewController.h"
+#import "GOTEmailUpdateViewController.h"
 
 @implementation GOTProfileViewController
 
@@ -51,10 +52,15 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath section] == 0 && [indexPath row] == 0) {
-        GOTUsernameUpdateViewController *usernameUpdateVC = [[GOTUsernameUpdateViewController alloc] init];
-        [[self navigationController] pushViewController:usernameUpdateVC animated:YES];
-        
+    if ([indexPath section] == 0) {
+        if ([indexPath row] == 0) {
+            GOTUsernameUpdateViewController *usernameUpdateVC = [[GOTUsernameUpdateViewController alloc] init];
+            [[self navigationController] pushViewController:usernameUpdateVC animated:YES];
+        }
+        if ([indexPath row] == 1) {
+            GOTEmailUpdateViewController *emailUpdateVC = [[GOTEmailUpdateViewController alloc] init];
+            [[self navigationController] pushViewController:emailUpdateVC animated:YES];
+        }
     }
     NSLog(@"Tapped accessory at: %@", indexPath);
 }

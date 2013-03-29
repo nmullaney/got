@@ -46,4 +46,9 @@
     }];
 }
 
+- (IBAction)backgroundTapped:(id)sender {
+    [[self view] endEditing:YES];
+    [[self view] resignFirstResponder];
+}
+
 @end

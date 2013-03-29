@@ -11,10 +11,12 @@
 @interface GOTEmailUpdateViewController : UIViewController <UITextFieldDelegate>
 {
     
+    IBOutlet UIControl *view;
     __weak IBOutlet UILabel *infoLabel;
     __weak IBOutlet UITextField *emailField;
     __weak IBOutlet UILabel *errorLabel;
     __weak IBOutlet UITextField *codeField;
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     __weak IBOutlet UIButton *actionButton;
     BOOL hasPendingEmail;
 }

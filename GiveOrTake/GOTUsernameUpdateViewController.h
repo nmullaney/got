@@ -18,5 +18,6 @@
 }
 
 - (IBAction)updateUsername:(id)sender;
+- (IBAction)backgroundTapped:(id)sender;
 
 @end
