@@ -377,9 +377,24 @@
     return [GOTItemState pickableCount];
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)rowView
 {
-    return [[GOTItemState pickableValues] objectAtIndex:row];
+    if (!rowView) {
+        CGSize rowSize = [pickerView rowSizeForComponent:component];
+        rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, rowSize.width, rowSize.height)];
+        float iconBorder = (rowSize.height - 15) / 2;
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconBorder, iconBorder, 15, 15)];
+        [rowView addSubview:iconView];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(iconBorder * 2 + 15, 0, rowSize.width - iconBorder * 2 - 15, rowSize.height)];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [rowView addSubview:label];
+    }
+    GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
+    UIImageView *stateIcon = [[rowView subviews] objectAtIndex:0];
+    UILabel *stateName = [[rowView subviews] objectAtIndex:1];
+    [stateIcon setImage:[GOTItemState imageForState:state]];
+    [stateName setText:state];
+    return rowView;
 }
 
 #pragma mark -
