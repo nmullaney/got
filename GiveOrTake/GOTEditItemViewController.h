@@ -33,8 +33,10 @@
 - (void)takePicture:(id)sender;
 - (void)nameEditingEnded:(id)sender;
 - (void)uploadItem;
+- (BOOL)haveUnpostedChanges;
 - (void)updateValues;
 
+- (void)backButtonPressed:(id)sender;
 - (void)stateButtonPressed:(id)sender;
 
 @end

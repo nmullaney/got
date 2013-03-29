@@ -26,6 +26,15 @@
     if (self) {
         // This hides the TabBar used for main navigation
         self.hidesBottomBarWhenPushed = YES;
+        
+        // Custom leftBarButton allows us to check for whether or not the item
+        // has been updated before popping the view
+        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+                                          initWithTitle:@"All Offers"
+                                          style:UIBarButtonItemStyleBordered
+                                          target:self
+                                          action:@selector(backButtonPressed:)];
+        [[self navigationItem] setLeftBarButtonItem:leftBarButton];
     }
     return self;
 }
@@ -49,6 +58,9 @@
     if ([[[self item] state] isEqual:[GOTItemState DRAFT]]) {
         [stateChevronView setHidden:YES];
         [stateButton removeTarget:self action:@selector(stateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [postOfferButton setTitle:@"Post Offer" forState:UIControlStateNormal];
+    } else {
+        [postOfferButton setTitle:@"Update Offer" forState:UIControlStateNormal];
     }
     [imageActivityIndicator startAnimating];
     [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
@@ -169,7 +181,6 @@
                                          halfWidth,
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
-    [postOfferButton setTitle:@"Post Offer" forState:UIControlStateNormal];
     // TODO make this red on appearance, not on selected
     [postOfferButton setTintColor:[UIColor redColor]];
     [postOfferButton addTarget:self
@@ -183,11 +194,34 @@
     self.view = scrollView;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)backButtonPressed:(id)sender
 {
-    [super viewWillDisappear:animated];
-    
-    [self updateValues];
+    if ([self haveUnpostedChanges]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Unsaved Changes" delegate:self cancelButtonTitle:@"Continue without posting" destructiveButtonTitle:nil otherButtonTitles:@"Update offer", nil];
+        [actionSheet showInView:self.view];
+    } else {
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self uploadItem];
+    }
+    [[self navigationController] popViewControllerAnimated:YES];
+    NSLog(@"Clicked actionSheet button: %ld", (long)buttonIndex);
+}
+
+- (BOOL)haveUnpostedChanges
+{
+    if (![[[self item] name] isEqualToString:[nameField text]] ||
+        ![[[self item] desc] isEqualToString:[descField text]] ||
+        ![[[self item] state] isEqualToString:[GOTItemState getValue:[stateLabel text]]] ||
+        [[self item] imageNeedsUpload]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)updateValues
