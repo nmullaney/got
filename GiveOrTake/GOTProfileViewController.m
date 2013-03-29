@@ -14,6 +14,7 @@
 
 #import "GOTUsernameUpdateViewController.h"
 #import "GOTEmailUpdateViewController.h"
+#import "GOTLocationUpdateViewController.h"
 
 @implementation GOTProfileViewController
 
@@ -61,6 +62,9 @@
             GOTEmailUpdateViewController *emailUpdateVC = [[GOTEmailUpdateViewController alloc] init];
             [[self navigationController] pushViewController:emailUpdateVC animated:YES];
         }
+    } else if ([indexPath section] == 1) {
+        GOTLocationUpdateViewController *locUpdateVC = [[GOTLocationUpdateViewController alloc] init];
+        [[self navigationController] pushViewController:locUpdateVC animated:YES];
     }
     NSLog(@"Tapped accessory at: %@", indexPath);
 }

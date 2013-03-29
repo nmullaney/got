@@ -24,7 +24,7 @@
 {
     GOTUser *user = [[GOTUserStore sharedStore] activeUser];
     
-    [[self navigationItem] setTitle:@"Location"];
+    [[self navigationItem] setTitle:@"Edit Location"];
     
     [mapView removeAnnotations:[mapView annotations]];
     CLLocationCoordinate2D userCoordinate =

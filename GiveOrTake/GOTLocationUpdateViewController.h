@@ -14,6 +14,7 @@
 {
     CLLocationManager *locationManager;
     
+    IBOutlet UIView *view;
     __weak IBOutlet MKMapView *mapView;
 }
 
