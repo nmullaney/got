@@ -338,7 +338,8 @@
     [statePicker setShowsSelectionIndicator:YES];
     [statePicker setDataSource:self];
     [statePicker setDelegate:self];
-    int currentRow = [[GOTItemState pickableValues] indexOfObject:[[self item] state]];
+    GOTItemState *labelState = [GOTItemState getValue:[stateLabel text]];
+    int currentRow = [[GOTItemState pickableValues] indexOfObject:labelState];
     [statePicker selectRow:currentRow inComponent:0 animated:YES];
     int statePickerHeight = 216; // Standard picker height
     CGRect screenRect = [[UIScreen mainScreen] bounds];
