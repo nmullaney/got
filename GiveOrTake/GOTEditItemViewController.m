@@ -14,6 +14,7 @@
 #import "GOTImageStore.h"
 #import "GOTItemsStore.h"
 #import "GOTTextView.h"
+#import "GOTItemState.h"
 
 @implementation GOTEditItemViewController
 
@@ -43,6 +44,12 @@
     
     [nameField setText:[[self item] name]];
     [descField setText:[[self item] desc]];
+    [stateLabel setText:[[self item] state]];
+    [stateImage setImage:[GOTItemState imageForState:[[self item] state]]];
+    if ([[[self item] state] isEqual:[GOTItemState DRAFT]]) {
+        [stateChevronView setHidden:YES];
+        [stateButton removeTarget:self action:@selector(stateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
     [imageActivityIndicator startAnimating];
     [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
         [imageActivityIndicator stopAnimating];
@@ -62,11 +69,13 @@
     int viewHeight = 2000;
     int border = 10;
     int nameFieldHeight = 25;
+    int stateButtonHeight = 30;
     int descFieldHeight = 100;
     int halfWidth = fullScreenRect.size.width / 2 - 2 * border;
     int halfx = fullScreenRect.size.width / 2 - halfWidth / 2;
     int fullWidth = fullScreenRect.size.width - 2 * border;
     int picButtonHeight = 30;
+    int currentX = border;
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:fullScreenRect];
     scrollView.showsHorizontalScrollIndicator = YES;
@@ -83,7 +92,7 @@
     
     nameField = [[UITextField alloc]
                       initWithFrame:CGRectMake(border,
-                                               border,
+                                               currentX,
                                                fullWidth,
                                                nameFieldHeight)];
     [control addSubview:nameField];
@@ -92,24 +101,45 @@
     [nameField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [nameField setDelegate:self];
     [nameField addTarget:self action:@selector(nameEditingEnded:) forControlEvents:UIControlEventEditingDidEnd];
+    currentX = currentX + border + nameFieldHeight;
+    
+    stateButton = [[UIControl alloc] initWithFrame:CGRectMake(border, currentX, fullWidth, stateButtonHeight)];
+    [stateButton setBackgroundColor:[UIColor whiteColor]];
+    [stateButton.layer setCornerRadius:8];
+    stateImage = [[UIImageView alloc] initWithFrame:CGRectMake(7.5, 7.5, 15, 15)];
+    [stateButton addSubview:stateImage];
+    stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, fullWidth - 30 * 2, stateButtonHeight)];
+    [stateButton addSubview:stateLabel];
+    UIImage *chevron = [UIImage imageNamed:@"chevron"];
+    stateChevronView = [[UIImageView alloc] initWithFrame:CGRectMake(fullWidth - 30, 12, 15, 7.5)];
+    [stateChevronView setImage:chevron];
+    [stateButton addTarget:self
+                    action:@selector(stateButtonPressed:)
+          forControlEvents:UIControlEventTouchUpInside];
+    [stateButton addSubview:stateChevronView];
+    
+    [control addSubview:stateButton];
+    currentX = currentX + border + stateButtonHeight;
   
     descField = [[GOTTextView alloc]
                  initWithFrame:CGRectMake(border,
-                                          border * 2 + nameFieldHeight,
+                                          currentX,
                                           fullWidth,
                                           descFieldHeight)];
     [descField setPlaceholder:@"Describe your item."];
     [descField setFont:[nameField font]];
     [control addSubview:descField];
+    currentX = currentX + border + descFieldHeight;
     
     UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [takePhotoButton setFrame:CGRectMake(halfx,
-                                         border * 3 + nameFieldHeight + descFieldHeight,
+                                         currentX,
                                          halfWidth,
                                          picButtonHeight)];
     [takePhotoButton addTarget:self
                         action:@selector(takePicture:)
               forControlEvents:UIControlEventAllTouchEvents];
+    currentX = currentX + border + picButtonHeight;
  
     // TODO: be nice to have a camera icon, instead of text here
     [takePhotoButton setTitle:@"Take a Photo" forState:UIControlStateNormal];
@@ -117,11 +147,12 @@
     
     imageView = [[UIImageView alloc]
                  initWithFrame:CGRectMake(border,
-                                          border * 4 + nameFieldHeight + descFieldHeight + picButtonHeight,
+                                          currentX,
                                           fullWidth,
                                           fullWidth)];
     [imageView setBackgroundColor:[UIColor whiteColor]];
     [control addSubview:imageView];
+    currentX = currentX + border + fullWidth;
     
     imageActivityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -134,7 +165,7 @@
     // once the offer is posted
     postOfferButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [postOfferButton setFrame:CGRectMake(halfx,
-                                         border * 5 + nameFieldHeight + descFieldHeight + picButtonHeight + fullWidth,
+                                         currentX,
                                          halfWidth,
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
@@ -144,9 +175,9 @@
     [postOfferButton addTarget:self
                         action:@selector(uploadItem)
               forControlEvents:UIControlEventTouchUpInside];
+    currentX = currentX + border + picButtonHeight;
     
-    int totalHeight = border * 6 + nameFieldHeight + descFieldHeight + picButtonHeight * 2 + fullWidth;
-    scrollView.contentSize = CGSizeMake(fullScreenRect.size.width, totalHeight);
+    scrollView.contentSize = CGSizeMake(fullScreenRect.size.width, currentX);
     [scrollView becomeFirstResponder];
 
     self.view = scrollView;
@@ -163,6 +194,7 @@
 {
     [[self item] setName:[nameField text]];
     [[self item] setDesc:[descField text]];
+    [[self item] setState:[GOTItemState getValue:[stateLabel text]]];
 }
 
 - (void)uploadItem
@@ -295,6 +327,59 @@
 - (void)backgroundTapped:(id)sender {
     [[self view] endEditing:YES];
     [[self view] becomeFirstResponder];
+}
+
+#pragma mark -
+#pragma mark state button methods
+
+- (void)stateButtonPressed:(id)sender
+{
+    UIPickerView *statePicker = [[UIPickerView alloc] init];
+    [statePicker setShowsSelectionIndicator:YES];
+    [statePicker setDataSource:self];
+    [statePicker setDelegate:self];
+    int currentRow = [[GOTItemState pickableValues] indexOfObject:[[self item] state]];
+    [statePicker selectRow:currentRow inComponent:0 animated:YES];
+    int statePickerHeight = 216; // Standard picker height
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [statePicker setFrame:CGRectMake(0, screenRect.size.height - statePickerHeight, screenRect.size.width, statePickerHeight)];
+    UIView *fullView = [[UIView alloc] initWithFrame:screenRect];
+    UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    [fullView setBackgroundColor:backgroundColor];
+    [fullView addSubview:statePicker];
+    UIScrollView *scrollView = (UIScrollView *)self.view;
+    [scrollView setScrollEnabled:NO];
+    [self.view addSubview:fullView];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
+    [stateLabel setText:state];
+    [stateImage setImage:[GOTItemState imageForState:state]];
+    [stateLabel setNeedsDisplay];
+    [stateImage setNeedsDisplay];
+    UIScrollView *scrollView = (UIScrollView *)self.view;
+    [scrollView setScrollEnabled:YES];
+    [[pickerView superview] removeFromSuperview];
+}
+
+#pragma mark -
+#pragma mark picker view methods
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [GOTItemState pickableCount];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [[GOTItemState pickableValues] objectAtIndex:row];
 }
 
 #pragma mark -

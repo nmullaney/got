@@ -16,6 +16,7 @@
 #import "GOTMessageFooterViewBuilder.h"
 #import "GOTItemCell.h"
 #import "GOTConstants.h"
+#import "GOTItemState.h"
 
 @implementation GOTOffersViewController
 
@@ -90,7 +91,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSLog(@"commitEditingStyle");
         GOTItem *deletedItem = [[self offers] objectAtIndex:[indexPath row]];
-        [deletedItem setState:DELETED];
+        [deletedItem setState:[GOTItemState DELETED]];
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
                 NSLog(@"Removing object at index");

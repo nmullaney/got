@@ -11,6 +11,7 @@
 #import "GOTImageStore.h"
 #import "GOTItemsStore.h"
 #import "GOTUserStore.h"
+#import "GOTItemState.h"
 
 @implementation GOTItem
 
@@ -25,7 +26,7 @@
         [self setName:itemName];
         [self setDesc:itemDescription];
         [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
-        [self setState:DRAFT];
+        [self setState:[GOTItemState DRAFT]];
         [self setImageNeedsUpload:NO];
     }
     return self;
@@ -52,42 +53,6 @@
         desc = nil;
     } else {
         desc = newDesc;
-    }
-}
-
-- (ItemState)itemStateForString:(NSString *)s
-{
-    if ([s isEqualToString:@"DRAFT"]) {
-        return DRAFT;
-    } else if ([s isEqualToString:@"AVAILABLE"]) {
-        return AVAILABLE;
-    } else if ([s isEqualToString:@"PENDING"]) {
-        return PENDING;
-    } else if ([s isEqualToString:@"TAKEN"]) {
-        return TAKEN;
-    } else if ([s isEqualToString:@"DELETED"]) {
-        return DELETED;
-    }
-    // UNKNOWN isn't a proper state: it indicates some sort of error
-    return UNKNOWN;
-}
-
-- (NSString *)stringForItemState:(ItemState)s
-{
-    switch (s) {
-        case DRAFT:
-            return @"DRAFT";
-        case AVAILABLE:
-            return @"AVAILABLE";
-        case PENDING:
-            return @"PENDING";
-        case TAKEN:
-            return @"TAKEN";
-        case DELETED:
-            return @"DELETED";
-            
-        default:
-            return @"UNKNOWN";
     }
 }
 
@@ -129,7 +94,7 @@
     [self setDatePosted:[formatter dateFromString:[d objectForKey:@"dateCreated"]]];
     [self setDateUpdated:[formatter dateFromString:[d objectForKey:@"dateUpdated"]]];
     
-    [self setState:[self itemStateForString:[d objectForKey:@"state"]]];
+    [self setState:[GOTItemState getValue:[d objectForKey:@"state"]]];
     
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];
@@ -155,7 +120,7 @@
         [keys addObject:@"desc"];
     }
     if ([self state]) {
-        [objs addObject:[self stringForItemState:[self state]]];
+        [objs addObject:[self state]];
         [keys addObject:@"state"];
     }
     if ([self userID]) {

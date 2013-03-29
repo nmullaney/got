@@ -12,7 +12,7 @@
 
 #import "JSONSerializable.h"
 
-typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
+@class GOTItemState;
 
 @interface GOTItem : NSObject <JSONSerializable>
 
@@ -23,15 +23,12 @@ typedef enum {DRAFT, AVAILABLE, PENDING, TAKEN, DELETED, UNKNOWN} ItemState;
 
 - (BOOL)isEmpty;
 
-- (ItemState)itemStateForString:(NSString *)s;
-- (NSString *)stringForItemState:(ItemState)s;
-
 @property (nonatomic, strong) NSNumber *itemID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *datePosted;
 @property (nonatomic, strong) NSDate *dateUpdated;
-@property (nonatomic) ItemState state;
+@property (nonatomic) GOTItemState *state;
 
 @property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, copy) NSString *imageKey;

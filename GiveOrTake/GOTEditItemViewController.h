@@ -12,10 +12,14 @@
 @class GOTTextView;
 
 @interface GOTEditItemViewController : UIViewController
-    <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+    <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIActionSheetDelegate>
 {
     UIScrollView *view;
     UITextField *nameField;
+    UIControl *stateButton;
+    UIImageView *stateImage;
+    UILabel *stateLabel;
+    UIImageView *stateChevronView;
     GOTTextView *descField;
     UIImageView *imageView;
     UIActivityIndicatorView *imageActivityIndicator;
@@ -30,5 +34,7 @@
 - (void)nameEditingEnded:(id)sender;
 - (void)uploadItem;
 - (void)updateValues;
+
+- (void)stateButtonPressed:(id)sender;
 
 @end

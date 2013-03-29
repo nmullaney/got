@@ -10,6 +10,8 @@
 
 #import "GOTItem.h"
 
+@class GOTItemState;
+
 @interface GOTItemCell : UITableViewCell
 {
     __weak IBOutlet UIImageView *itemThumbnailView;
@@ -19,6 +21,6 @@
 
 - (void)setItemImage:(UIImage *)image;
 - (void)setTitle:(NSString *)title;
-- (void)setState:(ItemState)state;
+- (void)setState:(GOTItemState*)state;
 
 @end

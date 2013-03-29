@@ -8,6 +8,8 @@
 
 #import "GOTItemCell.h"
 
+#import "GOTItemState.h"
+
 @implementation GOTItemCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -38,17 +40,9 @@
     [titleLabel setText:title];
 }
 
-- (void)setState:(ItemState)state
+- (void)setState:(GOTItemState *)state
 {
-    if (state == AVAILABLE) {
-        [statusView setImage:[UIImage imageNamed:@"green-dot"]];
-    } else if (state == DRAFT) {
-        [statusView setImage:[UIImage imageNamed:@"yellow-pencil"]];
-    } else if (state == PENDING) {
-        [statusView setImage:[UIImage imageNamed:@"pink-heart"]];
-    } else if (state == TAKEN) {
-        [statusView setImage:[UIImage imageNamed:@"red-noitem"]];
-    }
+    [statusView setImage:[GOTItemState imageForState:state]];
 }
 
 @end
