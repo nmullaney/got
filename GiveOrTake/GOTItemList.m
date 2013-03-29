@@ -99,11 +99,6 @@
     [newItems enumerateObjectsUsingBlock:^(GOTItem *newItem, NSUInteger idx, BOOL *stop) {
         GOTItem *oldItem = [itemsByID objectForKey:[newItem itemID]];
         if (!oldItem || ([[newItem dateUpdated] timeIntervalSinceDate:[oldItem dateUpdated]] > 0)) {
-            NSLog(@"Adding in new item for: %@", [newItem name]);
-            NSLog(@"New date = %@", [newItem dateUpdated]);
-            if (oldItem) {
-                NSLog(@"Old date = %@", [oldItem dateUpdated]);
-            }
             [itemsByID setObject:newItem forKey:[newItem itemID]];
         }
     }];

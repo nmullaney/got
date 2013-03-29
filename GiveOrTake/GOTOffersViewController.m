@@ -62,7 +62,6 @@
         cell = [nib objectAtIndex:0];
     }
     
-    NSLog(@"cellForRowAtIndexPath");
     GOTItem *item = [offers objectAtIndex:[indexPath row]];
     [cell setTitle:[item name]];
     [cell setState:[item state]];

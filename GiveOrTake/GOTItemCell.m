@@ -36,7 +36,6 @@
 
 - (void)setTitle:(NSString *)title
 {
-    NSLog(@"Setting title to %@", title);
     [titleLabel setText:title];
 }
 

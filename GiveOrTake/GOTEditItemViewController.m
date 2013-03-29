@@ -45,12 +45,8 @@
     item = i;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)updateViewForItem
 {
-    [super viewWillAppear:animated];
-    
-    [self enhanceDescField];
-    
     [nameField setText:[[self item] name]];
     [descField setText:[[self item] desc]];
     [stateLabel setText:[[self item] state]];
@@ -73,6 +69,18 @@
             NSLog(@"An error occurred while fetching the image: %@", [err localizedDescription]);
         }
     }];
+}
+
+- (void)viewDidLoad
+{
+    [self updateViewForItem];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self enhanceDescField];
 }
 
 - (void)loadView {
@@ -254,9 +262,15 @@
     
     void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
         NSLog(@"calling item upload completion block, error: %@", err);
-        if (dict) {
+        if (item) {
+            NSLog(@"%@", dict);
             NSNumber *itemID = [dict objectForKey:@"id"];
-            [[self item] setItemID:itemID];
+             [[self item] setItemID:itemID];
+            if ([dict objectForKey:@"state"]) {
+                GOTItemState *state = [GOTItemState getValue:[dict objectForKey:@"state"]];
+                [[self item] setState:state];
+            }
+           
             // Upload the image
             if ([[self item] imageNeedsUpload]) {
                 NSLog(@"Updating the image because it changed");
