@@ -32,7 +32,9 @@
     
     [errorLabel setHidden:TRUE];
     [activityIndicator startAnimating];
-    [[GOTUserStore sharedStore] updateUser:activeUser withCompletion:^(id user, NSError *err) {
+    [[GOTUserStore sharedStore] updateUser:activeUser
+                                withParams:nil
+                            withCompletion:^(id user, NSError *err) {
         [activityIndicator stopAnimating];
         if (err) {
             NSLog(@"Error updating user's username: setting error");

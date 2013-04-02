@@ -45,7 +45,9 @@
     [user setLatitude:[NSNumber numberWithDouble:userCoordinate.latitude]];
     [user setLongitude:[NSNumber numberWithDouble:userCoordinate.longitude]];
     
-    [[GOTUserStore sharedStore] updateUser:user withCompletion:^(id user, NSError *err) {
+    [[GOTUserStore sharedStore] updateUser:user
+                                withParams:nil
+                            withCompletion:^(id user, NSError *err) {
         if (err) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Failed to update location" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];

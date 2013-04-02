@@ -117,7 +117,6 @@
         [itemList fetchItemAtIndex:index withCompletion:nil];
         return;
     }
-    NSLog(@"addViewAtIndex");
     id currentController = [viewControllers objectAtIndex:index];
     if (currentController == [NSNull null]) {
         GOTFreeItemDetailViewController *viewController =
@@ -170,7 +169,6 @@
     if (index < 0 || index > [[self itemList] itemCount] - 1) {
         return;
     }
-    NSLog(@"notifyViewControllerAppearing");
     UIViewController *viewController = [viewControllers objectAtIndex:index];
     [viewController viewWillAppear:NO];
 }

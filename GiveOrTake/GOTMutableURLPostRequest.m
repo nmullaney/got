@@ -7,6 +7,7 @@
 //
 
 #import "GOTMutableURLPostRequest.h"
+#import "GOTUserStore.h"
 
 // Provides a general way to create POST requests with formData.
 @implementation GOTMutableURLPostRequest
@@ -22,8 +23,18 @@
         NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=\"%@\"", boundary];
         [self setValue:contentType forHTTPHeaderField:@"Content-type"];
         body = [[NSMutableData alloc] init];
-        if (formData) {
-            [self appendBodyWithFormData:formData];
+        NSMutableDictionary *newFormData = [NSMutableDictionary dictionaryWithDictionary:formData];
+        NSString *token = [[GOTUserStore sharedStore] activeUserToken];
+        NSNumber *userID = [[GOTUserStore sharedStore] activeUserID];
+        if (token) {
+            [newFormData setObject:token forKey:@"token"];
+            [newFormData setObject:userID forKey:@"user_id"];
+        } else {
+            NSLog(@"No token found");
+        }
+        if (newFormData) {
+            NSLog(@"Adding form data: %@", newFormData);
+            [self appendBodyWithFormData:newFormData];
         }
         if (imageData) {
             NSLog(@"appending body with image Data");

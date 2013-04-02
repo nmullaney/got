@@ -84,7 +84,16 @@
 {
     [self showLoggingIn];
     NSLog(@"Logging in with: %@", user);
-    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user withCompletion:^(id user, NSError *err) {
+    FBSession *activeSession = [FBSession activeSession];
+    FBAccessTokenData *tokenData = activeSession.accessTokenData;
+    NSString *accessToken = tokenData.accessToken;
+    NSDate *expireDate = tokenData.expirationDate;
+    NSLog(@"Got FB token %@, expires %@", accessToken, expireDate);
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:accessToken
+                                                                     forKey:@"fb_access_token"];
+    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user
+                                                withParams:params
+                                            withCompletion:^(id user, NSError *err) {
         if (err) {
             NSLog(@"Got an error while creating new user: %@", err);
             UIAlertView *uav = [[UIAlertView alloc] initWithTitle:@"Login Failed"

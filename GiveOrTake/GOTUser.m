@@ -12,6 +12,7 @@
 
 @dynamic userID;
 @dynamic facebookID;
+@dynamic token;
 @dynamic username;
 @dynamic emailAddress;
 @dynamic latitude;
@@ -73,6 +74,10 @@
     [self setFacebookID:[d objectForKey:@"facebook_id"]];
     [self setUsername:[d objectForKey:@"username"]];
     [self setEmailAddress:[d objectForKey:@"email"]];
+    
+    if ([d objectForKey:@"token"]) {
+        [self setToken:[d objectForKey:@"token"]];
+    }
     
     // Note: this is only set if requested as extra param
     [self setPendingEmail:[d objectForKey:@"pending_email"]];

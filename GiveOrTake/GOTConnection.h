@@ -22,9 +22,9 @@ enum {
 };
 typedef NSUInteger GOTConnectionDataType;
 
-- (id)initWithRequest:(NSURLRequest *)req;
+- (id)initWithRequest:(NSMutableURLRequest *)req;
 
-@property (nonatomic, copy) NSURLRequest *request;
+@property (nonatomic, copy) NSMutableURLRequest *request;
 @property (nonatomic, copy) void (^completionBlock)(id obj, NSError *err);
 @property (nonatomic) GOTConnectionDataType dataType;
 @property (nonatomic, strong) id <JSONSerializable> jsonRootObject;

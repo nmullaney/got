@@ -16,6 +16,7 @@
 
 @property (nonatomic, retain) NSNumber * userID;
 @property (nonatomic, retain) NSString * facebookID;
+@property (nonatomic, retain) NSString * token;
 @property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSString * emailAddress;
 @property (nonatomic, retain) NSNumber * latitude;

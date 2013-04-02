@@ -63,6 +63,10 @@
 
 - (void)setActiveUser:(GOTUser *)user
 {
+    NSString *currentToken = [self activeUserToken];
+    if (![user token] && [[self activeUserID] integerValue] == [[user userID] integerValue]) {
+        [user setToken:currentToken];
+    }
     activeUser = user;
     [[GOTSettings instance] setActiveFacebookUserID:[user facebookID]];
 }
@@ -71,6 +75,15 @@
 {
     if ([self activeUser]) {
         return [[self activeUser] userID];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)activeUserToken
+{
+    if ([self activeUser]) {
+        return [[self activeUser] token];
     } else {
         return nil;
     }
@@ -95,30 +108,27 @@
 // If the user exists locally, we only need to set that user as active
 // If the user is not in local storage, they may be a brand new user,
 // so we should push up their data to the web
-- (void)createActiveUserFromFBUser:(id<FBGraphUser>)user withCompletion:(void (^)(id, NSError *))block
+- (void)createActiveUserFromFBUser:(id<FBGraphUser>)user
+                        withParams:(NSMutableDictionary *)params
+                    withCompletion:(void (^)(id, NSError *))block
 {
     NSPredicate *userPredicate =
         [NSPredicate predicateWithFormat:@"facebookID = %@"
                            argumentArray:[NSArray arrayWithObject:[user objectForKey:@"id"]]];
     
-    GOTUser *localUser = [self fetchUserFromDBWithPredicate:userPredicate];
-    if (localUser) {
-        NSLog(@"Found active user locally after login: %@", localUser);
-        [self setActiveUser:localUser];
-        block(localUser, nil);
-        return;
+    GOTUser *newUser = [self fetchUserFromDBWithPredicate:userPredicate];
+    if (!newUser) {
+        // If we did not find a user, we'll need to create a new one
+        newUser = [NSEntityDescription
+                            insertNewObjectForEntityForName:@"GOTUser"
+                            inManagedObjectContext:context];
     }
-    
-    // If we did not find a user, we'll need to create a new one
-    GOTUser *newUser = [NSEntityDescription
-                        insertNewObjectForEntityForName:@"GOTUser"
-                        inManagedObjectContext:context];
     
     [newUser setFacebookID:[user objectForKey:@"id"]];
     [newUser setEmailAddress:[user objectForKey:@"email"]];
     [newUser setUsername:[user objectForKey:@"username"]];
     
-    [self updateUser:newUser withCompletion:^(id user, NSError *err) {
+    [self updateUser:newUser withParams:params withCompletion:^(id user, NSError *err) {
         if (!err) {
             [self setActiveUser:user];
         } else {
@@ -130,7 +140,9 @@
     }];
 }
 
-- (void)updateUser:(GOTUser *)user withCompletion:(void (^)(id, NSError *))block
+- (void)updateUser:(GOTUser *)user
+        withParams:(NSMutableDictionary *)params
+    withCompletion:(void (^)(id, NSError *))block
 {
     // We can only update the logged in user, so if we have an active user
     // make sure it matches (if not, this is likely the login step).
@@ -139,12 +151,17 @@
         return;
     }
     
-    NSLog(@"Updating user with values: %@", [user uploadDictionary]);
+    if (!params) {
+        params = [NSMutableDictionary dictionaryWithDictionary:[user uploadDictionary]];
+    } else {
+        [params addEntriesFromDictionary:[user uploadDictionary]];
+    }
+    NSLog(@"Updating user with values: %@", params);
     
     NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
     NSLog(@"Updating user at: %@", url);
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
-                                                                         formData:[user uploadDictionary]
+                                                                         formData:params
                                                                         imageData:nil];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setJsonRootObject:user];
@@ -314,8 +331,8 @@
     }];
     [stringURL appendString:[paramStrs componentsJoinedByString:@"&"]];
     NSLog(@"Fetching user from %@", stringURL);
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL
-                                                            relativeToURL:[GOTConstants baseURL]]];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:stringURL
+                                                                   relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
     GOTUser *newUser = [NSEntityDescription

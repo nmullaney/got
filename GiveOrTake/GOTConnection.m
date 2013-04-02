@@ -9,12 +9,13 @@
 #import "GOTConnection.h"
 
 #import "GOTConstants.h"
+#import "GOTUserStore.h"
 
 @implementation GOTConnection
 
 @synthesize request, completionBlock, dataType, jsonRootObject, dataObject;
 
-- (id)initWithRequest:(NSURLRequest *)req
+- (id)initWithRequest:(NSMutableURLRequest *)req
 {
     self = [super init];
     if (self) {
