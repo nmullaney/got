@@ -42,6 +42,7 @@ static float kBorderSize = 5.0;
     [self loadDistanceLabel];
     [self loadUsernameLabel];
     [self loadDateLabel];
+    [self loadLastUpdatedLabel];
     
     [scrollView setContentSize:CGSizeMake(self->contentWidth + 2 * kBorderSize, self->contentHeight)];
     [scrollView setNeedsDisplay];
@@ -114,6 +115,24 @@ static float kBorderSize = 5.0;
     NSString *dateString = [dateFormatter stringFromDate:[[self item] datePosted]];
     
     NSString *fullDateLabelString = [NSString stringWithFormat:@"Posted on: %@", dateString];
+    CGSize dateLabelSize = [fullDateLabelString sizeWithFont:font constrainedToSize:CGSizeMake(self->contentWidth, MAXFLOAT)];
+    
+    dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kBorderSize, self->contentHeight, self->contentWidth, dateLabelSize.height)];
+    [dateLabel setText:fullDateLabelString];
+    [dateLabel setFont:font];
+    [scrollView addSubview:dateLabel];
+    self->contentHeight = self->contentHeight + dateLabelSize.height + kBorderSize;
+}
+
+- (void)loadLastUpdatedLabel
+{
+    UIFont *font = [GOTConstants defaultSmallFont];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    NSString *dateString = [dateFormatter stringFromDate:[[self item] dateUpdated]];
+    
+    NSString *fullDateLabelString = [NSString stringWithFormat:@"Last updated: %@", dateString];
     CGSize dateLabelSize = [fullDateLabelString sizeWithFont:font constrainedToSize:CGSizeMake(self->contentWidth, MAXFLOAT)];
     
     dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kBorderSize, self->contentHeight, self->contentWidth, dateLabelSize.height)];

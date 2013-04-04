@@ -102,10 +102,14 @@
             [itemsByID setObject:newItem forKey:[newItem itemID]];
         }
     }];
-    // Sort all the items by date updated
+    // Sort all the items by date updated, then the name
     NSMutableArray *allItems = [NSMutableArray arrayWithArray:[itemsByID allValues]];
     allItems = [NSMutableArray arrayWithArray:[allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
-        return [[item2 dateUpdated] compare:[item1 dateUpdated]];
+        NSComparisonResult dateOrder = [[item2 dateUpdated] compare:[item1 dateUpdated]];
+        if (dateOrder == NSOrderedSame) {
+            return [[item2 name] compare:[item1 name]];
+        }
+        return dateOrder;
     }]];
     [self setItems:allItems];
 }

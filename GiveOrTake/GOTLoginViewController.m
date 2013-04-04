@@ -93,8 +93,12 @@
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:10];
     [params setObject:[user objectForKey:@"id"] forKey:@"facebook_id"];
     [params setObject:accessToken forKey:@"fb_access_token"];
-    [params setObject:[user objectForKey:@"username"] forKey:@"username"];
-    [params setObject:[user objectForKey:@"email"] forKey:@"email"];
+    if ([user objectForKey:@"username"]) {
+        [params setObject:[user objectForKey:@"username"] forKey:@"username"];
+    }
+    if ([user objectForKey:@"email"]) {
+        [params setObject:[user objectForKey:@"email"] forKey:@"email"];
+    }
     
     [[GOTUserStore sharedStore] updateUserWithParams:params
                                       withCompletion:^(id user, NSError *err) {
