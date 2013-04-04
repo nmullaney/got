@@ -10,7 +10,7 @@
 
 #import "GOTImageStore.h"
 #import "GOTItemsStore.h"
-#import "GOTUserStore.h"
+#import "GOTActiveUser.h"
 #import "GOTItemState.h"
 
 @implementation GOTItem
@@ -25,7 +25,7 @@
     if (self) {
         [self setName:itemName];
         [self setDesc:itemDescription];
-        [self setUserID:[[GOTUserStore sharedStore] activeUserID]];
+        [self setUserID:[[GOTActiveUser activeUser] userID]];
         [self setState:[GOTItemState DRAFT]];
         [self setImageNeedsUpload:NO];
     }
@@ -109,7 +109,7 @@
     NSMutableArray *keys = [[NSMutableArray alloc] init];
     if ([self itemID]) {
         [objs addObject:[self itemID]];
-        [keys addObject:@"id"];
+        [keys addObject:@"item_id"];
     }
     if ([self name]) {
         [objs addObject:[self name]];
@@ -125,7 +125,7 @@
     }
     if ([self userID]) {
         [objs addObject:[self userID]];
-        [keys addObject:@"userID"];
+        [keys addObject:@"user_id"];
     } else {
         NSLog(@"ERROR: uh oh, no user ID");
     }

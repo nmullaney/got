@@ -49,39 +49,4 @@
                                                forKey:s];
 }
 
-- (CFStringRef)activeFacebookUserKey
-{
-    return (CFStringRef)@"facebookID";
-}
-
-- (CFStringRef)applicationID
-{
-    return kCFPreferencesCurrentApplication;
-}
-
-- (void)setActiveFacebookUserID:(NSString *)fbid
-{
-    CFDataRef data = (__bridge CFDataRef)[fbid dataUsingEncoding:NSUTF8StringEncoding];
-    CFPreferencesSetValue([self activeFacebookUserKey],
-                          data,
-                          [self applicationID],
-                          kCFPreferencesCurrentUser,
-                          kCFPreferencesCurrentHost);
-    CFPreferencesSynchronize([self applicationID], kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-}
-
-- (NSString *)activeFacebookUserID
-{
-    CFDataRef data = CFPreferencesCopyValue([self activeFacebookUserKey], [self applicationID], kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-    
-    if (data) {
-        NSString *fbid = [[NSString alloc] initWithData:(__bridge NSData *)data encoding:NSUTF8StringEncoding];
-        CFRelease(data);
-        NSLog(@"fbid = %@", fbid);
-        return fbid;
-    } else {
-        return nil;
-    }
-}
-
 @end

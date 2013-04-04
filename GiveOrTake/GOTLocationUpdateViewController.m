@@ -9,7 +9,7 @@
 #import "GOTLocationUpdateViewController.h"
 
 #import "GOTUserStore.h"
-#import "GOTUser.h"
+#import "GOTActiveUser.h"
 
 @implementation GOTLocationUpdateViewController
 
@@ -22,7 +22,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    GOTUser *user = [[GOTUserStore sharedStore] activeUser];
+    GOTActiveUser *user = [GOTActiveUser activeUser];
     
     [[self navigationItem] setTitle:@"Edit Location"];
     
@@ -41,13 +41,14 @@
 - (IBAction)updateLocation:(id)sender {
     MKPointAnnotation *annotation = [[mapView annotations] objectAtIndex:0];
     CLLocationCoordinate2D userCoordinate = [annotation coordinate];
-    GOTUser *user = [[GOTUserStore sharedStore] activeUser];
-    [user setLatitude:[NSNumber numberWithDouble:userCoordinate.latitude]];
-    [user setLongitude:[NSNumber numberWithDouble:userCoordinate.longitude]];
+    NSNumber *latitude = [NSNumber numberWithDouble:userCoordinate.latitude];
+    NSNumber *longitude = [NSNumber numberWithDouble:userCoordinate.longitude];
     
-    [[GOTUserStore sharedStore] updateUser:user
-                                withParams:nil
-                            withCompletion:^(id user, NSError *err) {
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:latitude,longitude,nil]
+                                                       forKeys:[NSArray arrayWithObjects:@"latitude", @"longitude", nil]];
+    
+    [[GOTUserStore sharedStore] updateUserWithParams:params
+                            withCompletion:^(GOTActiveUser *user, NSError *err) {
         if (err) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Failed to update location" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];

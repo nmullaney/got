@@ -10,7 +10,7 @@
 
 #import "GOTItem.h"
 #import "GOTItemsStore.h"
-#import "GOTUserStore.h"
+#import "GOTActiveUser.h"
 #import "GOTConstants.h"
 
 @implementation GOTItemList
@@ -115,7 +115,7 @@
 - (NSMutableDictionary *)getLoadParams
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:4];
-    [params setObject:[[GOTUserStore sharedStore] activeUserID] forKey:@"userID"];
+    [params setObject:[[GOTActiveUser activeUser] userID] forKey:@"userID"];
     [params setObject:[NSNumber numberWithInteger:[GOTConstants itemRequestLimit]] forKey:@"limit"];
     if ([self distance]) {
         [params setObject:[self distance] forKey:@"distance"];

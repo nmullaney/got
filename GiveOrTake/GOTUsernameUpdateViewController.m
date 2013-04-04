@@ -8,32 +8,30 @@
 
 #import "GOTUsernameUpdateViewController.h"
 
-#import "GOTUser.h"
+#import "GOTActiveUser.h"
 #import "GOTUserStore.h"
 
 @implementation GOTUsernameUpdateViewController
 
 - (void)viewDidLoad
 {
-    NSString *currentUsername = [[[GOTUserStore sharedStore] activeUser] username];
+    NSString *currentUsername = [[GOTActiveUser activeUser] username];
     [usernameField setText:currentUsername];
     [[self navigationItem] setTitle:@"Edit Username"];
 }
 
 - (IBAction)updateUsername:(id)sender
 {
-    GOTUser *activeUser = [[GOTUserStore sharedStore] activeUser];
     if (![usernameField text] || [[usernameField text] length] < 6) {
         [errorLabel setText:@"Username must be at least 6 characters."];
         [errorLabel setHidden:NO];
         return;
     }
-    [activeUser setUsername:[usernameField text]];
+    NSDictionary *params = [NSDictionary dictionaryWithObject:[usernameField text] forKey:@"username"];
     
     [errorLabel setHidden:TRUE];
     [activityIndicator startAnimating];
-    [[GOTUserStore sharedStore] updateUser:activeUser
-                                withParams:nil
+    [[GOTUserStore sharedStore] updateUserWithParams:params
                             withCompletion:^(id user, NSError *err) {
         [activityIndicator stopAnimating];
         if (err) {

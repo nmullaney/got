@@ -9,8 +9,8 @@
 #import "GOTProfileViewController.h"
 
 #import "GOTAppDelegate.h"
+#import "GOTActiveUser.h"
 #import "GOTUserStore.h"
-#import "GOTUser.h"
 
 #import "GOTUsernameUpdateViewController.h"
 #import "GOTEmailUpdateViewController.h"
@@ -30,12 +30,12 @@
     
     // Refresh the user
     NSArray *extraFields = [NSArray arrayWithObject:@"pending_email"];
-    [[GOTUserStore sharedStore] fetchUserWithUserID:[[GOTUserStore sharedStore] activeUserID]
-                                    withExtraFields:extraFields
-                                     withCompletion:^(id user, NSError *err) {
+    [[GOTUserStore sharedStore] fetchActiveUserWithExtraFields:extraFields
+                                                withCompletion:^(GOTActiveUser *user, NSError *err) {
                                          
         [username setText:[user username]];
-        [email setText:[user emailAddress]];
+        // TODO: bug is here
+        [email setText:[user email]];
         
         [mapView removeAnnotations:[mapView annotations]];
         CLLocationCoordinate2D userCoordinate =

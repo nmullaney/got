@@ -89,11 +89,15 @@
     NSString *accessToken = tokenData.accessToken;
     NSDate *expireDate = tokenData.expirationDate;
     NSLog(@"Got FB token %@, expires %@", accessToken, expireDate);
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:accessToken
-                                                                     forKey:@"fb_access_token"];
-    [[GOTUserStore sharedStore] createActiveUserFromFBUser:user
-                                                withParams:params
-                                            withCompletion:^(id user, NSError *err) {
+    
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [params setObject:[user objectForKey:@"id"] forKey:@"facebook_id"];
+    [params setObject:accessToken forKey:@"fb_access_token"];
+    [params setObject:[user objectForKey:@"username"] forKey:@"username"];
+    [params setObject:[user objectForKey:@"email"] forKey:@"email"];
+    
+    [[GOTUserStore sharedStore] updateUserWithParams:params
+                                      withCompletion:^(id user, NSError *err) {
         if (err) {
             NSLog(@"Got an error while creating new user: %@", err);
             UIAlertView *uav = [[UIAlertView alloc] initWithTitle:@"Login Failed"

@@ -11,14 +11,15 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "GOTUser.h"
+#import "GOTActiveUser.h"
 #import "GOTMutableURLPostRequest.h"
 #import "GOTConnection.h"
 #import "GOTSettings.h"
 #import "GOTConstants.h"
 
-@implementation GOTUserStore
+#import "User.h"
 
-@synthesize activeUser;
+@implementation GOTUserStore
 
 + (GOTUserStore *)sharedStore
 {
@@ -61,34 +62,6 @@
     return self;
 }
 
-- (void)setActiveUser:(GOTUser *)user
-{
-    NSString *currentToken = [self activeUserToken];
-    if (![user token] && [[self activeUserID] integerValue] == [[user userID] integerValue]) {
-        [user setToken:currentToken];
-    }
-    activeUser = user;
-    [[GOTSettings instance] setActiveFacebookUserID:[user facebookID]];
-}
-
-- (NSNumber *)activeUserID
-{
-    if ([self activeUser]) {
-        return [[self activeUser] userID];
-    } else {
-        return nil;
-    }
-}
-
-- (NSString *)activeUserToken
-{
-    if ([self activeUser]) {
-        return [[self activeUser] token];
-    } else {
-        return nil;
-    }
-}
-
 - (NSString *)sqlStorePath
 {
     NSArray *documentDirectories =
@@ -98,64 +71,12 @@
     // There is only one document directory
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
     NSString *path = [documentDirectory stringByAppendingPathComponent:@"GOTData.sql3"];
-    NSFileManager *fileMgr = [NSFileManager defaultManager];
-    if ([fileMgr fileExistsAtPath:path]) {
-        [fileMgr removeItemAtPath:path error:nil];
-    }
     return path;
 }
 
-// If the user exists locally, we only need to set that user as active
-// If the user is not in local storage, they may be a brand new user,
-// so we should push up their data to the web
-- (void)createActiveUserFromFBUser:(id<FBGraphUser>)user
-                        withParams:(NSMutableDictionary *)params
-                    withCompletion:(void (^)(id, NSError *))block
-{
-    NSPredicate *userPredicate =
-        [NSPredicate predicateWithFormat:@"facebookID = %@"
-                           argumentArray:[NSArray arrayWithObject:[user objectForKey:@"id"]]];
-    
-    GOTUser *newUser = [self fetchUserFromDBWithPredicate:userPredicate];
-    if (!newUser) {
-        // If we did not find a user, we'll need to create a new one
-        newUser = [NSEntityDescription
-                            insertNewObjectForEntityForName:@"GOTUser"
-                            inManagedObjectContext:context];
-    }
-    
-    [newUser setFacebookID:[user objectForKey:@"id"]];
-    [newUser setEmailAddress:[user objectForKey:@"email"]];
-    [newUser setUsername:[user objectForKey:@"username"]];
-    
-    [self updateUser:newUser withParams:params withCompletion:^(id user, NSError *err) {
-        if (!err) {
-            [self setActiveUser:user];
-        } else {
-            NSLog(@"Got error while trying to create new user: %@", [err localizedDescription]);
-        }
-        if (block) {
-            block(user, err);
-        }
-    }];
-}
-
-- (void)updateUser:(GOTUser *)user
-        withParams:(NSMutableDictionary *)params
+- (void)updateUserWithParams:(NSDictionary *)params
     withCompletion:(void (^)(id, NSError *))block
 {
-    // We can only update the logged in user, so if we have an active user
-    // make sure it matches (if not, this is likely the login step).
-    if ([self activeUser] && ![[self activeUser] isEqual:user]) {
-        [NSException raise:@"Failed to update user" format:@"Only the current user can be updated"];
-        return;
-    }
-    
-    if (!params) {
-        params = [NSMutableDictionary dictionaryWithDictionary:[user uploadDictionary]];
-    } else {
-        [params addEntriesFromDictionary:[user uploadDictionary]];
-    }
     NSLog(@"Updating user with values: %@", params);
     
     NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
@@ -164,9 +85,12 @@
                                                                          formData:params
                                                                         imageData:nil];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    GOTActiveUser *user = [GOTActiveUser activeUser];
+    NSLog(@"Setting JSON root object to active user: %@", user);
     [conn setJsonRootObject:user];
-    [conn setCompletionBlock:^(id updatedUser, NSError *error) {
-        GOTUser *user = updatedUser;
+    [conn setCompletionBlock:^(GOTActiveUser *updatedUser, NSError *error) {
+        NSLog(@"active user: %@", updatedUser);
+        NSLog(@"active user gotuser: %@", [updatedUser user]);
         if (error) {
             NSLog(@"Error updating user: %@", [error localizedDescription]);
         } else if([[user userID] isEqualToNumber:[NSNumber numberWithInt:0]]) {
@@ -192,8 +116,8 @@
 
 - (void)addPendingEmail:(NSString *)email withCompletion:(void (^)(id, NSError *))block
 {
-    GOTUser *user = [self activeUser];
-    NSArray *keys = [NSArray arrayWithObjects:@"id", @"email", nil];
+    GOTActiveUser *user = [GOTActiveUser activeUser];
+    NSArray *keys = [NSArray arrayWithObjects:@"user_id", @"email", nil];
     NSArray *values = [NSArray arrayWithObjects:[user userID], email, nil];
     NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
     NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
@@ -208,8 +132,8 @@
 
 - (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id, NSError *))block
 {
-    GOTUser *user = [self activeUser];
-    NSArray *keys = [NSArray arrayWithObjects:@"id", @"code", nil];
+    GOTActiveUser *user = [GOTActiveUser activeUser];
+    NSArray *keys = [NSArray arrayWithObjects:@"user_id", @"code", nil];
     NSArray *values = [NSArray arrayWithObjects:[user userID], code, nil];
     NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
     NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
@@ -222,100 +146,51 @@
     [conn start];
 }
 
-// Load the active user from the local storage or the web
-- (void)loadActiveUserWithCompletion:(void (^)(id, NSError *))block
-{
-     NSString *fbid = [[GOTSettings instance] activeFacebookUserID];
-    if (!fbid) {
-        NSLog(@"Cannot load active user: no active facebookID");
-        // TODO this should call block with error
-    }
-    
-    [self fetchUserWithFacebookID:fbid withCompletion:^(id user, NSError *err) {
-        if (err) {
-            NSLog(@"Error fetching  user to set as active: %@", [err localizedDescription]);
-        }
-        if (user) {
-            [self setActiveUser:user];
-        }
-        if (block) {
-            block(user, err);
-        }
-    }];
-}
-
 #pragma mark public user fetch functions
 
-/**
- * Try to load the user from local storage.  If not found,
- * hit the web.  Local storage will return a user immediately.
- * If it hits the web, nil will be returned for the user.
- * Either userID or facebookID must be specified.
- */
-- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
-                  withFacebookID:(NSString *)facebookID
-                 withExtraFields:(NSArray *)extraFields
-                  withCompletion:(void (^)(id, NSError *))block
+- (void)fetchActiveUserWithExtraFields:(NSArray *)extraFields
+                        withCompletion:(void (^)(GOTActiveUser *, NSError *))block
 {
-    NSPredicate *userPredicate = nil;
-    if (userID) {
-        userPredicate = [NSPredicate predicateWithFormat:@"userID = %@"
-                                           argumentArray:[NSArray arrayWithObject:userID]];
-    } else if (facebookID) {
-        userPredicate = [NSPredicate predicateWithFormat:@"facebookID = %@" argumentArray:[NSArray arrayWithObject:facebookID]];
-    } else {
-        NSException *exception = [NSException exceptionWithName:@"Cannot fetch user"
-                                                         reason:@"No userID or facebookID specified"
-                                                       userInfo:nil];
-        [exception raise];
-    }
-    
-    if (!extraFields) {
-        GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
-        if (user) {
-            NSLog(@"Fetched user from local storage");
-            if (block) {
-                block(user, nil);
-            }
-            return user;
-        }
-    }
-    
-    // If no user is found, we'll need to hit the web
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    if (userID) {
-        [params setObject:userID forKey:@"id"];
-    }
-    if (facebookID) {
-        [params setObject:facebookID forKey:@"facebook_id"];
-    }
+    NSNumber *activeUserID = [[GOTActiveUser activeUser] userID];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:activeUserID forKey:@"user_id"];
     if (extraFields) {
         [params setObject:extraFields forKey:@"extra"];
     }
-    NSLog(@"Fetching user from the web");
-    [self fetchUserFromWebWithParams:params withCompletion:block];
-    
-    return nil;
-}
-
-// The following methods are wrappers around the one above
-
-- (GOTUser *)fetchUserWithFacebookID:(NSString *)facebookID withCompletion:(void (^)(id, NSError *))block
-{
-    return [self fetchUserWithUserID:nil withFacebookID:facebookID withExtraFields:nil withCompletion:block];
+    [self fetchUserFromWebWithParams:params withRootObject:[GOTActiveUser activeUser] withCompletion:block];
 }
 
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID withCompletion:(void (^)(id, NSError *))block
 {
-    return [self fetchUserWithUserID:userID withFacebookID:nil withExtraFields:nil withCompletion:block];
+    if (!userID) {
+        [[NSException exceptionWithName:@"Cannot fetch user"
+                                 reason:@"No userID specified"
+                               userInfo:nil] raise];
+    }
+    
+    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"userID = %@"
+                                                    argumentArray:[NSArray arrayWithObject:userID]];
+    GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
+    if (user) {
+        NSLog(@"Fetched user from local storage");
+        if (block) {
+            block(user, nil);
+        }
+        return user;
+    }
+    
+    NSLog(@"Fetching user from the web");
+    NSDictionary *params = [NSDictionary dictionaryWithObject:userID forKey:@"user_id"];
+    GOTUser *newUser = [NSEntityDescription
+                        insertNewObjectForEntityForName:@"GOTUser"
+                        inManagedObjectContext:context];
+    [self fetchUserFromWebWithParams:params withRootObject:newUser withCompletion:block];
+    
+    return nil;
 }
 
-- (GOTUser *)fetchUserWithUserID:(NSNumber *)userID withExtraFields:(NSArray *)extraFields withCompletion:(void (^)(id, NSError *))block
-{
-    return [self fetchUserWithUserID:userID withFacebookID:nil withExtraFields:extraFields withCompletion:block];
-}
-
-- (void)fetchUserFromWebWithParams:(NSDictionary *)params withCompletion:(void (^)(id user, NSError *err))block
+- (void)fetchUserFromWebWithParams:(NSDictionary *)params
+                    withRootObject:(id<User>)rootObject
+                    withCompletion:(void (^)(id user, NSError *err))block
 {
     NSMutableString *stringURL = [NSMutableString stringWithString:@"/api/user.php?"];
     NSMutableArray *paramStrs = [[NSMutableArray alloc] init];
@@ -335,24 +210,29 @@
                                                                    relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
-    GOTUser *newUser = [NSEntityDescription
-                        insertNewObjectForEntityForName:@"GOTUser"
-                        inManagedObjectContext:context];
-    [conn setJsonRootObject:newUser];
-    [conn setCompletionBlock:^(id user, NSError *err) {
-        NSLog(@"Got user with username:%@, id:%@, pending_email:%@", [(GOTUser *)user username], [(GOTUser *)user userID], [(GOTUser *)user pendingEmail]);
-        if (user) {
+    [conn setJsonRootObject:rootObject];
+    [conn setCompletionBlock:^(id<User> user, NSError *err) {
+        NSLog(@"Got user id:%@", [user userID]);
+        if ([user isKindOfClass:[GOTUser class]]) {
             // Make sure the user is now saved
             NSLog(@"Saving user: %@", user);
-            if ([[user userID] intValue] == [[self activeUserID] intValue]) {
+            if ([GOTActiveUser isActiveUser:user]) {
                 // update the active user
-                [self setActiveUser:user];
+                [[GOTActiveUser activeUser] setUser:user];
             }
-            [self saveChanges];
+            
         }
+        [self saveChanges];
         block(user, err);
     }];
     [conn start];
+}
+
+- (GOTUser *)createNewUser
+{
+    return [NSEntityDescription
+            insertNewObjectForEntityForName:@"GOTUser"
+            inManagedObjectContext:context];
 }
 
 #pragma mark -

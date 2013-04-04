@@ -9,7 +9,7 @@
 #import "GOTEmailUpdateViewController.h"
 
 #import "GOTUserStore.h"
-#import "GOTUser.h"
+#import "GOTActiveUser.h"
 
 @implementation GOTEmailUpdateViewController
 
@@ -17,8 +17,8 @@
 {
     [super viewDidLoad];
     [[self navigationItem] setTitle:@"Edit Email Address"];
-    GOTUser *activeUser = [[GOTUserStore sharedStore] activeUser];
-    NSString *currentEmail = [activeUser emailAddress];
+    GOTActiveUser *activeUser = [GOTActiveUser activeUser];
+    NSString *currentEmail = [activeUser email];
     NSString *pendingEmail = [activeUser pendingEmail];
     if (pendingEmail) {
         self->hasPendingEmail = YES;

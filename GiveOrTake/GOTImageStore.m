@@ -196,7 +196,7 @@
     
     NSURL *url = [NSURL URLWithString:@"/api/item/image.php" relativeToURL:[GOTConstants baseURL]];
     NSDictionary *formData = [NSDictionary dictionaryWithObject:[item itemID]
-                                                         forKey:@"id"];
+                                                         forKey:@"item_id"];
     NSDictionary *imageData = [NSDictionary
                                dictionaryWithObjects:[NSArray arrayWithObjects:@"image",@"image.jpg",@"image/jpg",jpgData, nil]
                                forKeys:[NSArray arrayWithObjects:@"name",@"filename",@"contentType",@"data",nil]
@@ -233,8 +233,8 @@
     }
     
     if ([item imageURL]) {
-        NSLog(@"found image url: fetching it from the web");
-        NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[item imageURL]];
+        NSLog(@"found image url: %@ fetching it from the web", [item imageURL]);
+        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[item imageURL]];
         GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
         [conn setCompletionBlock:^(id imageData, NSError *err) {
             if (imageData) {
@@ -251,7 +251,7 @@
         }];
         [conn start];
     } else {
-      NSLog(@"Did not find image");
+      NSLog(@"Did not find image, no imageURL");
       block(nil, nil);
     }
 }

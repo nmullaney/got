@@ -10,20 +10,16 @@
 #import <CoreData/CoreData.h>
 
 #import "JSONSerializable.h"
+#import "User.h"
 
 
-@interface GOTUser : NSManagedObject <JSONSerializable>
+@interface GOTUser : NSManagedObject <User, JSONSerializable>
 
 @property (nonatomic, retain) NSNumber * userID;
-@property (nonatomic, retain) NSString * facebookID;
-@property (nonatomic, retain) NSString * token;
 @property (nonatomic, retain) NSString * username;
-@property (nonatomic, retain) NSString * emailAddress;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSNumber * karma;
-
-@property (nonatomic, strong) NSString *pendingEmail;
 
 - (NSDictionary *)uploadDictionary;
 

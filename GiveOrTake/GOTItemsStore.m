@@ -13,6 +13,7 @@
 #import "GOTConnection.h"
 #import "GOTMutableURLPostRequest.h"
 #import "GOTUserStore.h"
+#import "GOTActiveUser.h"
 #import "GOTConstants.h"
 
 @implementation GOTItemsStore
@@ -42,7 +43,7 @@
     NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];
     
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
@@ -58,13 +59,13 @@
 {
     NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@&limit=%d&offset=%d",
                         distance,
-                        [[GOTUserStore sharedStore] activeUserID],
+                        [[GOTActiveUser activeUser] userID],
                         limit,
                         offset];
     NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];
     
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
@@ -77,12 +78,14 @@
 
 - (void)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
 {
+    NSLog(@"active user ID: %@", [[GOTActiveUser activeUser] userID]);
+    NSLog(@"active user token: %@", [[GOTActiveUser activeUser] token]);
     NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?ownedBy=%@",
-                        [[GOTUserStore sharedStore] activeUserID]];
+                        [[GOTActiveUser activeUser] userID]];
     NSLog(@"getting my items from %@", urlStr);
     NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setCompletionBlock:block];
@@ -93,7 +96,7 @@
 
 - (void)fetchThumbnailAtURL:(NSURL *)url withCompletion:(void (^)(id, NSError *))block
 {
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
     
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setCompletionBlock:block];

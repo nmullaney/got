@@ -48,6 +48,8 @@
 		88AD62D7170640FA0091E80E /* GOTUsernameUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */; };
 		88AD62D917064D450091E80E /* GOTEmailUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D817064D450091E80E /* GOTEmailUpdateViewController.xib */; };
 		88AD62DB170659310091E80E /* GOTLocationUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62DA170659310091E80E /* GOTLocationUpdateViewController.xib */; };
+		88AD62DE170B87260091E80E /* GOTActiveUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62DD170B87260091E80E /* GOTActiveUser.m */; };
+		88AD62E2170CD1390091E80E /* JSONUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62E1170CD1390091E80E /* JSONUtil.m */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -131,6 +133,11 @@
 		88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTUsernameUpdateViewController.xib; sourceTree = "<group>"; };
 		88AD62D817064D450091E80E /* GOTEmailUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTEmailUpdateViewController.xib; sourceTree = "<group>"; };
 		88AD62DA170659310091E80E /* GOTLocationUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTLocationUpdateViewController.xib; sourceTree = "<group>"; };
+		88AD62DC170B87250091E80E /* GOTActiveUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTActiveUser.h; sourceTree = "<group>"; };
+		88AD62DD170B87260091E80E /* GOTActiveUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTActiveUser.m; sourceTree = "<group>"; };
+		88AD62DF170CB45E0091E80E /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		88AD62E0170CD1380091E80E /* JSONUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONUtil.h; sourceTree = "<group>"; };
+		88AD62E1170CD1390091E80E /* JSONUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONUtil.m; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -193,6 +200,11 @@
 				8894FD4016DC2F39006955F6 /* GOTItemList.m */,
 				88AD62C91703A9580091E80E /* GOTItemState.h */,
 				88AD62CA1703A9580091E80E /* GOTItemState.m */,
+				88AD62DC170B87250091E80E /* GOTActiveUser.h */,
+				88AD62DD170B87260091E80E /* GOTActiveUser.m */,
+				88AD62DF170CB45E0091E80E /* User.h */,
+				88AD62E0170CD1380091E80E /* JSONUtil.h */,
+				88AD62E1170CD1390091E80E /* JSONUtil.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -497,6 +509,8 @@
 				88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */,
 				88AD62BC17026D020091E80E /* GOTItemCell.m in Sources */,
 				88AD62CB1703A9590091E80E /* GOTItemState.m in Sources */,
+				88AD62DE170B87260091E80E /* GOTActiveUser.m in Sources */,
+				88AD62E2170CD1390091E80E /* JSONUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

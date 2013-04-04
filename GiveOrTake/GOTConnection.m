@@ -76,9 +76,10 @@
     
     
     if ([self dataType] == JSON) {
-        NSDictionary *d = [NSJSONSerialization JSONObjectWithData:[self dataObject]
-                                                          options:0
+        NSMutableDictionary *d = [NSJSONSerialization JSONObjectWithData:[self dataObject]
+                                                          options:NSJSONReadingMutableContainers
                                                             error:nil];
+        NSLog(@"JSON Data: %@", d);
         if ([d objectForKey:@"error"]) {
             NSLog(@"returning error");
             NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];

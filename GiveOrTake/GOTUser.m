@@ -8,18 +8,15 @@
 
 #import "GOTUser.h"
 
+#import "JSONUtil.h"
+
 @implementation GOTUser
 
 @dynamic userID;
-@dynamic facebookID;
-@dynamic token;
 @dynamic username;
-@dynamic emailAddress;
 @dynamic latitude;
 @dynamic longitude;
 @dynamic karma;
-
-@synthesize pendingEmail;
 
 - (NSDictionary *)uploadDictionary
 {
@@ -28,19 +25,11 @@
     if ([self userID] && [[self userID] intValue] != 0) {
         NSLog(@"Setting userID to %@", [self userID]);
         [objs addObject:[self userID]];
-        [keys addObject:@"id"];
-    }
-    if ([self facebookID]) {
-        [objs addObject:[self facebookID]];
-        [keys addObject:@"facebook_id"];
+        [keys addObject:@"user_id"];
     }
     if ([self username]) {
         [objs addObject:[self username]];
         [keys addObject:@"username"];
-    }
-    if ([self emailAddress]) {
-        [objs addObject:[self emailAddress]];
-        [keys addObject:@"email"];
     }
     // TODO: figure out a better way to determine these are unset
     if ([self latitude] && [[self latitude] intValue] != 0) {
@@ -57,39 +46,21 @@
 
 - (void)readFromJSONDictionary:(NSDictionary *)dict
 {
-    // Objects that are "null" in JSON, will be [NSNull null], instead of
-    // nil.  We'll strip thes all out before we parse, so we don't have
-    // to check each time
-    NSMutableDictionary *d = [NSMutableDictionary dictionaryWithDictionary:dict];
-    NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
-    [d enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if (obj == (id)[NSNull null]) {
-            [keysToRemove addObject:key];
-        }
-    }];
-    [d removeObjectsForKeys:keysToRemove];
-    
-    int userID = [[d objectForKey:@"id"] intValue];
-    [self setUserID:[NSNumber numberWithInt:userID]];
-    [self setFacebookID:[d objectForKey:@"facebook_id"]];
-    [self setUsername:[d objectForKey:@"username"]];
-    [self setEmailAddress:[d objectForKey:@"email"]];
-    
-    if ([d objectForKey:@"token"]) {
-        [self setToken:[d objectForKey:@"token"]];
-    }
-    
-    // Note: this is only set if requested as extra param
-    [self setPendingEmail:[d objectForKey:@"pending_email"]];
-
-    float latitude = [[d objectForKey:@"latitude"] floatValue];
-    [self setLatitude:[NSNumber numberWithFloat:latitude]];
-    
-    float longitude = [[d objectForKey:@"longitude"] floatValue];
-    [self setLongitude:[NSNumber numberWithFloat:longitude]];
-    
-    int karma = [[d objectForKey:@"karma"] intValue];
-    [self setKarma:[NSNumber numberWithInt:karma]];
+    if ([dict objectForKey:@"id"])
+        [self setUserID:[JSONUtil normalizeJSONValue:[dict objectForKey:@"id"]
+                                             toClass:[NSNumber class]]];
+    if ([dict objectForKey:@"username"])
+        [self setUsername:[JSONUtil normalizeJSONValue:[dict objectForKey:@"username"]
+                                               toClass:[NSString class]]];
+    if ([dict objectForKey:@"latitude"])
+        [self setLatitude:[JSONUtil normalizeJSONValue:[dict objectForKey:@"latitude"]
+                                               toClass:[NSNumber class]]];
+    if ([dict objectForKey:@"longitude"])
+        [self setLongitude:[JSONUtil normalizeJSONValue:[dict objectForKey:@"longitude"]
+                                                toClass:[NSNumber class]]];
+    if ([dict objectForKey:@"karma"])
+        [self setKarma:[JSONUtil normalizeJSONValue:[dict objectForKey:@"karma"]
+                                            toClass:[NSNumber class]]];
 }
 
 @end

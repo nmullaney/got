@@ -13,6 +13,7 @@
 #import "GOTProfileViewController.h"
 #import "GOTSettings.h"
 #import "GOTUserStore.h"
+#import "GOTActiveUser.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -30,22 +31,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [[GOTSettings instance] setupDefaults];
     
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded &&
-        [[GOTSettings instance] activeFacebookUserID]) {
-        // TODO: should we wait for successful load of active user before
-        // loading the tabs?
-        NSLog(@"logged in, loading user");
-        [[GOTUserStore sharedStore] loadActiveUserWithCompletion:^(id user, NSError *err) {
-            if (user) {
-                [self setupTabBarControllers];
-            } else {
-                NSLog(@"Severe error: cannot get user");
-                [self setupLoginController];
-            }
-        }];
-        // We need to show something before this method ends
-        GOTLoginViewController *lvc = [[GOTLoginViewController alloc] init];
-        [lvc setLoggingIn:YES];
-        [[self window] setRootViewController:lvc];
+        [[GOTActiveUser activeUser] token]) {
+        NSLog(@"Active user token: %@, userID: %@", [[GOTActiveUser activeUser] token], [[GOTActiveUser activeUser] userID]);
+        [self setupTabBarControllers];
     } else {
         NSLog(@"not logged in");
         [self setupLoginController];
@@ -97,8 +85,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSLog(@"logout and clear token info");
     [[FBSession activeSession] closeAndClearTokenInformation];
-    [[GOTSettings instance] setActiveFacebookUserID:nil];
-    [[GOTUserStore sharedStore] setActiveUser:nil];
+    [GOTActiveUser logout];
     [self setupLoginController];
 }
 
@@ -120,6 +107,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [GOTActiveUser save];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
