@@ -10,8 +10,23 @@
 
 #import "GOTUserStore.h"
 #import "GOTActiveUser.h"
+#import "GOTEmailUpdateViewController.h"
 
 @implementation GOTLocationUpdateViewController
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        isNewUserFlow = NO;
+    }
+    return self;
+}
+
+- (void)setNewUserFlow
+{
+    isNewUserFlow = YES;
+}
 
 - (void)viewDidLoad
 {
@@ -35,7 +50,12 @@
     [mapView setMapType:MKMapTypeStandard];
     [mapView setRegion:MKCoordinateRegionMakeWithDistance(userCoordinate, 1000, 1000)];
     [mapView setZoomEnabled:TRUE];
-    [mapView setShowsUserLocation:YES];   
+    [mapView setShowsUserLocation:YES];
+    
+    if (isNewUserFlow) {
+        // Start with a reasonable location
+        [locationManager startUpdatingLocation];
+    }
 }
 
 - (IBAction)updateLocation:(id)sender {
@@ -54,7 +74,13 @@
             [av show];
             return;
         }
-        [[self navigationController] popViewControllerAnimated:YES];
+        if (isNewUserFlow) {
+            GOTEmailUpdateViewController *evc = [[GOTEmailUpdateViewController alloc] init];
+            [evc setNewUserFlow];
+            [self presentViewController:evc animated:YES completion:nil];
+        } else {
+            [[self navigationController] popViewControllerAnimated:YES];
+        }
     }];
 }
 

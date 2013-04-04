@@ -10,8 +10,23 @@
 
 #import "GOTActiveUser.h"
 #import "GOTUserStore.h"
+#import "GOTLocationUpdateViewController.h"
 
 @implementation GOTUsernameUpdateViewController
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        isNewUserFlow = NO;
+    }
+    return self;
+}
+
+- (void)setNewUserFlow
+{
+    isNewUserFlow = YES;
+}
 
 - (void)viewDidLoad
 {
@@ -40,8 +55,14 @@
             [errorLabel setHidden:NO];
             [[GOTUserStore sharedStore] discardChanges];
         } else {
-            NSLog(@"Got updated user, poping view controller");
-            [[self navigationController] popViewControllerAnimated:YES];
+            if (isNewUserFlow) {
+                GOTLocationUpdateViewController *lvc = [[GOTLocationUpdateViewController alloc] init];
+                [lvc setNewUserFlow];
+                [self presentViewController:lvc animated:YES completion:nil];
+            } else {
+                NSLog(@"Got updated user, poping view controller");
+                [[self navigationController] popViewControllerAnimated:YES];
+            }
         }
     }];
 }

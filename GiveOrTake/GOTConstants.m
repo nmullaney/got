@@ -59,4 +59,10 @@
     return [UIColor colorWithWhite:0.5 alpha:0.25];
 }
 
+// This returns a silvery green color
++ (UIColor *)greenBackgroundColor
+{
+    return [UIColor colorWithRed:0.3867 green:0.7968 blue:0.3867 alpha:1.0];
+}
+
 @end

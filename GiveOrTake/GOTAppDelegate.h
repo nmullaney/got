@@ -14,6 +14,7 @@
 
 - (void)setupLoginController;
 - (void)setupTabBarControllers;
+- (void)setupWelcomeController;
 - (void)logout;
 
 void uncaughtExceptionHandler(NSException *exception);

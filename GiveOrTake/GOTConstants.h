@@ -21,5 +21,6 @@
 + (UIFont *)defaultVeryLargeFont;
 
 + (UIColor *)defaultBackgroundColor;
++ (UIColor *)greenBackgroundColor;
 
 @end

@@ -10,8 +10,23 @@
 
 #import "GOTUserStore.h"
 #import "GOTActiveUser.h"
+#import "GOTAppDelegate.h"
 
 @implementation GOTEmailUpdateViewController
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        isNewUserFlow = NO;
+    }
+    return self;
+}
+
+- (void)setNewUserFlow
+{
+    isNewUserFlow = YES;
+}
 
 - (void)viewDidLoad
 {
@@ -46,7 +61,12 @@
             } else {
                 // successfully updated!
                 [errorLabel setHidden:YES];
-                [[self navigationController] popViewControllerAnimated:YES];
+                if (isNewUserFlow) {
+                    GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
+                    [myApp setupTabBarControllers];
+                } else {
+                    [[self navigationController] popViewControllerAnimated:YES];
+                }
             }
             
         }];
@@ -56,6 +76,16 @@
         if (!newEmail || [newEmail length] == 0) {
             [errorLabel setText:@"Unable to update email to an empty string"];
             [errorLabel setHidden:NO];
+            return;
+        } else if ([newEmail isEqualToString:[[GOTActiveUser activeUser] email]]) {
+            // no change
+            [errorLabel setHidden:YES];
+            if (isNewUserFlow) {
+                GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
+                [myApp setupTabBarControllers];
+            } else {
+                [[self navigationController] popViewControllerAnimated:YES];
+            }
             return;
         } else {
             [errorLabel setHidden:YES];
@@ -84,6 +114,7 @@
 - (void)showCodeVerification {
     self->hasPendingEmail = YES;
     [infoLabel setText:@"An email has been sent to the new address with a 4 digit code.  Please enter it below to update your email address."];
+    [actionButton setTitle:@"Send Code" forState:UIControlStateNormal];
     [emailField setEnabled:NO];
     [codeField setHidden:NO];
     [codeField setDelegate:self];

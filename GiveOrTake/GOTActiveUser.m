@@ -14,7 +14,7 @@
 
 @implementation GOTActiveUser
 
-@synthesize user, facebookID, token, email, pendingEmail;
+@synthesize user, facebookID, token, email, pendingEmail, isNewUser;
 
 static GOTActiveUser *activeUser = nil;
 
@@ -63,6 +63,11 @@ static GOTActiveUser *activeUser = nil;
     }
     if ([d objectForKey:@"pending_email"]) {
         [self setPendingEmail:[JSONUtil normalizeJSONValue:[d objectForKey:@"pending_email"] toClass:[NSString class]]];
+    }
+    if ([d objectForKey:@"isNewUser"]) {
+        [self setIsNewUser:YES];
+    } else {
+        [self setIsNewUser:NO];
     }
     
     [[self user] readFromJSONDictionary:d];
@@ -116,6 +121,7 @@ static GOTActiveUser *activeUser = nil;
     [self setToken:[aDecoder decodeObjectForKey:@"token"]];
     [self setEmail:[aDecoder decodeObjectForKey:@"email"]];
     [self setPendingEmail:[aDecoder decodeObjectForKey:@"pendingEmail"]];
+    [self setIsNewUser:NO];
     return self;
 }
 

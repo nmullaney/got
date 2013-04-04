@@ -9,6 +9,7 @@
 #import "GOTLoginViewController.h"
 
 #import "GOTAppDelegate.h"
+#import "GOTActiveUser.h"
 #import "GOTUserStore.h"
 
 @implementation GOTLoginViewController
@@ -101,7 +102,7 @@
     }
     
     [[GOTUserStore sharedStore] updateUserWithParams:params
-                                      withCompletion:^(id user, NSError *err) {
+                                      withCompletion:^(GOTActiveUser *user, NSError *err) {
         if (err) {
             NSLog(@"Got an error while creating new user: %@", err);
             UIAlertView *uav = [[UIAlertView alloc] initWithTitle:@"Login Failed"
@@ -114,9 +115,14 @@
             return;
             
         } else {
-            NSLog(@"Switching from login to tabs with user: %@", user);
             GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-            [myApp setupTabBarControllers];
+            if ([user isNewUser]) {
+                NSLog(@"Switching from loging to welcome with user: %@", user);
+                [myApp setupWelcomeController];
+            } else {
+                NSLog(@"Switching from login to tabs with user: %@", user);
+                [myApp setupTabBarControllers];
+            }
         }
     }];
 }

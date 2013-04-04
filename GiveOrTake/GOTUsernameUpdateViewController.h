@@ -15,7 +15,10 @@
     __weak IBOutlet UITextField *usernameField;
     __weak IBOutlet UILabel *errorLabel;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    BOOL isNewUserFlow;
 }
+
+- (void)setNewUserFlow;
 
 - (IBAction)updateUsername:(id)sender;
 - (IBAction)backgroundTapped:(id)sender;

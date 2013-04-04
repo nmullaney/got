@@ -16,7 +16,11 @@
     
     IBOutlet UIView *view;
     __weak IBOutlet MKMapView *mapView;
+    
+    BOOL isNewUserFlow;
 }
+
+- (void)setNewUserFlow;
 
 - (IBAction)updateLocation:(id)sender;
 - (IBAction)centerOnCurrentLocation:(id)sender;

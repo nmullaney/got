@@ -8,6 +8,7 @@
 
 #import "GOTAppDelegate.h"
 #import "GOTLoginViewController.h"
+#import "GOTWelcomeViewController.h"
 #import "GOTItemsViewController.h"
 #import "GOTOffersViewController.h"
 #import "GOTProfileViewController.h"
@@ -79,6 +80,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [tvc addChildViewController:profileNav];
     
     [[self window] setRootViewController:tvc];
+}
+
+- (void)setupWelcomeController
+{
+    GOTWelcomeViewController *wvc = [[GOTWelcomeViewController alloc] init];
+    [[self window] setRootViewController:wvc];
 }
 
 - (void)logout

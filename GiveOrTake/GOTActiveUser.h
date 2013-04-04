@@ -27,5 +27,6 @@
 @property (nonatomic, copy) NSString *token;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *pendingEmail;
+@property (nonatomic) BOOL isNewUser;
 
 @end

@@ -19,7 +19,11 @@
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     __weak IBOutlet UIButton *actionButton;
     BOOL hasPendingEmail;
+    
+    BOOL isNewUserFlow;
 }
+
+- (void)setNewUserFlow;
 
 - (IBAction)updateEmail:(id)sender;
 - (IBAction)backgroundTapped:(id)sender;
