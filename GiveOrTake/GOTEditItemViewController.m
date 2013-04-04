@@ -216,6 +216,11 @@
 {
     if (buttonIndex == 0) {
         [self uploadItem];
+    } else {
+        // If we're not posting, we update the changed values and mark the
+        // item as having unsaved changes, which can be uploaded later.
+        [self updateValues];
+        [[self item] setHasUnsavedChanges:YES];
     }
     [[self navigationController] popViewControllerAnimated:YES];
     NSLog(@"Clicked actionSheet button: %ld", (long)buttonIndex);
@@ -226,7 +231,8 @@
     if (![[[self item] name] isEqualToString:[nameField text]] ||
         ![[[self item] desc] isEqualToString:[descField text]] ||
         ![[[self item] state] isEqualToString:[GOTItemState getValue:[stateLabel text]]] ||
-        [[self item] imageNeedsUpload]) {
+        [[self item] imageNeedsUpload] ||
+        [[self item] hasUnsavedChanges]) {
         return YES;
     }
     return NO;
@@ -263,6 +269,7 @@
     void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
         NSLog(@"calling item upload completion block, error: %@", err);
         if (item) {
+            [[self item] setHasUnsavedChanges:NO];
             NSLog(@"%@", dict);
             NSNumber *itemID = [dict objectForKey:@"id"];
              [[self item] setItemID:itemID];

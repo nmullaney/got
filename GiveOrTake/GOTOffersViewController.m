@@ -133,7 +133,8 @@
     GOTItem *newItem = [[GOTItem alloc] init];
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:newItem];
-    [[self offers] addObject:newItem];
+    // We display the newest items first
+    [[self offers] insertObject:newItem atIndex:0];
     [[self navigationController] pushViewController:eic animated:YES];
 }
 
@@ -141,9 +142,11 @@
 // we should just delete it.
 - (void)deleteEmptyItems
 {
-    for (GOTItem *i in [self offers]) {
-        if ([i isEmpty]) {
-            [[self offers] removeObject:i];
+    // only the first item could be empty
+    if ([[self offers] count] > 0) {
+        GOTItem *firstItem = [[self offers] objectAtIndex:0];
+        if ([firstItem isEmpty]) {
+            [[self offers] removeObjectAtIndex:0];
         }
     }
 }

@@ -27,6 +27,7 @@
         [self setDesc:itemDescription];
         [self setUserID:[[GOTActiveUser activeUser] userID]];
         [self setState:[GOTItemState DRAFT]];
+        [self setHasUnsavedChanges:YES];
         [self setImageNeedsUpload:NO];
     }
     return self;
@@ -40,6 +41,7 @@
 // Returns true if this item has no data
 - (BOOL)isEmpty
 {
+    NSLog(@"Name: %@", [self name]);
     if([self itemID] || [self name] || [self desc] || [self thumbnailData]) {
         return NO;
     }
@@ -99,6 +101,8 @@
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];
     }
+    
+    [self setHasUnsavedChanges:NO];
 }
 
 // Converts the item's data into key/value pairs

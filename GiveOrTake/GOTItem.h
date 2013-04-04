@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSDate *datePosted;
 @property (nonatomic, strong) NSDate *dateUpdated;
 @property (nonatomic) GOTItemState *state;
+@property (nonatomic) BOOL hasUnsavedChanges;
 
 @property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, copy) NSString *imageKey;
