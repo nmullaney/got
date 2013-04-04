@@ -68,6 +68,8 @@
     [self addViewAtIndex:[self selectedIndex] - 1];
     [self addViewAtIndex:[self selectedIndex]];
     [self addViewAtIndex:[self selectedIndex] + 1];
+    // Reset the title, in case the visible item has changed.
+    [[self navigationItem] setTitle:[[self item] name]];
     [[self view] setNeedsDisplay];
     
 }
