@@ -30,6 +30,7 @@
 - (void)updateUserWithParams:(NSDictionary *)params
     withCompletion:(void (^)(id user, NSError *err))block;
 - (void)addPendingEmail:(NSString *)email withCompletion:(void (^)(id result, NSError *err))block;
+- (void)removePendingEmailWithCompletion:(void (^)(id result, NSError *err))block;
 - (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id result, NSError *err))block;
 
 - (void)discardChanges;

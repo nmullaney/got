@@ -42,6 +42,7 @@
     } else {
         self->hasPendingEmail = NO;
         [emailField setText:currentEmail];
+        [self showEditEmail];
     }
     
     [errorLabel setTextColor:[UIColor redColor]];
@@ -111,6 +112,30 @@
     [[self view] becomeFirstResponder];
 }
 
+- (IBAction)cancelPendingEmail:(id)sender {
+    [activityIndicator startAnimating];
+    [[GOTUserStore sharedStore] removePendingEmailWithCompletion:^(id result, NSError *err) {
+        [activityIndicator stopAnimating];
+        if (err) {
+            [errorLabel setText:[err localizedDescription]];
+            [errorLabel setHidden:NO];
+            return;
+        }
+        [self showEditEmail];
+    }];
+}
+
+- (void)showEditEmail {
+    self->hasPendingEmail = NO;
+    [infoLabel setText:@"Please enter the email address you would like to use.  If you change your email, we'll send an email to this address to verify that it's yours."];
+    [actionButton setTitle:@"Set Email" forState:UIControlStateNormal];
+    [emailField setText:[[GOTActiveUser activeUser] email]];
+    [emailField setEnabled:YES];
+    [codeField setHidden:YES];
+    [cancelChangeButton setHidden:YES];
+    [errorLabel setHidden:YES];
+}
+
 - (void)showCodeVerification {
     self->hasPendingEmail = YES;
     [infoLabel setText:@"An email has been sent to the new address with a 4 digit code.  Please enter it below to update your email address."];
@@ -118,6 +143,7 @@
     [emailField setEnabled:NO];
     [codeField setHidden:NO];
     [codeField setDelegate:self];
+    [cancelChangeButton setHidden:NO];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

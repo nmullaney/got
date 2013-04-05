@@ -18,8 +18,9 @@
     __weak IBOutlet UITextField *codeField;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     __weak IBOutlet UIButton *actionButton;
-    BOOL hasPendingEmail;
+    __weak IBOutlet UIButton *cancelChangeButton;
     
+    BOOL hasPendingEmail;
     BOOL isNewUserFlow;
 }
 
@@ -27,5 +28,6 @@
 
 - (IBAction)updateEmail:(id)sender;
 - (IBAction)backgroundTapped:(id)sender;
+- (IBAction)cancelPendingEmail:(id)sender;
 
 @end

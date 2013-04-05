@@ -130,6 +130,23 @@
     [conn start];
 }
 
+- (void)removePendingEmailWithCompletion:(void (^)(id, NSError *))block
+{
+    GOTActiveUser *user = [GOTActiveUser activeUser];
+    NSArray *keys = [NSArray arrayWithObjects:@"user_id", @"cancel_pending", nil];
+    NSNumber *cancel = [NSNumber numberWithBool:YES];
+    NSArray *values = [NSArray arrayWithObjects:[user userID], cancel, nil];
+    NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
+    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
+                                                                         formData:formData
+                                                                        imageData:nil];
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:block];
+    [conn start];
+}
+
 - (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id, NSError *))block
 {
     GOTActiveUser *user = [GOTActiveUser activeUser];
