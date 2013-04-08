@@ -158,7 +158,7 @@
                                          picButtonHeight)];
     [takePhotoButton addTarget:self
                         action:@selector(takePicture:)
-              forControlEvents:UIControlEventAllTouchEvents];
+              forControlEvents:UIControlEventTouchUpInside];
     currentX = currentX + border + picButtonHeight;
  
     // TODO: be nice to have a camera icon, instead of text here
