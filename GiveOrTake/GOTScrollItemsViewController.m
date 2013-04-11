@@ -13,6 +13,8 @@
 #import "GOTItem.h"
 #import "GOTItemList.h"
 #import "GOTFreeItemDetailViewController.h"
+#import "GOTSendMessageViewController.h"
+#import "GOTConstants.h"
 
 
 @implementation GOTScrollItemsViewController
@@ -153,6 +155,16 @@
     [self notifyViewControllerAppearing:[self selectedIndex] - 1];
     [self notifyViewControllerAppearing:[self selectedIndex] + 1];
     [scrollView setNeedsDisplay];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"I want this!"
+                                                             style:UIBarButtonItemStyleBordered target:self
+                                                            action:@selector(wantButtonPressed:)];
+    [item setTintColor:[UIColor redColor]];
+    // It doesn't seem to be possible to set the width and the font simultaneously here,
+    // so we'll use the default font.
+    [item setWidth:(bounds.size.width - 10)];
+    [self setToolbarItems:[NSArray arrayWithObject:item]];
+    [[self navigationController] setToolbarHidden:NO animated:YES];
 }
 
 - (void)loadView
@@ -160,6 +172,20 @@
     NSLog(@"Load view");
     [super loadView];
     [self initScrollView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[self navigationController] setToolbarHidden:YES animated:animated];
+}
+
+- (void)wantButtonPressed:(id)sender
+{
+    NSLog(@"Want button pressed in scrollview!");
+    GOTItem *currentItem = [[self itemList] getItemAtIndex:[self selectedIndex]];
+    GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItem:currentItem];
+    [[self navigationController] pushViewController:smvc animated:YES];
 }
 
 // During viewWillAppear, the added viewControllers are not having

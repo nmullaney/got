@@ -36,6 +36,8 @@
 		88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4316E5547F00ADDC8A /* GOTUserStore.m */; };
 		88957D4616E559FB00ADDC8A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88957D4516E559FB00ADDC8A /* CoreData.framework */; };
 		88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */; };
+		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
+		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
 		88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */; };
 		88AD62BC17026D020091E80E /* GOTItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62BB17026D020091E80E /* GOTItemCell.m */; };
 		88AD62BE17026D300091E80E /* GOTItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62BD17026D300091E80E /* GOTItemCell.xib */; };
@@ -120,6 +122,9 @@
 		88957D4516E559FB00ADDC8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMutableURLPostRequest.h; sourceTree = "<group>"; };
 		88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMutableURLPostRequest.m; sourceTree = "<group>"; };
+		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
+		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
+		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
 		88AD62B71700EF820091E80E /* GOTMessageFooterViewBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMessageFooterViewBuilder.h; sourceTree = "<group>"; };
 		88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMessageFooterViewBuilder.m; sourceTree = "<group>"; };
 		88AD62BA17026D020091E80E /* GOTItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemCell.h; sourceTree = "<group>"; };
@@ -278,6 +283,9 @@
 				8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */,
 				8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */,
 				8894FD3316D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib */,
+				889B08E11713511B001901B1 /* GOTSendMessageViewController.h */,
+				889B08E21713511B001901B1 /* GOTSendMessageViewController.m */,
+				889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -488,6 +496,7 @@
 				88AD62D917064D450091E80E /* GOTEmailUpdateViewController.xib in Resources */,
 				88AD62DB170659310091E80E /* GOTLocationUpdateViewController.xib in Resources */,
 				88AD62E8170E1F430091E80E /* GOTWelcomeViewController.xib in Resources */,
+				889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +538,7 @@
 				88AD62DE170B87260091E80E /* GOTActiveUser.m in Sources */,
 				88AD62E2170CD1390091E80E /* JSONUtil.m in Sources */,
 				88AD62E7170E1F430091E80E /* GOTWelcomeViewController.m in Sources */,
+				889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

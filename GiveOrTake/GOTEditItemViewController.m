@@ -76,13 +76,6 @@
     [self updateViewForItem];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self enhanceDescField];
-}
-
 - (void)loadView {
 
     CGRect fullScreenRect = [[UIScreen mainScreen] applicationFrame];
@@ -302,20 +295,6 @@
     };
     
     [[GOTItemsStore sharedStore] uploadItem:[self item] withCompletion:block];
-}
-
-
-- (void)enhanceDescField
-{
-    // This creates a border around the textField
-    // A little rough -- it doesn't have a shadow
-    [descField setBackgroundColor:[UIColor whiteColor]];
-    descField.layer.borderWidth = 2.0f;
-    descField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    descField.layer.cornerRadius = 8;
-    descField.layer.masksToBounds = YES;
-    
-    descField.layer.backgroundColor = [[UIColor whiteColor] CGColor];
 }
 
 #pragma mark camera methods

@@ -65,4 +65,10 @@
     return [UIColor colorWithRed:0.3867 green:0.7968 blue:0.3867 alpha:1.0];
 }
 
+// This is the steel crayon color
++ (UIColor *)defaultGrayTextColor
+{
+    return [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0];
+}
+
 @end

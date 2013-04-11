@@ -15,7 +15,6 @@
     IBOutlet UIView *view;
     __weak IBOutlet UIScrollView *scrollView;
     __weak IBOutlet UIImageView *imageView;
-    __weak IBOutlet UIBarButtonItem *wantButton;
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
     UILabel *descLabel;
@@ -34,7 +33,5 @@
 - (void)loadDistanceLabel;
 - (void)loadDateLabel;
 - (void)loadUsernameLabel;
-
-- (IBAction)wantButtonPressed:(id)sender;
 
 @end

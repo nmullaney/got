@@ -142,11 +142,6 @@ static float kBorderSize = 5.0;
     self->contentHeight = self->contentHeight + dateLabelSize.height + kBorderSize;
 }
 
-- (IBAction)wantButtonPressed:(id)sender {
-    // TODO
-    NSLog(@"Want pressed");
-}
-
 - (void)dealloc
 {
     NSLog(@"Dealloc for FreeItemDetailViewController: %@", [[self item] name]);

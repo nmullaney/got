@@ -22,6 +22,14 @@
         [self setPlaceholder:@""];
         [self setPlaceholderColor:[UIColor lightGrayColor]];
         [self setDelegate:self];
+        
+        [self setBackgroundColor:[UIColor whiteColor]];
+        self.layer.borderWidth = 2.0f;
+        self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        self.layer.cornerRadius = 8;
+        self.layer.masksToBounds = YES;
+        
+        self.layer.backgroundColor = [[UIColor whiteColor] CGColor];
     }
     return self;
 }
@@ -33,11 +41,14 @@
     [placeholderLabel setFont:[self font]];
     placeholderLabel.layer.zPosition = - 1.0;
     //TODO: a little more to the left
-    CGRect placeHolderFrame = CGRectMake(self.bounds.origin.x + 6,
-                                         self.bounds.origin.y + 6,
-                                         self.bounds.size.width,
-                                         self.bounds.size.height);
+    float border = 6;
+    CGRect placeHolderFrame = CGRectMake(self.bounds.origin.x + border,
+                                         self.bounds.origin.y + border,
+                                         self.bounds.size.width - 2 * border,
+                                         self.bounds.size.height - 2 * border);
     [placeholderLabel setFrame:placeHolderFrame];
+    [placeholderLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [placeholderLabel setNumberOfLines:0];
     [placeholderLabel sizeToFit];
     [self addSubview:placeholderLabel];
 }
@@ -45,6 +56,16 @@
 - (void) hidePlaceholder
 {
     [placeholderLabel removeFromSuperview];
+}
+
+- (void)setPlaceholder:(NSString *)holder
+{
+    placeholder = holder;
+    if ([[self text] length] > 0) {
+        [self hidePlaceholder];
+    } else {
+        [self showPlaceholder];
+    }
 }
 
 - (void)setText:(NSString *)text

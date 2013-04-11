@@ -29,7 +29,6 @@
 @property (nonatomic, strong) GOTItem *item;
 
 - (void)updateViewForItem;
-- (void)enhanceDescField;
 - (void)backgroundTapped:(id)sender;
 - (void)takePicture:(id)sender;
 - (void)nameEditingEnded:(id)sender;

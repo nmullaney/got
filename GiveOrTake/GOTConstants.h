@@ -22,5 +22,6 @@
 
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;
++ (UIColor *)defaultGrayTextColor;
 
 @end
