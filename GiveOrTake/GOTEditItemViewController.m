@@ -300,6 +300,9 @@
 #pragma mark camera methods
 
 - (void)takePicture:(id)sender {
+    // Dismiss any editing in progress
+    [[self view] endEditing:YES];
+    
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
