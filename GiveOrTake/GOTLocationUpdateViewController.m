@@ -54,6 +54,7 @@
     
     if (isNewUserFlow) {
         // Start with a reasonable location
+        [mapView removeAnnotations:[mapView annotations]];
         [locationManager startUpdatingLocation];
     }
 }
@@ -97,8 +98,13 @@
     }
     CGPoint dropPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D newLocation = [mapView convertPoint:dropPoint toCoordinateFromView:mapView];
+    [self setAnnotationLocation:newLocation];
+}
+
+- (void)setAnnotationLocation:(CLLocationCoordinate2D)location
+{
     MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    [annotation setCoordinate:newLocation];
+    [annotation setCoordinate:location];
     // Remove previous pins
     [mapView removeAnnotations:[mapView annotations]];
     // Add the new pin
@@ -113,6 +119,9 @@
     CLLocation *currentLocation = [locations lastObject];
 
     [mapView setCenterCoordinate:[currentLocation coordinate]];
+    if (isNewUserFlow && [[mapView annotations] count] == 0) {
+        [self setAnnotationLocation:[currentLocation coordinate]];
+    }
     [locationManager stopUpdatingLocation];
 }
 
