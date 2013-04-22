@@ -261,26 +261,7 @@
     
     void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
         NSLog(@"calling item upload completion block, error: %@", err);
-        if (item) {
-            [[self item] setHasUnsavedChanges:NO];
-            NSLog(@"%@", dict);
-            NSNumber *itemID = [dict objectForKey:@"id"];
-             [[self item] setItemID:itemID];
-            if ([dict objectForKey:@"state"]) {
-                GOTItemState *state = [GOTItemState getValue:[dict objectForKey:@"state"]];
-                [[self item] setState:state];
-            }
-           
-            // Upload the image
-            if ([[self item] imageNeedsUpload]) {
-                NSLog(@"Updating the image because it changed");
-                [[GOTImageStore sharedStore] uploadImageForItem:[self item]];
-            } else {
-                NSLog(@"Not updating the image: no change");
-            }
-            // Go back to the table view
-            [[self navigationController] popViewControllerAnimated:YES];
-        } else if (err) {
+        if (err) {
             // TODO centralize the errror code
             NSString *errorString = [NSString stringWithFormat:@"Failed to upload: %@",
                                      [err localizedDescription]];
@@ -291,6 +272,25 @@
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil];
             [av show];
+        } else if (item) {
+            [[self item] setHasUnsavedChanges:NO];
+            NSLog(@"%@", dict);
+            NSNumber *itemID = [dict objectForKey:@"id"];
+            [[self item] setItemID:itemID];
+            if ([dict objectForKey:@"state"]) {
+                GOTItemState *state = [GOTItemState getValue:[dict objectForKey:@"state"]];
+                [[self item] setState:state];
+            }
+            
+            // Upload the image
+            if ([[self item] imageNeedsUpload]) {
+                NSLog(@"Updating the image because it changed");
+                [[GOTImageStore sharedStore] uploadImageForItem:[self item]];
+            } else {
+                NSLog(@"Not updating the image: no change");
+            }
+            // Go back to the table view
+            [[self navigationController] popViewControllerAnimated:YES];
         }
     };
     
