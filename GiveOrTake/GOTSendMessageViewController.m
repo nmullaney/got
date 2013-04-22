@@ -10,6 +10,7 @@
 
 #import "GOTConstants.h"
 #import "GOTItem.h"
+#import "GOTItemsStore.h"
 #import "GOTUser.h"
 #import "GOTUserStore.h"
 
@@ -111,6 +112,21 @@ static float border = 10;
 
 - (void)sendMessage:(id)sender {
     NSLog(@"Sending message");
+    NSString *message = [messageTextView text];
+    // TODO: could also check for too short of a message
+    if ([message length] == 0) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Empty message" message:@"You cannot send an empty message" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
+    [[GOTItemsStore sharedStore] sendMessage:message forItem:[self item] withCompletion:^(id result, NSError *err) {
+        if (err) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message Send Failed" message:@"The message failed to send.  Please try again later" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+            return;
+        }
+        [[self navigationController] popViewControllerAnimated:YES];
+    }];
 }
 
 - (void)keyboardWasShown:(NSNotification *)notification

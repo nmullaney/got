@@ -103,18 +103,6 @@
     [conn start];
 }
 
-- (NSString *)generateBoundary {
-    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    CFStringRef uuidStr = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-    
-    NSString *boundary = [NSString stringWithFormat:@"---Boundary-%@---", uuidStr];
-    
-    CFRelease(uuid);
-    CFRelease(uuidStr);
-    
-    return boundary;
-}
-
 - (void)uploadItem:(GOTItem *)item withCompletion:(void (^)(id, NSError *))block
 {
     NSURL *url = [NSURL URLWithString:@"/api/item.php" relativeToURL:[GOTConstants baseURL]];
@@ -131,6 +119,22 @@
                                                                          formData:formData
                                                                         imageData:imageData];
     
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:block];
+    [conn start];
+}
+
+- (void)sendMessage:(NSString *)message
+            forItem:(GOTItem *)item
+     withCompletion:(void (^)(id, NSError *))block
+{
+    NSURL *url = [NSURL URLWithString:@"/api/item/message.php" relativeToURL:[GOTConstants baseURL]];
+    NSMutableDictionary *formData = [[NSMutableDictionary alloc] initWithCapacity:5];
+    [formData setObject:[item itemID] forKey:@"item_id"];
+    [formData setObject:[[GOTActiveUser activeUser] userID] forKey:@"user_id"];
+    [formData setObject:message forKey:@"message"];
+    GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url formData:formData imageData:nil];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setDataType:JSON];
     [conn setCompletionBlock:block];
