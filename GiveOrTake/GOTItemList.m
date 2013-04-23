@@ -169,7 +169,7 @@
     if (count == 0 || idx > (count - 1)) {
         [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
-    NSLog(@"in getItemAtIndex in ItemList");
+    NSLog(@"in getItemAtIndex in ItemList for index: %d", idx);
     return [[self items] objectAtIndex:idx];
 }
 

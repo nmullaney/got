@@ -115,10 +115,15 @@
 {
     NSURL *url = [item thumbnailURL];
     void (^block)(id, NSError *) = ^void(id image, NSError *err) {
-        NSData *data = (NSData *)image;
-        [item setThumbnailData:data];
-        [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                                withRowAnimation:UITableViewRowAnimationNone];
+        if (err) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Failed to fetch thumbnail image" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+        } else if (image) {
+            NSData *data = (NSData *)image;
+            [item setThumbnailData:data];
+            [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                                    withRowAnimation:UITableViewRowAnimationNone];
+        }
     };
     [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];
 }

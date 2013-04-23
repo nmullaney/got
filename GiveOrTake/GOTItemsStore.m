@@ -31,7 +31,7 @@
                forRootObject:(GOTItemList *)list
               withCompletion:(void (^)(GOTItemList *, NSError *))block {
     
-    NSMutableString *urlStr = [NSMutableString stringWithString:@"/api/items.php?"];
+    NSMutableString *urlStr = [NSMutableString stringWithString:@"/items.php?"];
     NSMutableArray *strParams = [[NSMutableArray alloc] init];
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *param = [NSString stringWithFormat:@"%@=%@", key, obj];
@@ -57,7 +57,7 @@
                   withOffset:(int)offset
               withCompletion:(void (^)(GOTItemList *, NSError *))block
 {
-    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?distance=%d&userID=%@&limit=%d&offset=%d",
+    NSString *urlStr = [NSString stringWithFormat:@"/items.php?distance=%d&userID=%@&limit=%d&offset=%d",
                         distance,
                         [[GOTActiveUser activeUser] userID],
                         limit,
@@ -80,7 +80,7 @@
 {
     NSLog(@"active user ID: %@", [[GOTActiveUser activeUser] userID]);
     NSLog(@"active user token: %@", [[GOTActiveUser activeUser] token]);
-    NSString *urlStr = [NSString stringWithFormat:@"/api/items.php?ownedBy=%@",
+    NSString *urlStr = [NSString stringWithFormat:@"/items.php?ownedBy=%@",
                         [[GOTActiveUser activeUser] userID]];
     NSLog(@"getting my items from %@", urlStr);
     NSURL *url = [NSURL URLWithString:urlStr
@@ -105,7 +105,7 @@
 
 - (void)uploadItem:(GOTItem *)item withCompletion:(void (^)(id, NSError *))block
 {
-    NSURL *url = [NSURL URLWithString:@"/api/item.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/item.php" relativeToURL:[GOTConstants baseURL]];
     
     NSDictionary *imageData = nil;
     if ([item thumbnailData]) {
@@ -129,7 +129,7 @@
             forItem:(GOTItem *)item
      withCompletion:(void (^)(id, NSError *))block
 {
-    NSURL *url = [NSURL URLWithString:@"/api/item/message.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/item/message.php" relativeToURL:[GOTConstants baseURL]];
     NSMutableDictionary *formData = [[NSMutableDictionary alloc] initWithCapacity:5];
     [formData setObject:[item itemID] forKey:@"item_id"];
     [formData setObject:[[GOTActiveUser activeUser] userID] forKey:@"user_id"];

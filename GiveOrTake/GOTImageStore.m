@@ -194,7 +194,7 @@
     NSData *jpgData = UIImageJPEGRepresentation(image, 0.8);
     
     
-    NSURL *url = [NSURL URLWithString:@"/api/item/image.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/item/image.php" relativeToURL:[GOTConstants baseURL]];
     NSDictionary *formData = [NSDictionary dictionaryWithObject:[item itemID]
                                                          forKey:@"item_id"];
     NSDictionary *imageData = [NSDictionary
@@ -237,16 +237,22 @@
         NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[item imageURL]];
         GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
         [conn setCompletionBlock:^(id imageData, NSError *err) {
-            if (imageData) {
+            if (err) {
+                NSLog(@"Got error: %@", err);
+                block(nil, err);
+                return;
+            } else if (imageData) {
                 NSLog(@"Got image data from the web");
                 UIImage *image = [UIImage imageWithData:imageData];
+                if (!image) {
+                    NSLog(@"Error: failed to create image from data");
+                    block(nil, nil);
+                    return;
+                }
                 NSString *imageKey = [item imageKey];
                 [self setImage:image forKey:imageKey];
                 block(image, nil);
-            }
-            if (err) {
-                NSLog(@"Got error");
-                block(nil, err);
+                return;
             }
         }];
         [conn start];

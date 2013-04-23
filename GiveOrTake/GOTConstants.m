@@ -12,7 +12,7 @@
 
 + (NSURL *)baseURL
 {
-    return [NSURL URLWithString:@"https://www.giveortakeapp.com"];
+    return [NSURL URLWithString:@"https://api.giveortakeapp.com"];
     //return [NSURL URLWithString:@"https://nmullaney.dev"];
 }
 
@@ -20,7 +20,7 @@
 {
     return [NSArray arrayWithObjects:
             @"localhost",
-            @"www.giveortakeapp.com",
+            @"api.giveortakeapp.com",
             @"ec2-107-21-148-60.compute-1.amazonaws.com",
             @"nmullaney.dev",
             nil];

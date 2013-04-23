@@ -79,7 +79,7 @@
 {
     NSLog(@"Updating user with values: %@", params);
     
-    NSURL *url = [NSURL URLWithString:@"/api/user.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/user.php" relativeToURL:[GOTConstants baseURL]];
     NSLog(@"Updating user at: %@", url);
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:params
@@ -120,7 +120,7 @@
     NSArray *keys = [NSArray arrayWithObjects:@"user_id", @"email", nil];
     NSArray *values = [NSArray arrayWithObjects:[user userID], email, nil];
     NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
-    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/user/email.php" relativeToURL:[GOTConstants baseURL]];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:formData
                                                                         imageData:nil];
@@ -137,7 +137,7 @@
     NSNumber *cancel = [NSNumber numberWithBool:YES];
     NSArray *values = [NSArray arrayWithObjects:[user userID], cancel, nil];
     NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
-    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/user/email.php" relativeToURL:[GOTConstants baseURL]];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:formData
                                                                         imageData:nil];
@@ -153,7 +153,7 @@
     NSArray *keys = [NSArray arrayWithObjects:@"user_id", @"code", nil];
     NSArray *values = [NSArray arrayWithObjects:[user userID], code, nil];
     NSMutableDictionary *formData = [NSMutableDictionary dictionaryWithObjects:values forKeys:keys];
-    NSURL *url = [NSURL URLWithString:@"/api/user/email.php" relativeToURL:[GOTConstants baseURL]];
+    NSURL *url = [NSURL URLWithString:@"/user/email.php" relativeToURL:[GOTConstants baseURL]];
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:formData
                                                                         imageData:nil];
@@ -209,7 +209,7 @@
                     withRootObject:(id<User>)rootObject
                     withCompletion:(void (^)(id user, NSError *err))block
 {
-    NSMutableString *stringURL = [NSMutableString stringWithString:@"/api/user.php?"];
+    NSMutableString *stringURL = [NSMutableString stringWithString:@"/user.php?"];
     NSMutableArray *paramStrs = [[NSMutableArray alloc] init];
     [params enumerateKeysAndObjectsUsingBlock:^void(id key, id obj, BOOL *stop) {
         if ([obj isKindOfClass:[NSArray class]]) {
