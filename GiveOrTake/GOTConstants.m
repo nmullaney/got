@@ -30,7 +30,7 @@
 // on a single call
 + (int)itemRequestLimit
 {
-    return 5;
+    return 15;
 }
 
 + (UIFont *)defaultSmallFont
