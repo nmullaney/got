@@ -98,7 +98,10 @@
     
     [self setState:[GOTItemState getValue:[d objectForKey:@"state"]]];
     
-    if ([d objectForKey:@"stateUserID"]) {
+    id dstateUserID = [d objectForKey:@"stateUserID"];
+    if (dstateUserID == (id)[NSNull null]) {
+        [self setStateUserID:nil];
+    } else {
         [self setStateUserID:[d objectForKey:@"stateUserID"]];
     }
     

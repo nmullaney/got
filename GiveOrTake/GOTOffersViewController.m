@@ -43,7 +43,7 @@
     [self deleteEmptyItems];
     if ([[self offers] count] == 0) {
         [self updateOffers];
-    }
+    } 
     [[self tableView] reloadData];
 }
 
@@ -78,7 +78,6 @@
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"didSelectRowAtIndexPath");
     GOTItem *editItem = [[self offers] objectAtIndex:[indexPath row]];
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:editItem];
@@ -88,12 +87,10 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSLog(@"commitEditingStyle");
         GOTItem *deletedItem = [[self offers] objectAtIndex:[indexPath row]];
         [deletedItem setState:[GOTItemState DELETED]];
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
-                NSLog(@"Removing object at index");
                 [[self offers] removeObjectAtIndex:[indexPath row]];
                 [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                         withRowAnimation:UITableViewRowAnimationFade];
@@ -109,15 +106,12 @@
 - (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
     UIView *footer = [[UIView alloc] init];
-    if ([[self offers] count] > 0) {
-        tv.sectionFooterHeight = 1;
-    } else {
+    if ([[self offers] count] == 0) {
         CGRect frame = tv.bounds;
         UIView *messageView = [[[GOTMessageFooterViewBuilder alloc]
                                 initWithFrame:frame
                                 title:@"You haven't created any offers."
                                 message:@"To give away an item, touch the '+' button, fill out information about your item, and press the 'Post Item' button."] view];
-        tv.sectionFooterHeight = [tv bounds].size.height;
         [footer addSubview:messageView];
     }
     return footer;
@@ -129,7 +123,6 @@
 
 - (void)addNewItem:(id)sender
 {
-    NSLog(@"Creating new item");
     GOTItem *newItem = [[GOTItem alloc] init];
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:newItem];
@@ -185,6 +178,7 @@
         [item setThumbnailData:data];
         [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
                                 withRowAnimation:UITableViewRowAnimationNone];
+         
     };
     [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];
 }

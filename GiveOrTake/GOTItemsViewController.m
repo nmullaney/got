@@ -171,15 +171,12 @@
 - (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
     UIView *footer = [[UIView alloc] init];
-    if ([[self itemList] itemCount] > 0) {
-        tv.sectionFooterHeight = 1;
-    } else {
+    if ([[self itemList] itemCount] == 0) {
         CGRect viewFrame = CGRectMake(0, 0, [tv bounds].size.width, [tv bounds].size.height);
         UIView *messageView = [[[GOTMessageFooterViewBuilder alloc]
-                               initWithFrame:viewFrame
-                               title:@"No free items found."
+                                initWithFrame:viewFrame
+                                title:@"No free items found."
                                 message:@"Try changing the filter to find more items.  You can expand your search by choosing a larger distance or removing a search term."] view];
-        tv.sectionFooterHeight = [tv bounds].size.height;
         [footer addSubview:messageView];
     }
     return footer;

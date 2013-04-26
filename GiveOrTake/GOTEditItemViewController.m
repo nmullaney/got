@@ -254,16 +254,32 @@ int PICKER_VIEW_TAG = 1;
 
 - (BOOL)haveUnpostedChanges
 {
+    NSString *descFieldText = [descField text];
+    if ([descFieldText isEqualToString:@""]) {
+        descFieldText = nil;
+    }
     if (![[[self item] name] isEqualToString:[nameField text]] ||
-        ![[[self item] desc] isEqualToString:[descField text]] ||
+        ![self nilOrEqual:[[self item] desc] to:descFieldText] ||
         ![[[self item] state] isEqualToString:[GOTItemState getValue:[stateLabel text]]] ||
-        [[[self item] stateUserID] intValue] != [[self draftStateUserID] intValue] ||
+        ![self nilOrEqual:[[self item] stateUserID] to:[self draftStateUserID]] ||
         [[self item] imageNeedsUpload] ||
         [[self item] hasUnsavedChanges]) {
         return YES;
     }
-    NSLog(@"stateUserID: %@, draftStateUserID: %@", [[self item] stateUserID], [self draftStateUserID]);
     return NO;
+}
+
+- (BOOL)nilOrEqual:(id)value1 to:(id)value2
+{
+    if (!value1 && !value2) {
+        return YES;
+    } else if (value1 && !value2) {
+        return NO;
+    } else if (!value1 && value2) {
+        return NO;
+    } else {
+        return [value1 isEqual:value2];
+    }
 }
 
 - (void)updateValues
