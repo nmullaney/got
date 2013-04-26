@@ -144,18 +144,18 @@
 
 - (void)deleteOldImagesOnDisk
 {
-    NSLog(@"Looking for old images to delete");
+    //NSLog(@"Looking for old images to delete");
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *directory = [GOTImageStore imageCachePath];
     NSArray *files = [fileManager contentsOfDirectoryAtPath:directory error:nil];
     for (NSString *file in files) {
         NSString *filePath = [directory stringByAppendingPathComponent:file];
-        NSLog(@"Check file %@", filePath);
+        //NSLog(@"Check file %@", filePath);
         NSDictionary *fileAttr = [fileManager attributesOfItemAtPath:filePath error:nil];
         // Delete if the file is older than one week
-        NSLog(@"Interval: %f", [[fileAttr fileCreationDate] timeIntervalSinceNow]);
+        //NSLog(@"Interval: %f", [[fileAttr fileCreationDate] timeIntervalSinceNow]);
         if ([[fileAttr fileCreationDate] timeIntervalSinceNow] < -604800) {
-            NSLog(@"Removing file for: %@", filePath);
+            //NSLog(@"Removing file for: %@", filePath);
             [fileManager removeItemAtPath:filePath error:nil];
         }
     }

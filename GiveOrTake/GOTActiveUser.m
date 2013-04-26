@@ -24,12 +24,16 @@ static GOTActiveUser *activeUser = nil;
         // Try to load activeUser data from file archive
         NSString *path = [GOTActiveUser archivePath];
         activeUser = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-        if (!activeUser) {
-            activeUser = [[GOTActiveUser alloc] init];
-            GOTUser *user = [[GOTUserStore sharedStore] createNewUser];
-            [activeUser setUser:user];
-        }
     }
+    return activeUser;
+}
+
++ (GOTActiveUser *)activeUserFromDictionary:(NSDictionary *)dict
+{
+    if (!activeUser) {
+        activeUser = [[GOTActiveUser alloc] init];
+    }
+    [activeUser readFromJSONDictionary:dict];
     return activeUser;
 }
 
@@ -50,7 +54,6 @@ static GOTActiveUser *activeUser = nil;
     }
 }
 
-
 - (void)readFromJSONDictionary:(NSDictionary *)d
 {
     if ([d objectForKey:@"token"]) {
@@ -70,7 +73,11 @@ static GOTActiveUser *activeUser = nil;
         [self setIsNewUser:NO];
     }
     
-    [[self user] readFromJSONDictionary:d];
+    if ([d objectForKey:@"id"]) {
+        GOTUser *fetchedUser = [[GOTUserStore sharedStore] createOrFetchUserWithID:[d objectForKey:@"id"]];
+        [self setUser:fetchedUser];
+        [[self user] readFromJSONDictionary:d];
+    }
 }
 
 #pragma mark archiving methods
@@ -105,7 +112,8 @@ static GOTActiveUser *activeUser = nil;
 {
     // activeUser needs to be initialized before this is called
     NSNumber *userID = [aDecoder decodeObjectForKey:@"userID"];
-    if (userID) {
+    NSLog(@"Activer user from coder, id = %@", userID);
+    if (userID && ![userID isEqualToNumber:[NSNumber numberWithInt:0]]) {
         [self setUser:[[GOTUserStore sharedStore] createOrFetchUserWithID:userID]];
     }
     

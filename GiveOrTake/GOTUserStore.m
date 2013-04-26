@@ -86,31 +86,19 @@
                                                                          formData:params
                                                                         imageData:nil];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    GOTActiveUser *user = [GOTActiveUser activeUser];
-    NSLog(@"Setting JSON root object to active user: %@", user);
-    [conn setJsonRootObject:user];
-    [conn setCompletionBlock:^(GOTActiveUser *updatedUser, NSError *error) {
-        NSLog(@"active user: %@", updatedUser);
-        NSLog(@"active user gotuser: %@", [updatedUser user]);
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:^(NSDictionary *updatedUserDict, NSError *error) {
+        GOTActiveUser *updatedUser = nil;
         if (error) {
             NSLog(@"Error updating user: %@", [error localizedDescription]);
-        } else if([[user userID] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            NSLog(@"Error: server did not return a valid user");
-            NSDictionary *info = [NSDictionary dictionaryWithObject:@"Invalid user returned from server"
-                                                            forKey:NSLocalizedDescriptionKey];
-            NSError *err = [NSError errorWithDomain:NSURLErrorDomain
-                                      code:NSURLErrorBadServerResponse
-                                  userInfo:info];
-            block(nil, err);
-            return;
         } else {
+            updatedUser = [GOTActiveUser activeUserFromDictionary:updatedUserDict];
             NSLog(@"saving block user: %@", updatedUser);
             [self saveChanges];
         }
         if (block) {
             block(updatedUser, error);
         }
-        
     }];
     [conn start];
 }
@@ -198,6 +186,7 @@
     
     NSLog(@"Fetching user from the web");
     NSDictionary *params = [NSDictionary dictionaryWithObject:userID forKey:@"user_id"];
+    NSLog(@"Creating a new user for %@ because could not find in local storage", userID);
     GOTUser *newUser = [self createNewUser];
     [self fetchUserFromWebWithParams:params withRootObject:newUser withCompletion:block];
     
@@ -259,6 +248,7 @@
                                                       argumentArray:[NSArray arrayWithObject:userID]];
     GOTUser *user = [self fetchUserFromDBWithPredicate:userIDPredicate];
     if (!user) {
+        NSLog(@"Creating a new user in createOrFetchUser with userID: %@", userID);
         user = [self createNewUser];
     }
     return user;

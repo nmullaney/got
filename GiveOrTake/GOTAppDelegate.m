@@ -114,7 +114,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [GOTActiveUser save];
+    
+    // Don't save the user before we've logged in (we'll enter background as part of the FB login process)
+    if ([[[GOTActiveUser activeUser] userID] intValue] != 0) {
+        [GOTActiveUser save];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -16,6 +16,7 @@
 @interface GOTActiveUser : NSObject <User, NSCoding, JSONSerializable>
 
 + (GOTActiveUser *)activeUser;
++ (GOTActiveUser *)activeUserFromDictionary:(NSDictionary *)dict;
 + (void)logout;
 + (BOOL)isActiveUser:(GOTUser *)user;
 
