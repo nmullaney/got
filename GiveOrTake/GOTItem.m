@@ -16,7 +16,7 @@
 @implementation GOTItem
 
 @synthesize itemID, name, desc, imageKey, imageNeedsUpload, thumbnail, thumbnailData, thumbnailURL, userID,
-    distance, imageURL, state;
+    distance, imageURL, state, stateUserID;
 
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
@@ -98,6 +98,10 @@
     
     [self setState:[GOTItemState getValue:[d objectForKey:@"state"]]];
     
+    if ([d objectForKey:@"stateUserID"]) {
+        [self setStateUserID:[d objectForKey:@"stateUserID"]];
+    }
+    
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];
     }
@@ -126,6 +130,14 @@
     if ([self state]) {
         [objs addObject:[self state]];
         [keys addObject:@"state"];
+    }
+    if ([self stateUserID]) {
+        [objs addObject:[self stateUserID]];
+        [keys addObject:@"state_user_id"];
+    } else {
+        // TODO: handle this on web side
+        [objs addObject:@"NULL"];
+        [keys addObject:@"state_user_id"];
     }
     if ([self userID]) {
         [objs addObject:[self userID]];

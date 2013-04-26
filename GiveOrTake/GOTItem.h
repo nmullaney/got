@@ -29,6 +29,8 @@
 @property (nonatomic, strong) NSDate *datePosted;
 @property (nonatomic, strong) NSDate *dateUpdated;
 @property (nonatomic) GOTItemState *state;
+// This is the user that is promised or has taken an item
+@property (nonatomic, strong) NSNumber *stateUserID;
 @property (nonatomic) BOOL hasUnsavedChanges;
 
 @property (nonatomic, strong) NSURL *imageURL;
@@ -41,10 +43,5 @@
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *thumbnailURL;
 @property (nonatomic, strong) NSData *thumbnailData;
-
-
-// Eventually, we'll want the location to be taken from the user's profile
-// TODO
-//@property (nonatomic) CLLocationCoordinate2D location;
 
 @end

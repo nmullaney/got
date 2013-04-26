@@ -106,15 +106,7 @@ static GOTActiveUser *activeUser = nil;
     // activeUser needs to be initialized before this is called
     NSNumber *userID = [aDecoder decodeObjectForKey:@"userID"];
     if (userID) {
-        NSPredicate *userPredicate = [NSPredicate
-                                  predicateWithFormat:@"userID = %@"
-                                  argumentArray:[NSArray arrayWithObject:userID]];
-        GOTUser *dbUser = [[GOTUserStore sharedStore] fetchUserFromDBWithPredicate:userPredicate];
-        if (dbUser) {
-            [self setUser:dbUser];
-        } else {
-            [self setUser:[[GOTUserStore sharedStore] createNewUser]];
-        }
+        [self setUser:[[GOTUserStore sharedStore] createOrFetchUserWithID:userID]];
     }
     
     [self setFacebookID:[aDecoder decodeObjectForKey:@"facebookID"]];

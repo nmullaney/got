@@ -15,10 +15,14 @@
 #import "GOTItemsStore.h"
 #import "GOTTextView.h"
 #import "GOTItemState.h"
+#import "GOTUserStore.h"
+#import "GOTUser.h"
 
 @implementation GOTEditItemViewController
 
-@synthesize item;
+@synthesize item, draftState, draftStateUserID, usersWantItem;
+
+int PICKER_VIEW_TAG = 1;
 
 - (id) init
 {
@@ -42,7 +46,36 @@
 - (void)setItem:(GOTItem *)i
 {
     [[self navigationItem] setTitle:[i name]];
+    [self setDraftState:[i state]];
+    [[GOTUserStore sharedStore] fetchUsersWhoWantItemID:[i itemID] withCompletion:^(NSArray *users, NSError *err) {
+        if (err) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch users who want this item" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+            return;
+        }
+        [self setUsersWantItem:users];
+        [self setDraftStateUserID:[i stateUserID]];
+        if ([[self view] viewWithTag:PICKER_VIEW_TAG]) {
+            UIPickerView *pickerView = (UIPickerView *)[[self view] viewWithTag:PICKER_VIEW_TAG];
+            [pickerView reloadAllComponents];
+        }
+    }];
     item = i;
+}
+
+- (NSUInteger)draftUserIndex
+{
+    NSUInteger selectedUser = 0;
+    if (![self draftStateUserID]) {
+        return selectedUser;
+    }
+    for (int i = 0; i < [[self usersWantItem] count]; i++) {
+        GOTUser *user = [[self usersWantItem] objectAtIndex:i];
+        if ([[user userID] intValue] == [[self draftStateUserID] intValue]) {
+            selectedUser = i;
+        }
+    }
+    return selectedUser;
 }
 
 - (void)updateViewForItem
@@ -224,10 +257,12 @@
     if (![[[self item] name] isEqualToString:[nameField text]] ||
         ![[[self item] desc] isEqualToString:[descField text]] ||
         ![[[self item] state] isEqualToString:[GOTItemState getValue:[stateLabel text]]] ||
+        [[[self item] stateUserID] intValue] != [[self draftStateUserID] intValue] ||
         [[self item] imageNeedsUpload] ||
         [[self item] hasUnsavedChanges]) {
         return YES;
     }
+    NSLog(@"stateUserID: %@, draftStateUserID: %@", [[self item] stateUserID], [self draftStateUserID]);
     return NO;
 }
 
@@ -235,7 +270,8 @@
 {
     [[self item] setName:[nameField text]];
     [[self item] setDesc:[descField text]];
-    [[self item] setState:[GOTItemState getValue:[stateLabel text]]];
+    [[self item] setState:[self draftState]];
+    [[self item] setStateUserID:[self draftStateUserID]];
 }
 
 - (void)uploadItem
@@ -369,37 +405,126 @@
 #pragma mark -
 #pragma mark state button methods
 
+- (float)statePickerHeight
+{
+    return 216;
+}
+
+- (float)saveButtonHeight
+{
+    return 30;
+}
+
+- (float)stateViewBorder
+{
+    return 5;
+}
+
+- (float)stateSubViewHeight
+{
+    return [self statePickerHeight] + [self saveButtonHeight] + [self stateViewBorder] * 2;
+}
+
 - (void)stateButtonPressed:(id)sender
 {
     UIPickerView *statePicker = [[UIPickerView alloc] init];
     [statePicker setShowsSelectionIndicator:YES];
     [statePicker setDataSource:self];
     [statePicker setDelegate:self];
+    [statePicker setTag:PICKER_VIEW_TAG];
     GOTItemState *labelState = [GOTItemState getValue:[stateLabel text]];
     int currentRow = [[GOTItemState pickableValues] indexOfObject:labelState];
     [statePicker selectRow:currentRow inComponent:0 animated:YES];
-    int statePickerHeight = 216; // Standard picker height
+    if ([self draftStateUserID]) {
+        [statePicker selectRow:[self draftUserIndex] inComponent:1 animated:YES];
+    }
+    
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    [statePicker setFrame:CGRectMake(0, screenRect.size.height - statePickerHeight, screenRect.size.width, statePickerHeight)];
+    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [saveButton setFrame:CGRectMake(screenRect.size.width / 4,
+                                    [self stateViewBorder],
+                                    screenRect.size.width / 2,
+                                    [self saveButtonHeight])];
+    [saveButton setTitle:@"Set Item State" forState:UIControlStateNormal];
+    [saveButton addTarget:self action:@selector(saveAndDismissStatePicker:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [statePicker setFrame:CGRectMake(0,
+                                     2 * [self stateViewBorder] + [self saveButtonHeight],
+                                     screenRect.size.width,
+                                     [self statePickerHeight])];
+    UIView *subView = [[UIView alloc]
+                       initWithFrame:CGRectMake(0, screenRect.size.height, screenRect.size.width, [self stateSubViewHeight])];
+    [subView addSubview:saveButton];
+    [subView addSubview:statePicker];
+    UIColor *subviewBackgroundColor = [UIColor colorWithRed:0.573 green:0.608 blue:0.675 alpha:0.95];
+    [subView setBackgroundColor:subviewBackgroundColor];
+    
     UIView *fullView = [[UIView alloc] initWithFrame:screenRect];
-    UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
     [fullView setBackgroundColor:backgroundColor];
-    [fullView addSubview:statePicker];
+    [fullView addSubview:subView];
+    
     UIScrollView *scrollView = (UIScrollView *)self.view;
     [scrollView setScrollEnabled:NO];
     [self.view addSubview:fullView];
+    [UIView animateWithDuration:0.25 animations:^{
+        CGRect newSubviewFrame = CGRectMake(0,
+                                            screenRect.size.height - [self stateSubViewHeight],
+                                            screenRect.size.width,
+                                            [self stateSubViewHeight]);
+        [subView setFrame:newSubviewFrame];
+        UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        [fullView setBackgroundColor:backgroundColor];
+    }];
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+- (void)saveAndDismissStatePicker:(id)sender
 {
-    GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
+    UIButton *saveButton = (UIButton *)sender;
+    UIView *subView = [saveButton superview];
+    UIPickerView *pickerView = (UIPickerView *)[subView viewWithTag:PICKER_VIEW_TAG];
+    UIView *fullView = [subView superview];
+    NSInteger row = [pickerView selectedRowInComponent:0];
+    NSLog(@"row = %d", row);
+    GOTItemState *state = [[self item] state];
+    if (row >= 0) {
+        state = [[GOTItemState pickableValues] objectAtIndex:row];
+    }
     [stateLabel setText:state];
     [stateImage setImage:[GOTItemState imageForState:state]];
     [stateLabel setNeedsDisplay];
     [stateImage setNeedsDisplay];
     UIScrollView *scrollView = (UIScrollView *)self.view;
     [scrollView setScrollEnabled:YES];
-    [[pickerView superview] removeFromSuperview];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         CGRect newFrame = CGRectMake(0,
+                                                      screenRect.size.height,
+                                                      screenRect.size.width,
+                                                      [self stateSubViewHeight]);
+                         subView.frame = newFrame;
+                         UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+                         [[pickerView superview] setBackgroundColor:backgroundColor];
+                     }
+                     completion:^(BOOL finished) {
+                         [fullView removeFromSuperview];
+                     }];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if (component == 0) {
+        GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
+        [self setDraftState:state];
+        NSLog(@"reloading all components");
+        [pickerView reloadAllComponents];
+        [pickerView setNeedsDisplay];
+    } else if (component == 1) {
+        GOTUser *stateUser = [[self usersWantItem] objectAtIndex:row];
+        [self setDraftStateUserID:[stateUser userID]];
+        NSLog(@"Setting Draft user to: %@, current item id value: %@", stateUser, [[self item] stateUserID]);
+    }
 }
 
 #pragma mark -
@@ -407,32 +532,56 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    return 1;
+    if ([self draftState] == [GOTItemState AVAILABLE] || [[self usersWantItem] count] == 0) {
+        return 1;
+    } else {
+        return 2;
+    }
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [GOTItemState pickableCount];
+    if (component == 0) {
+        return [GOTItemState pickableCount];
+    } else if (component == 1){
+        return [[self usersWantItem] count];
+    }
+    return 0;
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)rowView
 {
-    if (!rowView) {
-        CGSize rowSize = [pickerView rowSizeForComponent:component];
-        rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, rowSize.width, rowSize.height)];
-        float iconBorder = (rowSize.height - 15) / 2;
-        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconBorder, iconBorder, 15, 15)];
-        [rowView addSubview:iconView];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(iconBorder * 2 + 15, 0, rowSize.width - iconBorder * 2 - 15, rowSize.height)];
-        [label setBackgroundColor:[UIColor clearColor]];
-        [rowView addSubview:label];
+    if (component == 0) {
+        if (!rowView) {
+            CGSize rowSize = [pickerView rowSizeForComponent:component];
+            rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, rowSize.width, rowSize.height)];
+            float iconBorder = (rowSize.height - 15) / 2;
+            UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(iconBorder, iconBorder, 15, 15)];
+            [rowView addSubview:iconView];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(iconBorder * 2 + 15, 0, rowSize.width - iconBorder * 2 - 15, rowSize.height)];
+            [label setBackgroundColor:[UIColor clearColor]];
+            [rowView addSubview:label];
+        }
+        GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
+        UIImageView *stateIcon = [[rowView subviews] objectAtIndex:0];
+        UILabel *stateName = [[rowView subviews] objectAtIndex:1];
+        [stateIcon setImage:[GOTItemState imageForState:state]];
+        [stateName setText:state];
+        return rowView;
+    } else {
+        if (!rowView) {
+            CGSize rowSize = [pickerView rowSizeForComponent:component];
+            rowView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, rowSize.width, rowSize.height)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, rowSize.width, rowSize.height)];
+            [label setBackgroundColor:[UIColor clearColor]];
+            [rowView addSubview:label];
+           
+        }
+        UILabel *userName = [[rowView subviews] objectAtIndex:0];
+        GOTUser *user = [[self usersWantItem] objectAtIndex:row];
+        [userName setText:[user username]];
+        return rowView;
     }
-    GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
-    UIImageView *stateIcon = [[rowView subviews] objectAtIndex:0];
-    UILabel *stateName = [[rowView subviews] objectAtIndex:1];
-    [stateIcon setImage:[GOTItemState imageForState:state]];
-    [stateName setText:state];
-    return rowView;
 }
 
 #pragma mark -

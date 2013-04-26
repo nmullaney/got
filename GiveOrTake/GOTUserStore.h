@@ -22,6 +22,7 @@
 
 - (NSString *)sqlStorePath;
 - (GOTUser *)createNewUser;
+- (GOTUser *)createOrFetchUserWithID:(NSNumber *)userID;
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
                   withCompletion:(void (^)(id user, NSError *err))block;
 - (void)fetchActiveUserWithExtraFields:(NSArray *)extraFields
@@ -33,9 +34,10 @@
 - (void)removePendingEmailWithCompletion:(void (^)(id result, NSError *err))block;
 - (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id result, NSError *err))block;
 
+- (void)fetchUsersWhoWantItemID:(NSNumber *)itemID
+                 withCompletion:(void (^)(NSArray *users, NSError *err))block;
+
 - (void)discardChanges;
 - (BOOL)saveChanges;
-
-//@property (nonatomic, strong) GOTUser *activeUser;
 
 @end

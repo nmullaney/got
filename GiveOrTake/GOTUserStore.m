@@ -55,6 +55,7 @@
         
         context = [[NSManagedObjectContext alloc] init];
         [context setPersistentStoreCoordinator:psc];
+        [context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
         
         [context setUndoManager:nil];
         
@@ -197,9 +198,7 @@
     
     NSLog(@"Fetching user from the web");
     NSDictionary *params = [NSDictionary dictionaryWithObject:userID forKey:@"user_id"];
-    GOTUser *newUser = [NSEntityDescription
-                        insertNewObjectForEntityForName:@"GOTUser"
-                        inManagedObjectContext:context];
+    GOTUser *newUser = [self createNewUser];
     [self fetchUserFromWebWithParams:params withRootObject:newUser withCompletion:block];
     
     return nil;
@@ -252,6 +251,19 @@
             inManagedObjectContext:context];
 }
 
+- (GOTUser *)createOrFetchUserWithID:(NSNumber *)userID
+{
+    // If a user exists with this ID in the DB, return that user.
+    // Otherwise, create a new DB object for this user.
+    NSPredicate *userIDPredicate = [NSPredicate predicateWithFormat:@"userID = %@"
+                                                      argumentArray:[NSArray arrayWithObject:userID]];
+    GOTUser *user = [self fetchUserFromDBWithPredicate:userIDPredicate];
+    if (!user) {
+        user = [self createNewUser];
+    }
+    return user;
+}
+
 #pragma mark -
 
 - (GOTUser *)fetchUserFromDBWithPredicate:(NSPredicate *)userPredicate
@@ -285,5 +297,35 @@
     }
     return successful;
 }
+
+#pragma mark Users who want items
+
+- (void)fetchUsersWhoWantItemID:(NSNumber *)itemID withCompletion:(void (^)(NSArray *, NSError *))block
+{
+    NSString *stringURL = [NSString stringWithFormat:@"users.php?wantItemID=%@", itemID];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:stringURL
+                                                                          relativeToURL:[GOTConstants baseURL]]];
+    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
+    [conn setDataType:JSON];
+    [conn setCompletionBlock:^(NSDictionary *dict, NSError *err) {
+        NSLog(@"Dict of users who want item: %@", dict);
+        if (dict) {
+            NSArray *usersDictArray = [dict objectForKey:@"users"];
+            NSMutableArray *users = [[NSMutableArray alloc] initWithCapacity:[usersDictArray count]];
+            [usersDictArray enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger index, BOOL *stop) {
+                GOTUser *user = [self createOrFetchUserWithID:[obj objectForKey:@"id"]];
+                [user readFromJSONDictionary:obj];
+                [users addObject:user];
+            }];
+            [self saveChanges];
+            block(users, err);
+        } else {
+            block(nil, err);
+        }
+    }];
+    [conn start];
+}
+
+#pragma mark -
 
 @end

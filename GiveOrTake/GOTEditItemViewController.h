@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class GOTItem;
+@class GOTItemState;
 @class GOTTextView;
 
 @interface GOTEditItemViewController : UIViewController
@@ -27,6 +28,9 @@
 }
 
 @property (nonatomic, strong) GOTItem *item;
+@property (nonatomic, strong) GOTItemState *draftState;
+@property (nonatomic, strong) NSNumber *draftStateUserID;
+@property (nonatomic, strong) NSArray *usersWantItem;
 
 - (void)updateViewForItem;
 - (void)backgroundTapped:(id)sender;
@@ -38,5 +42,6 @@
 
 - (void)backButtonPressed:(id)sender;
 - (void)stateButtonPressed:(id)sender;
+- (void)saveAndDismissStatePicker:(id)sender;
 
 @end
