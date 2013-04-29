@@ -8,16 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FilterItemSettingsViewController : UITableViewController
+@interface FilterItemSettingsViewController : UIViewController
 {
+    IBOutlet UIView *view;
+    __weak IBOutlet UITextField *searchField;
     __weak IBOutlet UISlider *distanceSlider;
     __weak IBOutlet UILabel *distanceLabel;
 }
 
 @property (nonatomic) BOOL filterChanged;
+- (IBAction)searchChanged:(id)sender;
 
 - (IBAction)distanceChanged:(id)sender;
+- (IBAction)backgroundTapped:(id)sender;
 - (void)updateDistanceToValue:(int)value;
 - (int)roundDistanceValue;
+- (NSString *)searchText;
 
 @end

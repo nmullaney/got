@@ -15,7 +15,7 @@
 
 @implementation GOTItemList
 
-@synthesize items, distance, ownedByID;
+@synthesize items, distance, searchText, ownedByID;
 
 - (id)init
 {
@@ -62,6 +62,24 @@
     }
     self->isAllDataLoaded = NO;
     distance = newDistance;
+}
+
+- (void)setSearchText:(NSString *)newSearchText
+{
+    if (![newSearchText isEqualToString:searchText]) {
+        NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
+        NSLog(@"Checking item matches %@", newSearchText);
+        [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+            if (![item matchesText:newSearchText]) {
+                [indicesToRemove addIndex:idx];
+            }
+        }];
+        [[self items] removeObjectsAtIndexes:indicesToRemove];
+        // Explicitly setting the items ensures that the observers reload data
+        [self setItems:[self items]];
+    }
+    self->isAllDataLoaded = NO;
+    searchText = newSearchText;
 }
 
 #pragma mark -
@@ -124,6 +142,9 @@
     if ([self distance]) {
         [params setObject:[self distance] forKey:@"distance"];
     }
+    if ([self searchText]) {
+        [params setObject:[self searchText] forKey:@"q"];
+    }
     if ([self ownedByID]) {
         [params setObject:[self ownedByID] forKey:@"ownedByID"];
     }
@@ -169,7 +190,6 @@
     if (count == 0 || idx > (count - 1)) {
         [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
-    NSLog(@"in getItemAtIndex in ItemList for index: %d", idx);
     return [[self items] objectAtIndex:idx];
 }
 

@@ -48,6 +48,24 @@
     return YES;
 }
 
+// Returns true if the search text is in the name or description
+- (BOOL)matchesText:(NSString *)searchText
+{
+    if (!searchText) {
+        // Everything matches nil
+        return YES;
+    }
+    NSRange matchedRange = [[self name] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+    if (matchedRange.location != NSNotFound) {
+        return YES;
+    }
+    matchedRange = [[self desc] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+    if (matchedRange.location != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
 // Make sure an empty string is treated as nil
 - (void)setDesc:(NSString *)newDesc
 {

@@ -30,8 +30,8 @@
                                                                 style:UIBarButtonItemStyleDone
                                                                target:self action:@selector(filterSearch:)];
         [[self navigationItem] setLeftBarButtonItem:bbi];
-        UIStoryboard *settingStoryboard = [UIStoryboard storyboardWithName:@"FilterItemSettingsStoryboard" bundle:nil];
-        [self setFisvc:[settingStoryboard instantiateInitialViewController]];
+        FilterItemSettingsViewController *filterVC = [[FilterItemSettingsViewController alloc] init];
+        [self setFisvc:filterVC];
         // Ensures we get an initial load
         [[self fisvc] setFilterChanged:YES];
         itemList = [[GOTItemList alloc] init];
@@ -54,6 +54,7 @@
         NSLog(@"Filter changed, should load most recent items");
         [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
+        [[self itemList] setSearchText:[[self fisvc] searchText]];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
             if (err) {
                 NSLog(@"Error occurred: %@", [err localizedDescription]);

@@ -15,7 +15,6 @@
 		8828072F16EAACEE00C13F61 /* GOTLocationUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072E16EAACEE00C13F61 /* GOTLocationUpdateViewController.m */; };
 		8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD1316D16451006955F6 /* GOTOffersViewController.xib */; };
 		8894FD1C16D16CF2006955F6 /* GOTEditItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */; };
-		8894FD2716D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */; };
 		8894FD2A16D5893D006955F6 /* FilterItemSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */; };
 		8894FD2D16D5995E006955F6 /* GOTSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD2C16D5995E006955F6 /* GOTSettings.m */; };
 		8894FD3216D7F04F006955F6 /* GOTFreeItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8894FD3116D7F04F006955F6 /* GOTFreeItemDetailViewController.m */; };
@@ -54,6 +53,7 @@
 		88AD62E2170CD1390091E80E /* JSONUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62E1170CD1390091E80E /* JSONUtil.m */; };
 		88AD62E7170E1F430091E80E /* GOTWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62E5170E1F430091E80E /* GOTWelcomeViewController.m */; };
 		88AD62E8170E1F430091E80E /* GOTWelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62E6170E1F430091E80E /* GOTWelcomeViewController.xib */; };
+		88EED99A172B482300C29D8C /* FilterItemSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EED999172B482300C29D8C /* FilterItemSettingsViewController.xib */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
 		88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC816CC39F5003C9D90 /* CoreGraphics.framework */; };
@@ -88,7 +88,6 @@
 		8894FD1316D16451006955F6 /* GOTOffersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTOffersViewController.xib; sourceTree = "<group>"; };
 		8894FD1A16D16CF2006955F6 /* GOTEditItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEditItemViewController.h; sourceTree = "<group>"; };
 		8894FD1B16D16CF2006955F6 /* GOTEditItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEditItemViewController.m; sourceTree = "<group>"; };
-		8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FilterItemSettingsStoryboard.storyboard; sourceTree = "<group>"; };
 		8894FD2816D5893C006955F6 /* FilterItemSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterItemSettingsViewController.h; sourceTree = "<group>"; };
 		8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterItemSettingsViewController.m; sourceTree = "<group>"; };
 		8894FD2B16D5995E006955F6 /* GOTSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSettings.h; sourceTree = "<group>"; };
@@ -148,6 +147,7 @@
 		88AD62E4170E1F430091E80E /* GOTWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTWelcomeViewController.h; sourceTree = "<group>"; };
 		88AD62E5170E1F430091E80E /* GOTWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTWelcomeViewController.m; sourceTree = "<group>"; };
 		88AD62E6170E1F430091E80E /* GOTWelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTWelcomeViewController.xib; sourceTree = "<group>"; };
+		88EED999172B482300C29D8C /* FilterItemSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterItemSettingsViewController.xib; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88F2BCC616CC39F5003C9D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -275,9 +275,9 @@
 				88F2BCE816CC40CE003C9D90 /* GOTItemsViewController.h */,
 				88F2BCE916CC40CE003C9D90 /* GOTItemsViewController.m */,
 				88F2BCEB16CC4147003C9D90 /* GOTItemsViewController.xib */,
-				8894FD2616D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard */,
 				8894FD2816D5893C006955F6 /* FilterItemSettingsViewController.h */,
 				8894FD2916D5893D006955F6 /* FilterItemSettingsViewController.m */,
+				88EED999172B482300C29D8C /* FilterItemSettingsViewController.xib */,
 				8894FD3516D828B2006955F6 /* GOTScrollItemsViewController.h */,
 				8894FD3616D828B2006955F6 /* GOTScrollItemsViewController.m */,
 				8894FD3016D7F04F006955F6 /* GOTFreeItemDetailViewController.h */,
@@ -482,7 +482,6 @@
 				88F2BCDB16CC39F5003C9D90 /* Default-568h@2x.png in Resources */,
 				88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */,
 				8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */,
-				8894FD2716D5880D006955F6 /* FilterItemSettingsStoryboard.storyboard in Resources */,
 				8894FD3416D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib in Resources */,
 				88957D3316E1786E00ADDC8A /* GOTLoginViewController.xib in Resources */,
 				88957D4116E529F400ADDC8A /* GOTProfileViewStoryboard.storyboard in Resources */,
@@ -497,6 +496,7 @@
 				88AD62DB170659310091E80E /* GOTLocationUpdateViewController.xib in Resources */,
 				88AD62E8170E1F430091E80E /* GOTWelcomeViewController.xib in Resources */,
 				889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */,
+				88EED99A172B482300C29D8C /* FilterItemSettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

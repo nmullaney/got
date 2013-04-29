@@ -15,9 +15,20 @@
 {
     self = [super init];
     if (self) {
+        NSLog(@"Initting new Filter item settings view");
         [self setFilterChanged:NO];
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    UILabel *magnifyingGlass = [[UILabel alloc] init];
+    [magnifyingGlass setText:[[NSString alloc] initWithUTF8String:"\xF0\x9F\x94\x8D"]];
+    [magnifyingGlass sizeToFit];
+    
+    [searchField setLeftView:magnifyingGlass];
+    [searchField setLeftViewMode:UITextFieldViewModeAlways];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -27,10 +38,20 @@
     [self updateDistanceToValue:startDistance];
 }
 
+- (IBAction)searchChanged:(id)sender {
+    NSLog(@"searchChanged");
+    [self setFilterChanged:YES];
+}
+
 - (IBAction)distanceChanged:(id)sender {
     int value = [self roundDistanceValue];
     [self updateDistanceToValue:value];
     [self setFilterChanged:YES];
+}
+
+- (IBAction)backgroundTapped:(id)sender {
+    [[self view] endEditing:YES];
+    [[self view] resignFirstResponder];
 }
 
 - (void)updateDistanceToValue:(int)value
@@ -48,6 +69,15 @@
 - (int)getCurrentDistance
 {
     return [[GOTSettings instance] getIntValueForKey:[GOTSettings distanceKey]];
+}
+
+- (NSString *)searchText
+{
+    NSString *text = [searchField text];
+    if ([text isEqualToString:@""]) {
+        return nil;
+    }
+    return text;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

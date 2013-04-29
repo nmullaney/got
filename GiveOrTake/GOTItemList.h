@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic) NSNumber *distance;
+@property (nonatomic) NSString *searchText;
 @property (nonatomic) NSNumber *ownedByID;
 
 - (void)mergeNewItems:(NSMutableArray *)newItems;

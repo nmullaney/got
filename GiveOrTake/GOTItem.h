@@ -22,6 +22,7 @@
 - (NSDictionary *)uploadDictionary;
 
 - (BOOL)isEmpty;
+- (BOOL)matchesText:(NSString *)searchText;
 
 @property (nonatomic, strong) NSNumber *itemID;
 @property (nonatomic, strong) NSString *name;
