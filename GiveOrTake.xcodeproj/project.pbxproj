@@ -37,6 +37,9 @@
 		88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */; };
 		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
 		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
+		88A904771730479B00D39CB6 /* whitehand.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A904761730479B00D39CB6 /* whitehand.png */; };
+		88A90479173059EC00D39CB6 /* whitegift.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A90478173059EC00D39CB6 /* whitegift.png */; };
+		88A9047B17305E7000D39CB6 /* whiteprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A9047A17305E7000D39CB6 /* whiteprofile.png */; };
 		88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */; };
 		88AD62BC17026D020091E80E /* GOTItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62BB17026D020091E80E /* GOTItemCell.m */; };
 		88AD62BE17026D300091E80E /* GOTItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62BD17026D300091E80E /* GOTItemCell.xib */; };
@@ -124,6 +127,9 @@
 		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
 		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
 		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
+		88A904761730479B00D39CB6 /* whitehand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitehand.png; sourceTree = "<group>"; };
+		88A90478173059EC00D39CB6 /* whitegift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitegift.png; sourceTree = "<group>"; };
+		88A9047A17305E7000D39CB6 /* whiteprofile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteprofile.png; sourceTree = "<group>"; };
 		88AD62B71700EF820091E80E /* GOTMessageFooterViewBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMessageFooterViewBuilder.h; sourceTree = "<group>"; };
 		88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMessageFooterViewBuilder.m; sourceTree = "<group>"; };
 		88AD62BA17026D020091E80E /* GOTItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemCell.h; sourceTree = "<group>"; };
@@ -407,6 +413,9 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				88A9047A17305E7000D39CB6 /* whiteprofile.png */,
+				88A90478173059EC00D39CB6 /* whitegift.png */,
+				88A904761730479B00D39CB6 /* whitehand.png */,
 				88AD62D01704F3430091E80E /* chevron.png */,
 				88AD62C717039C550091E80E /* red-noitem.png */,
 				88AD62C517039A260091E80E /* pink-heart.png */,
@@ -497,6 +506,9 @@
 				88AD62E8170E1F430091E80E /* GOTWelcomeViewController.xib in Resources */,
 				889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */,
 				88EED99A172B482300C29D8C /* FilterItemSettingsViewController.xib in Resources */,
+				88A904771730479B00D39CB6 /* whitehand.png in Resources */,
+				88A90479173059EC00D39CB6 /* whitegift.png in Resources */,
+				88A9047B17305E7000D39CB6 /* whiteprofile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
