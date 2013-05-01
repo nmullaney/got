@@ -17,11 +17,6 @@
     __weak IBOutlet UIImageView *imageView;
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
-    UILabel *descLabel;
-    UILabel *distanceLabel;
-    UILabel *usernameLabel;
-    UILabel *dateLabel;
-    
     // The height of the scrollview content
     float contentHeight;
     float contentWidth;
@@ -29,9 +24,8 @@
 
 @property (nonatomic, strong) GOTItem *item;
 
-- (void)loadDescriptionLabel;
-- (void)loadDistanceLabel;
-- (void)loadDateLabel;
+- (UILabel *)addLabelWithText:(NSString *)labelText;
+- (NSString *)dateStringForDate:(NSDate *)date;
 - (void)loadUsernameLabel;
 
 @end

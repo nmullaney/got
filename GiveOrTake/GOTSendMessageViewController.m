@@ -121,7 +121,7 @@ static float border = 10;
     }
     [[GOTItemsStore sharedStore] sendMessage:message forItem:[self item] withCompletion:^(id result, NSError *err) {
         if (err) {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message Send Failed" message:@"The message failed to send.  Please try again later" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message Send Failed" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
             return;
         }
