@@ -32,6 +32,7 @@
 - (void)loadUsernameLabel;
 - (NSString *)messagesSentString;
 - (void)addMessagesSentLabel;
+- (void)updateMessagesSent;
 - (void)autolayout;
 
 @end

@@ -33,6 +33,8 @@
 - (void)uploadItem:(GOTItem *)i
     withCompletion:(void (^)(id itemID, NSError *err))block;
 
+- (void)sendWantItem:(GOTItem *)item
+     withCompletion:(void (^)(id result, NSError *err))block;
 - (void)sendMessage:(NSString *)message
             forItem:(GOTItem *)item
      withCompletion:(void (^)(id result, NSError *err))block;

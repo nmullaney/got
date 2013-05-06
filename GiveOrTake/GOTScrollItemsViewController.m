@@ -12,10 +12,11 @@
 
 #import "GOTItem.h"
 #import "GOTItemList.h"
+#import "GOTItemState.h"
+#import "GOTItemsStore.h"
 #import "GOTFreeItemDetailViewController.h"
 #import "GOTSendMessageViewController.h"
 #import "GOTConstants.h"
-
 
 @implementation GOTScrollItemsViewController
 
@@ -184,8 +185,21 @@
 {
     NSLog(@"Want button pressed in scrollview!");
     GOTItem *currentItem = [[self itemList] getItemAtIndex:[self selectedIndex]];
-    GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItem:currentItem];
-    [[self navigationController] pushViewController:smvc animated:YES];
+    if ([currentItem state] == [GOTItemState AVAILABLE]) {
+        GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItem:currentItem];
+        [[self navigationController] pushViewController:smvc animated:YES];
+    } else {
+        [[GOTItemsStore sharedStore] sendWantItem:currentItem withCompletion:^(NSDictionary *result, NSError *err) {
+            if (err) {
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error registering for item" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [av show];
+            } else {
+                [currentItem setNumMessagesSent:[result objectForKey:@"numMessagesSent"]];
+                GOTFreeItemDetailViewController *currentVC = [viewControllers objectAtIndex:[self selectedIndex]];
+                [currentVC updateMessagesSent];
+            }
+        }];
+    }
 }
 
 // During viewWillAppear, the added viewControllers are not having

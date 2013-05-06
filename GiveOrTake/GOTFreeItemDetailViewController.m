@@ -215,6 +215,18 @@ static float kBorderSize = 5.0;
     }
 }
 
+- (void)updateMessagesSent
+{
+    if (messagesSentLabel) {
+        [messagesSentLabel setText:[self messagesSentString]];
+    } else {
+        [self addMessagesSentLabel];
+    }
+    NSLog(@"Creating new message label: %@", [self messagesSentString]);
+    [messagesSentLabel setNeedsDisplay];
+    [self autolayout];
+}
+
 - (NSString *)dateStringForDate:(NSDate *)date
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
