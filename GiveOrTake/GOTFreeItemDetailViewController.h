@@ -17,15 +17,21 @@
     __weak IBOutlet UIImageView *imageView;
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
-    // The height of the scrollview content
-    float contentHeight;
-    float contentWidth;
+    NSMutableArray *labels;
+    NSMutableArray *labelConstraints;
+    
+    UILabel *messagesSentLabel;
 }
 
 @property (nonatomic, strong) GOTItem *item;
 
 - (UILabel *)addLabelWithText:(NSString *)labelText;
+- (UILabel *)createLabelWithText:(NSString *)labelText;
+- (NSNumber *)heightForLabel:(UILabel *)label;
 - (NSString *)dateStringForDate:(NSDate *)date;
 - (void)loadUsernameLabel;
+- (NSString *)messagesSentString;
+- (void)addMessagesSentLabel;
+- (void)autolayout;
 
 @end

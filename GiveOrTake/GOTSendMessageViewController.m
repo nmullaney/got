@@ -119,11 +119,15 @@ static float border = 10;
         [av show];
         return;
     }
-    [[GOTItemsStore sharedStore] sendMessage:message forItem:[self item] withCompletion:^(id result, NSError *err) {
+    [[GOTItemsStore sharedStore] sendMessage:message forItem:[self item] withCompletion:^(NSDictionary *result, NSError *err) {
         if (err) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message Send Failed" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
             return;
+        } else {
+            NSNumber *numMessagesSent = [result objectForKey:@"numMessagesSent"];
+            [[self item] setNumMessagesSent:numMessagesSent];
+            NSLog(@"Got new value for messages sent");
         }
         [[self navigationController] popViewControllerAnimated:YES];
     }];

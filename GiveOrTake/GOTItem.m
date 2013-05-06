@@ -15,7 +15,7 @@
 
 @implementation GOTItem
 
-@synthesize itemID, name, desc, imageKey, imageNeedsUpload, thumbnail, thumbnailData, thumbnailURL, userID,
+@synthesize itemID, name, desc, imageKey, imageNeedsUpload, thumbnail, thumbnailData, thumbnailURL, userID, numMessagesSent,
     distance, imageURL, state, stateUserID;
 
 - (id)initWithName:(NSString *)itemName
@@ -94,17 +94,25 @@
     
     id tnURLString = [d objectForKey:@"thumbnailURL"];
     if (tnURLString) {
-        thumbnailURL = [NSURL URLWithString:(NSString *)tnURLString];
+        if (tnURLString == (id)[NSNull null]) {
+            thumbnailURL = nil;
+        } else {
+          thumbnailURL = [NSURL URLWithString:(NSString *)tnURLString];
+        }
     }
     
     id imageURLString = [d objectForKey:@"imageURL"];
     if (imageURLString) {
-        // For items we load from the web, we'll use their itemID
-        // as the image key.  This might mean that we'll have doubles
-        // for images the user has uploaded, but it ensures we'll never
-        // have collisions
-        [self setImageKey:[NSString stringWithFormat:@"%@", [d objectForKey:@"id"]]];
-        imageURL = [NSURL URLWithString:(NSString *)imageURLString];
+        if (imageURLString == (id)[NSNull null]) {
+            imageURL = nil;
+        } else {
+            // For items we load from the web, we'll use their itemID
+            // as the image key.  This might mean that we'll have doubles
+            // for images the user has uploaded, but it ensures we'll never
+            // have collisions
+            [self setImageKey:[NSString stringWithFormat:@"%@", [d objectForKey:@"id"]]];
+            imageURL = [NSURL URLWithString:(NSString *)imageURLString];
+        }
     }
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -125,6 +133,10 @@
     
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];
+    }
+    
+    if ([d objectForKey:@"numMessagesSent"]) {
+        [self setNumMessagesSent:[d objectForKey:@"numMessagesSent"]];
     }
     
     [self setHasUnsavedChanges:NO];

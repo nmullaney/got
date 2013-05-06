@@ -40,6 +40,7 @@
 
 @property (nonatomic, strong) NSNumber *userID;
 @property (nonatomic, strong) NSNumber *distance;
+@property (nonatomic, strong) NSNumber *numMessagesSent;
 
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *thumbnailURL;
