@@ -64,7 +64,7 @@
                 [errorLabel setHidden:YES];
                 if (isNewUserFlow) {
                     GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-                    [myApp setupTabBarControllers];
+                    [myApp setupTabBarControllersWithURL:nil];
                 } else {
                     [[self navigationController] popViewControllerAnimated:YES];
                 }
@@ -83,7 +83,7 @@
             [errorLabel setHidden:YES];
             if (isNewUserFlow) {
                 GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-                [myApp setupTabBarControllers];
+                [myApp setupTabBarControllersWithURL:nil];
             } else {
                 [[self navigationController] popViewControllerAnimated:YES];
             }

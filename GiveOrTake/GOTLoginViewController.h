@@ -20,5 +20,6 @@
 - (void)showCanLogIn;
 
 @property (nonatomic) BOOL loggingIn;
+@property (nonatomic, copy) void (^postLoginBlock)(void);
 
 @end

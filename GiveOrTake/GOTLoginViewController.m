@@ -8,13 +8,12 @@
 
 #import "GOTLoginViewController.h"
 
-#import "GOTAppDelegate.h"
 #import "GOTActiveUser.h"
 #import "GOTUserStore.h"
 
 @implementation GOTLoginViewController
 
-@synthesize loggingIn;
+@synthesize loggingIn, postLoginBlock;
 
 - (id)init
 {
@@ -115,13 +114,8 @@
             return;
             
         } else {
-            GOTAppDelegate *myApp = [[UIApplication sharedApplication] delegate];
-            if ([user isNewUser]) {
-                NSLog(@"Switching from loging to welcome with user: %@", user);
-                [myApp setupWelcomeController];
-            } else {
-                NSLog(@"Switching from login to tabs with user: %@", user);
-                [myApp setupTabBarControllers];
+            if ([self postLoginBlock]) {
+                [self postLoginBlock]();
             }
         }
     }];

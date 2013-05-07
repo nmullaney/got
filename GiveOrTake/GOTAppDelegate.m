@@ -31,13 +31,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded &&
-        [[GOTActiveUser activeUser] token]) {
+    if ([self loggedIn]) {
         NSLog(@"Active user token: %@, userID: %@", [[GOTActiveUser activeUser] token], [[GOTActiveUser activeUser] userID]);
-        [self setupTabBarControllers];
+        [self setupTabBarControllersWithURL:nil];
     } else {
         NSLog(@"not logged in");
-        [self setupLoginController];
+        [self setupLoginControllerWithURL:nil];
     }
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -45,13 +44,26 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     return YES;
 }
 
-- (void)setupLoginController
+- (BOOL)loggedIn
+{
+    return FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded &&
+    [[GOTActiveUser activeUser] token];
+}
+
+- (void)setupLoginControllerWithURL:(NSURL *)url
 {
     GOTLoginViewController *loginvc = [[GOTLoginViewController alloc] init];
+    [loginvc setPostLoginBlock:^{
+        if ([[GOTActiveUser activeUser] isNewUser]) {
+            [self setupWelcomeController];
+        } else {
+            [self setupTabBarControllersWithURL:url];
+        }
+    }];
     [[self window] setRootViewController:loginvc];
 }
 
-- (void)setupTabBarControllers
+- (void)setupTabBarControllersWithURL:(NSURL *)url
 {
     // My Offers Controller
     GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
@@ -79,7 +91,38 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [tvc addChildViewController:freeNav];
     [tvc addChildViewController:profileNav];
     
+    if (url) {
+        if ([[url host] isEqual:@"freeItem"]) {
+            NSLog(@"URL: url host is freeItem");
+            [tvc setSelectedIndex:1];
+            NSDictionary *dict = [self parseURLQuery:url];
+            NSLog(@"URL: query dict: %@", dict);
+            NSString *freeItemIDStr = [[self parseURLQuery:url] objectForKey:@"itemID"];
+            NSNumber *freeItemID = [NSNumber numberWithInt:[freeItemIDStr intValue]];
+            [ivc setFreeItemID:freeItemID];
+        } else {
+            NSLog(@"URL: url host is not freeItem");
+        }
+    }
+    
     [[self window] setRootViewController:tvc];
+}
+
+- (NSDictionary *)parseURLQuery:(NSURL *)url
+{
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    NSArray *components = [[url query] componentsSeparatedByString:@"&"];
+    NSLog(@"URL: components = %@", components);
+    for (NSString *component in components) {
+        NSArray *keyVals = [component componentsSeparatedByString:@"="];
+        NSLog(@"URL: keyValues: %@", keyVals);
+        if ([keyVals count] == 2) {
+            [values setValue:[keyVals objectAtIndex:1] forKey:[keyVals objectAtIndex:0]];
+        } else {
+            [values setValue:nil forKey:[keyVals objectAtIndex:0]];
+        }
+    }
+    return values;
 }
 
 - (void)setupWelcomeController
@@ -93,7 +136,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     NSLog(@"logout and clear token info");
     [[FBSession activeSession] closeAndClearTokenInformation];
     [GOTActiveUser logout];
-    [self setupLoginController];
+    [self setupLoginControllerWithURL:nil];
 }
 
 - (BOOL)application:(UIApplication *)application
@@ -101,7 +144,21 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    return [FBSession.activeSession handleOpenURL:url];
+    NSLog(@"URL passed in: %@", url);
+    if ([[url scheme] hasPrefix:@"fb"]) {
+        return [FBSession.activeSession handleOpenURL:url];
+    } else if ([[url scheme] hasPrefix:@"giveortakeapp"]) {
+        if ([self loggedIn]) {
+            [self setupTabBarControllersWithURL:url];
+        } else {
+            NSLog(@"not logged in");
+            [self setupLoginControllerWithURL:url];
+        }
+        return YES;
+    } else {
+        NSLog(@"Unexpected URL: %@", url);
+        return NO;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

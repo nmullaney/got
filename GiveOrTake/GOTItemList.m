@@ -181,6 +181,19 @@
                                        withCompletion:block];
 }
 
+- (void)loadSingleItem:(NSNumber *)singleItemID
+{
+    NSDictionary *params = [NSDictionary dictionaryWithObject:singleItemID forKey:@"itemID"];
+    [[GOTItemsStore sharedStore] fetchItemsWithParams:params forRootObject:self withCompletion:^(GOTItemList *list, NSError *err) {
+        if (err) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Failed to load item" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+        } else {
+            self->isAllDataLoaded = YES;
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark GetItem
 

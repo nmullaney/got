@@ -22,6 +22,9 @@
 @property (nonatomic, strong) GOTScrollItemsViewController *singleItemViewController;
 @property (nonatomic, strong) FilterItemSettingsViewController *fisvc;
 
+// This is used for openURL for a specific item
+@property (nonatomic, strong) NSNumber *freeItemID;
+
 - (void)filterSearch:(id)sender;
 - (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path;
 

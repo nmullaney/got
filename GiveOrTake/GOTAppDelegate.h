@@ -12,8 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)setupLoginController;
-- (void)setupTabBarControllers;
+- (void)setupLoginControllerWithURL:(NSURL *)url;
+- (void)setupTabBarControllersWithURL:(NSURL *)url;
 - (void)setupWelcomeController;
 - (void)logout;
 

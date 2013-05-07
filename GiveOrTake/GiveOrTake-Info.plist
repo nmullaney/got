@@ -5,6 +5,14 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.bitdance.giveortakeapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>giveortakeapp</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb165759800241065</string>

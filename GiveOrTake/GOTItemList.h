@@ -25,6 +25,7 @@
 - (void)mergeNewItems:(NSMutableArray *)newItems;
 - (void)loadMostRecentItemsWithCompletion:(void (^)(id items, NSError *err))block;
 - (void)loadMoreItemsWithCompletion:(void (^)(id items, NSError *err))block;
+- (void)loadSingleItem:(NSNumber *)singleItemID;
 - (GOTItem *)getItemAtIndex:(NSUInteger)idx;
 - (void)fetchItemAtIndex:(NSUInteger)idx
              withCompletion:(void (^)(id item, NSError *err))block;

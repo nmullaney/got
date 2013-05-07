@@ -20,7 +20,7 @@
 
 @implementation GOTItemsViewController
 
-@synthesize itemList, singleItemViewController, fisvc;
+@synthesize itemList, singleItemViewController, fisvc, freeItemID;
 
 - (id)init
 {
@@ -47,10 +47,20 @@
     }
 }
 
+- (void)setFreeItemID:(NSNumber *)itemID
+{
+    // prevents an initial load of other items
+    [[self fisvc] setFilterChanged:NO];
+    NSLog(@"URL: setting freeItemID to %@", itemID);
+    freeItemID = itemID;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([[self fisvc] filterChanged]) {
+    if ([self freeItemID]) {
+        [[self itemList] loadSingleItem:[self freeItemID]];
+    } else if ([[self fisvc] filterChanged]) {
         NSLog(@"Filter changed, should load most recent items");
         [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
@@ -75,6 +85,14 @@
 {
     CGPoint contentOffset = [scrollView contentOffset];
     if (contentOffset.y < 0 && abs(contentOffset.y) > [[self tableView] rowHeight] && ![[self tableView] tableHeaderView]) {
+        
+        // If a single item is set, clear it
+        if ([self freeItemID]) {
+            [self setFreeItemID:nil];
+            [self setSingleItemViewController:nil];
+            [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
+            [[self itemList] setSearchText:[[self fisvc] searchText]];
+        }
     
         // Update most recent items and show a header
         UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
@@ -133,6 +151,13 @@
 
 - (void)filterSearch:(id)sender
 {
+    // Once the user tries to use the filter, unset any single items we may
+    // be displaying
+    if ([self freeItemID]) {
+        [self setFreeItemID:nil];
+        // Reload no matter what
+        [[self fisvc] setFilterChanged:YES];
+    }
     [[self navigationController] pushViewController:[self fisvc]
                                            animated:YES];
 }
