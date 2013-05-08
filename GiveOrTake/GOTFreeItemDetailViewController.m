@@ -173,21 +173,21 @@ static float kBorderSize = 5.0;
     if (numMessages == nil) {
         // The user has not expressed interest in this item
         if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  Click 'I want this' to be informed if it becomes available again."];
+            msg = [NSString stringWithFormat:@"This item has been promised to another user.  Click 'I want this' to be informed if it becomes available."];
         }
     } else if ([numMessages isEqual:[NSNumber numberWithInt:0]]) {
         // The user has expressed interest, but has not sent a message
         if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available again"];
+            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available."];
         } else {
-            msg = [NSString stringWithFormat:@"You expressed interest in this item.  Click 'I want this' to send a message to the owner of the item"];
+            msg = [NSString stringWithFormat:@"You expressed interest in this item.  Click 'I want this' to send a message to the owner of the item."];
         }
     } else {
         // The user has successfully sent a message to the owner
         if (isStateUserActiveUser) {
             msg = [NSString stringWithFormat:@"Congratulations! This item has been promised to you!"];
         } else if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available again."];
+            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available."];
         } else {
             // Message has been sent, and the item is still available
             msg = [NSString stringWithFormat:@"You've sent a message to the owner of this item."];
