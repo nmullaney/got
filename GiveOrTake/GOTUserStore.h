@@ -37,6 +37,8 @@
 - (void)fetchUsersWhoWantItemID:(NSNumber *)itemID
                  withCompletion:(void (^)(NSArray *users, NSError *err))block;
 
+- (void)updateActiveUserKarma:(NSDictionary *)karmaDict;
+
 - (void)discardChanges;
 - (BOOL)saveChanges;
 

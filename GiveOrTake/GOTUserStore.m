@@ -16,6 +16,7 @@
 #import "GOTConnection.h"
 #import "GOTSettings.h"
 #import "GOTConstants.h"
+#import "JSONUtil.h"
 
 #import "User.h"
 
@@ -271,6 +272,14 @@
         NSLog(@"Storing more copies of users than we need to");
     }
     return [result objectAtIndex:0];
+}
+
+- (void)updateActiveUserKarma:(NSDictionary *)karmaDict
+{
+    NSNumber *karmaValue = [karmaDict objectForKey:@"updatedKarma"];
+    [[GOTActiveUser activeUser] setKarma:[JSONUtil normalizeJSONValue:karmaValue
+                                                              toClass:[NSNumber class]]];
+    [self saveChanges];
 }
 
 - (void)discardChanges

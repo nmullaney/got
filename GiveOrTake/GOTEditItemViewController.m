@@ -17,6 +17,8 @@
 #import "GOTItemState.h"
 #import "GOTUserStore.h"
 #import "GOTUser.h"
+#import "GOTActiveUser.h"
+#import "JSONUtil.h"
 
 @implementation GOTEditItemViewController
 
@@ -324,13 +326,15 @@ int PICKER_VIEW_TAG = 1;
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil];
             [av show];
-        } else if (item) {
+            return;
+        } else if ([self item]) {
             [[self item] setHasUnsavedChanges:NO];
             NSLog(@"%@", dict);
-            NSNumber *itemID = [dict objectForKey:@"id"];
+            NSDictionary *itemDict = [dict objectForKey:@"item"];
+            NSNumber *itemID = [itemDict objectForKey:@"id"];
             [[self item] setItemID:itemID];
-            if ([dict objectForKey:@"state"]) {
-                GOTItemState *state = [GOTItemState getValue:[dict objectForKey:@"state"]];
+            if ([itemDict objectForKey:@"state"]) {
+                GOTItemState *state = [GOTItemState getValue:[itemDict objectForKey:@"state"]];
                 [[self item] setState:state];
             }
             
@@ -343,6 +347,16 @@ int PICKER_VIEW_TAG = 1;
             }
             // Go back to the table view
             [[self navigationController] popViewControllerAnimated:YES];
+        }
+        if ([dict objectForKey:@"karma"]) {
+            NSDictionary *karmaDict = [dict objectForKey:@"karma"];
+            [[GOTUserStore sharedStore] updateActiveUserKarma:karmaDict];
+            NSNumber *karmaChange = [karmaDict objectForKey:@"karmaChange"];
+            if (karmaChange > 0) {
+                NSString *message = [NSString stringWithFormat:@"Your karma has increased by %@ points!", karmaChange];
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Karma Improved!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [av show];
+            }
         }
     };
     
