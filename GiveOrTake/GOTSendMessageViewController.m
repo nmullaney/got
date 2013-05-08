@@ -13,6 +13,7 @@
 #import "GOTItemsStore.h"
 #import "GOTUser.h"
 #import "GOTUserStore.h"
+#import "GOTActiveUser.h"
 
 @interface GOTSendMessageViewController ()
 
@@ -63,6 +64,17 @@ static float border = 10;
     [self setTextForToLabel:toLabel];
     [self.view addSubview:toLabel];
     heightSoFar += border + toLabelSize.height;
+    
+    NSString *replyToStr = [NSString stringWithFormat:@"Reply-To: %@", [[GOTActiveUser activeUser] email]];
+    CGSize replyToLabelSize = [replyToStr sizeWithFont:font forWidth:contentWidth lineBreakMode:NSLineBreakByTruncatingTail];
+    UILabel *replyToLabel = [[UILabel alloc] initWithFrame:CGRectMake(border, heightSoFar, contentWidth, replyToLabelSize.height)];
+    [replyToLabel setFont:font];
+    [replyToLabel setTextColor:[GOTConstants defaultGrayTextColor]];
+    [replyToLabel setTextAlignment:NSTextAlignmentLeft];
+    [replyToLabel setBackgroundColor:[UIColor clearColor]];
+    [replyToLabel setText:replyToStr];
+    [self.view addSubview:replyToLabel];
+    heightSoFar += border + replyToLabelSize.height;
     
     NSString *subjectLabelStr = [NSString stringWithFormat:@"Subject: %@", [[self item] name]];
     CGSize subjectLabelSize = [subjectLabelStr sizeWithFont:font forWidth:contentWidth lineBreakMode:NSLineBreakByTruncatingTail];
