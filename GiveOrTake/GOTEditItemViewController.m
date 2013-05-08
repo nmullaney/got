@@ -28,7 +28,7 @@ int PICKER_VIEW_TAG = 1;
 
 - (id) init
 {
-    self = [super self];
+    self = [super init];
     if (self) {
         // This hides the TabBar used for main navigation
         self.hidesBottomBarWhenPushed = YES;
