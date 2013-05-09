@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <HockeySDK/HockeySDK.h>
 
 @interface GOTAppDelegate : UIResponder <UIApplicationDelegate>
 

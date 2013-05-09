@@ -17,6 +17,7 @@
 #import "GOTActiveUser.h"
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <HockeySDK/HockeySDK.h>
 
 @implementation GOTAppDelegate
 
@@ -27,7 +28,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Override point for customization after application launch.
     
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-                                  
+    
+    // Startup the Hockey system
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"778954ac708922955173508ac7d0cd24"
+                                                           delegate:self];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
     
@@ -41,7 +47,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
     return YES;
+}
+
+- (NSString *)customDeviceIdentifierForUpdateManager:(BITUpdateManager *)updateManager {
+#ifndef CONFIGURATION_AppStore
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(uniqueIdentifier)])
+        return [[UIDevice currentDevice] performSelector:@selector(uniqueIdentifier)];
+#endif
+    return nil;
 }
 
 - (BOOL)loggedIn

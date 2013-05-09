@@ -35,6 +35,11 @@
 		88957D4416E5548000ADDC8A /* GOTUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D4316E5547F00ADDC8A /* GOTUserStore.m */; };
 		88957D4616E559FB00ADDC8A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88957D4516E559FB00ADDC8A /* CoreData.framework */; };
 		88957D5216E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */; };
+		88976455173C6872008B5CDB /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88976454173C6872008B5CDB /* HockeySDK.framework */; };
+		88976459173C6922008B5CDB /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */; };
+		8897645B173C69AD008B5CDB /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */; };
+		8897645D173C6A26008B5CDB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645C173C6A26008B5CDB /* CoreText.framework */; };
+		8897645F173C6A39008B5CDB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645E173C6A39008B5CDB /* QuartzCore.framework */; };
 		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
 		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
 		88A904771730479B00D39CB6 /* whitehand.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A904761730479B00D39CB6 /* whitehand.png */; };
@@ -129,6 +134,11 @@
 		88957D4516E559FB00ADDC8A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88957D5016E6C2FE00ADDC8A /* GOTMutableURLPostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTMutableURLPostRequest.h; sourceTree = "<group>"; };
 		88957D5116E6C2FE00ADDC8A /* GOTMutableURLPostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTMutableURLPostRequest.m; sourceTree = "<group>"; };
+		88976454173C6872008B5CDB /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = GiveOrTake/Vendor/HockeySDK.framework; sourceTree = "<group>"; };
+		88976458173C6922008B5CDB /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = HockeySDK.xcconfig; path = GiveOrTake/Vendor/HockeySDK.framework/Versions/A/Resources/HockeySDK.xcconfig; sourceTree = "<group>"; };
+		8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = HockeySDKResources.bundle; path = GiveOrTake/Vendor/HockeySDK.framework/Versions/A/Resources/HockeySDKResources.bundle; sourceTree = "<group>"; };
+		8897645C173C6A26008B5CDB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		8897645E173C6A39008B5CDB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
 		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
 		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
@@ -197,6 +207,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8897645F173C6A39008B5CDB /* QuartzCore.framework in Frameworks */,
+				8897645D173C6A26008B5CDB /* CoreText.framework in Frameworks */,
 				88957D4616E559FB00ADDC8A /* CoreData.framework in Frameworks */,
 				88957D3916E17D3500ADDC8A /* Social.framework in Frameworks */,
 				88957D3716E17D2400ADDC8A /* AdSupport.framework in Frameworks */,
@@ -207,6 +219,7 @@
 				88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */,
 				88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */,
 				88F2BCC916CC39F5003C9D90 /* CoreGraphics.framework in Frameworks */,
+				88976455173C6872008B5CDB /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +374,16 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		88976453173C6863008B5CDB /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */,
+				88976458173C6922008B5CDB /* HockeySDK.xcconfig */,
+				88976454173C6872008B5CDB /* HockeySDK.framework */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 		88AD62E3170E1A8F0091E80E /* NewUserFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +400,7 @@
 				88F2BCCA16CC39F5003C9D90 /* GiveOrTake */,
 				88F2BCC316CC39F5003C9D90 /* Frameworks */,
 				88F2BCC216CC39F5003C9D90 /* Products */,
+				88976453173C6863008B5CDB /* Vendor */,
 			);
 			sourceTree = "<group>";
 		};
@@ -391,6 +415,8 @@
 		88F2BCC316CC39F5003C9D90 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8897645C173C6A26008B5CDB /* CoreText.framework */,
+				8897645E173C6A39008B5CDB /* QuartzCore.framework */,
 				88957D4516E559FB00ADDC8A /* CoreData.framework */,
 				88957D3E16E1863800ADDC8A /* FacebookSDKResources.bundle */,
 				88957D3C16E17DA800ADDC8A /* libsqlite3.0.dylib */,
@@ -499,6 +525,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8897645B173C69AD008B5CDB /* HockeySDKResources.bundle in Resources */,
 				88957D3F16E1863900ADDC8A /* FacebookSDKResources.bundle in Resources */,
 				88F2BCCF16CC39F5003C9D90 /* InfoPlist.strings in Resources */,
 				88F2BCD716CC39F5003C9D90 /* Default.png in Resources */,
@@ -529,6 +556,7 @@
 				88A904811730721D00D39CB6 /* whitehand@2x.png in Resources */,
 				88A90483173190E900D39CB6 /* icon.png in Resources */,
 				88A904851731959300D39CB6 /* icon@2x.png in Resources */,
+				88976459173C6922008B5CDB /* HockeySDK.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +618,7 @@
 /* Begin XCBuildConfiguration section */
 		88F2BCDC16CC39F5003C9D90 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -621,6 +650,7 @@
 		};
 		88F2BCDD16CC39F5003C9D90 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -646,10 +676,12 @@
 		};
 		88F2BCDF16CC39F5003C9D90 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/GiveOrTake/Vendor\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GiveOrTake/GiveOrTake-Prefix.pch";
@@ -665,10 +697,12 @@
 		};
 		88F2BCE016CC39F5003C9D90 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/GiveOrTake/Vendor\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GiveOrTake/GiveOrTake-Prefix.pch";
