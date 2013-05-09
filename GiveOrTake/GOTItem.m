@@ -59,9 +59,11 @@
     if (matchedRange.location != NSNotFound) {
         return YES;
     }
-    matchedRange = [[self desc] rangeOfString:searchText options:NSCaseInsensitiveSearch];
-    if (matchedRange.location != NSNotFound) {
-        return YES;
+    if ([self desc]) {
+        matchedRange = [[self desc] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        if (matchedRange.location != NSNotFound) {
+            return YES;
+        }
     }
     return NO;
 }
