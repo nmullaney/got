@@ -146,7 +146,7 @@
         [params setObject:[self searchText] forKey:@"q"];
     }
     if ([self ownedByID]) {
-        [params setObject:[self ownedByID] forKey:@"ownedByID"];
+        [params setObject:[self ownedByID] forKey:@"ownedBy"];
     }
     return params;
 }
@@ -251,6 +251,20 @@
 - (NSUInteger)itemCount
 {
     return [[self items] count];
+}
+
+- (void)removeItemAtIndex:(NSUInteger)idx
+{
+    int count = [self itemCount];
+    if (count == 0 || idx > (count - 1)) {
+        [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
+    }
+    [[self items] removeObjectAtIndex:idx];
+}
+
+- (void)insertItem:(GOTItem *)item atIndex:(NSUInteger)idx
+{
+    [[self items] insertObject:item atIndex:idx];
 }
 
 @end

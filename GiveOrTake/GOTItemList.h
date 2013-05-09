@@ -26,9 +26,13 @@
 - (void)loadMostRecentItemsWithCompletion:(void (^)(id items, NSError *err))block;
 - (void)loadMoreItemsWithCompletion:(void (^)(id items, NSError *err))block;
 - (void)loadSingleItem:(NSNumber *)singleItemID;
-- (GOTItem *)getItemAtIndex:(NSUInteger)idx;
+
 - (void)fetchItemAtIndex:(NSUInteger)idx
              withCompletion:(void (^)(id item, NSError *err))block;
+
+- (GOTItem *)getItemAtIndex:(NSUInteger)idx;
 - (NSUInteger)itemCount;
+- (void)removeItemAtIndex:(NSUInteger)idx;
+- (void)insertItem:(GOTItem *)item atIndex:(NSUInteger)idx;
 
 @end

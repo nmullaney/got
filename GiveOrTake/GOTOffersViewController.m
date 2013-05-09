@@ -17,16 +17,17 @@
 #import "GOTItemCell.h"
 #import "GOTConstants.h"
 #import "GOTItemState.h"
+#import "GOTActiveUser.h"
 
 @implementation GOTOffersViewController
 
-@synthesize offers;
+@synthesize offersList;
 
 - (id)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        offers = [[NSMutableArray alloc] init];
+        offersList = [[GOTItemList alloc] init];
         
         [[self navigationItem] setTitle:@"My Offers"];
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
@@ -41,7 +42,7 @@
 {
     [super viewWillAppear:animated];
     [self deleteEmptyItems];
-    if ([[self offers] count] == 0) {
+    if ([[self offersList] itemCount] == 0) {
         [self updateOffers];
     } 
     [[self tableView] reloadData];
@@ -51,7 +52,7 @@
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    return [[self offers] count];
+    return [[self offersList] itemCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,7 +63,7 @@
         cell = [nib objectAtIndex:0];
     }
     
-    GOTItem *item = [offers objectAtIndex:[indexPath row]];
+    GOTItem *item = [[self offersList] getItemAtIndex:[indexPath row]];
     [cell setTitle:[item name]];
     [cell setState:[item state]];
     if ([item thumbnail]) {
@@ -78,7 +79,7 @@
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GOTItem *editItem = [[self offers] objectAtIndex:[indexPath row]];
+    GOTItem *editItem = [[self offersList] getItemAtIndex:[indexPath row]];
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:editItem];
     [[self navigationController] pushViewController:eic animated:YES];
@@ -87,11 +88,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        GOTItem *deletedItem = [[self offers] objectAtIndex:[indexPath row]];
+        GOTItem *deletedItem = [[self offersList] getItemAtIndex:[indexPath row]];
         [deletedItem setState:[GOTItemState DELETED]];
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
-                [[self offers] removeObjectAtIndex:[indexPath row]];
+                [[self offersList] removeItemAtIndex:[indexPath row]];
                 [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                         withRowAnimation:UITableViewRowAnimationFade];
                 // TODO itemsStore update?
@@ -106,7 +107,7 @@
 - (UIView *)tableView:(UITableView *)tv viewForFooterInSection:(NSInteger)section
 {
     UIView *footer = [[UIView alloc] init];
-    if ([[self offers] count] == 0) {
+    if ([[self offersList] itemCount] == 0) {
         CGRect frame = tv.bounds;
         UIView *messageView = [[[GOTMessageFooterViewBuilder alloc]
                                 initWithFrame:frame
@@ -119,6 +120,21 @@
 
 #pragma mark -
 
+#pragma ScrollView methods
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    UITableViewCell *cell = [[[self tableView] visibleCells] lastObject];
+    NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
+    if (row == ([[self offersList] itemCount] - 1)) {
+        [[self offersList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
+            [[self tableView] reloadData];
+        }];
+    }
+}
+
+#pragma mark -
+
 #pragma mark add item
 
 - (void)addNewItem:(id)sender
@@ -127,7 +143,7 @@
     GOTEditItemViewController *eic = [[GOTEditItemViewController alloc] init];
     [eic setItem:newItem];
     // We display the newest items first
-    [[self offers] insertObject:newItem atIndex:0];
+    [[self offersList] insertItem:newItem atIndex:0];
     [[self navigationController] pushViewController:eic animated:YES];
 }
 
@@ -136,10 +152,10 @@
 - (void)deleteEmptyItems
 {
     // only the first item could be empty
-    if ([[self offers] count] > 0) {
-        GOTItem *firstItem = [[self offers] objectAtIndex:0];
+    if ([[self offersList] itemCount] > 0) {
+        GOTItem *firstItem = [[self offersList] getItemAtIndex:0];
         if ([firstItem isEmpty]) {
-            [[self offers] removeObjectAtIndex:0];
+            [[self offersList] removeItemAtIndex:0];
         }
     }
 }
@@ -150,11 +166,8 @@
 
 - (void)updateOffers
 {
-    [[GOTItemsStore sharedStore] fetchMyItemsWithCompletion:^(GOTItemList *list, NSError *err) {
-        if (list) {
-            [self setOffers:[list items]];
-            [[self tableView] reloadData];
-        }
+    [[self offersList] setOwnedByID:[[GOTActiveUser activeUser] userID]];
+    [[self offersList] loadMostRecentItemsWithCompletion:^(id items, NSError *err) {
         if (err) {
             NSString *errorString = [NSString stringWithFormat:@"Failed to fetch offers: %@",
                                      [err localizedDescription]];
@@ -165,6 +178,8 @@
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil];
             [av show];
+        } else {
+            [[self tableView] reloadData];
         }
     }];
 }

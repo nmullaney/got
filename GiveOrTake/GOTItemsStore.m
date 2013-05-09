@@ -52,48 +52,6 @@
     [conn start];
 }
 
-- (void)fetchItemsAtDistance:(int)distance
-                   withLimit:(int)limit
-                  withOffset:(int)offset
-              withCompletion:(void (^)(GOTItemList *, NSError *))block
-{
-    NSString *urlStr = [NSString stringWithFormat:@"/items.php?distance=%d&userID=%@&limit=%d&offset=%d",
-                        distance,
-                        [[GOTActiveUser activeUser] userID],
-                        limit,
-                        offset];
-    NSURL *url = [NSURL URLWithString:urlStr
-                        relativeToURL:[GOTConstants baseURL]];
-    
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-    
-    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    
-    [conn setCompletionBlock:block];
-    
-    GOTItemList *list = [[GOTItemList alloc] init];
-    [conn setJsonRootObject:list];
-    [conn start];
-}
-
-- (void)fetchMyItemsWithCompletion:(void (^)(GOTItemList *, NSError *))block
-{
-    NSLog(@"active user ID: %@", [[GOTActiveUser activeUser] userID]);
-    NSLog(@"active user token: %@", [[GOTActiveUser activeUser] token]);
-    NSString *urlStr = [NSString stringWithFormat:@"/items.php?ownedBy=%@",
-                        [[GOTActiveUser activeUser] userID]];
-    NSLog(@"getting my items from %@", urlStr);
-    NSURL *url = [NSURL URLWithString:urlStr
-                        relativeToURL:[GOTConstants baseURL]];
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-    
-    GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
-    [conn setCompletionBlock:block];
-    GOTItemList *list = [[GOTItemList alloc] init];
-    [conn setJsonRootObject:list];
-    [conn start];
-}
-
 - (void)fetchThumbnailAtURL:(NSURL *)url withCompletion:(void (^)(id, NSError *))block
 {
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];

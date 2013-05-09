@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class GOTItemList;
+
 @interface GOTOffersViewController : UITableViewController
 {
     
     IBOutlet UITableView *tableView;
 }
 
-@property (nonatomic, strong) NSMutableArray *offers;
+@property (nonatomic, strong) GOTItemList *offersList;
 
 - (void)addNewItem:(id)sender;
 - (void)deleteEmptyItems;

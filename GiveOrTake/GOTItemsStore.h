@@ -21,11 +21,6 @@
 - (void)fetchItemsWithParams:(NSDictionary *)params
               forRootObject:(GOTItemList *)list
               withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
-- (void)fetchItemsAtDistance:(int)distance
-                   withLimit:(int)limit
-                  withOffset:(int)offset
-              withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
-- (void)fetchMyItemsWithCompletion:(void (^)(GOTItemList *list, NSError *err))block;
 
 - (void)fetchThumbnailAtURL:(NSURL *)url
              withCompletion:(void (^)(id image, NSError *err))block;
