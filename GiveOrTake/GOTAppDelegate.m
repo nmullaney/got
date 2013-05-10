@@ -105,6 +105,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [tvc addChildViewController:offerNav];
     [tvc addChildViewController:freeNav];
     [tvc addChildViewController:profileNav];
+    // Show free items first
+    [tvc setSelectedIndex:1];
     
     if (url) {
         if ([[url host] isEqual:@"freeItem"]) {
