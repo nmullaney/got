@@ -465,7 +465,7 @@ int PICKER_VIEW_TAG = 1;
     GOTItemState *labelState = [GOTItemState getValue:[stateLabel text]];
     int currentRow = [[GOTItemState pickableValues] indexOfObject:labelState];
     [statePicker selectRow:currentRow inComponent:0 animated:YES];
-    if ([self draftStateUserID]) {
+    if ([self draftStateUserID] && [statePicker numberOfComponents] == 2) {
         [statePicker selectRow:[self draftUserIndex] inComponent:1 animated:YES];
     }
     
@@ -519,6 +519,9 @@ int PICKER_VIEW_TAG = 1;
     GOTItemState *state = [[self item] state];
     if (row >= 0) {
         state = [[GOTItemState pickableValues] objectAtIndex:row];
+    }
+    if (state == [GOTItemState AVAILABLE]) {
+        [self setDraftStateUserID:nil];
     }
     [stateLabel setText:state];
     [stateImage setImage:[GOTItemState imageForState:state]];
