@@ -19,6 +19,7 @@
 + (UIFont *)defaultMediumFont;
 + (UIFont *)defaultLargeFont;
 + (UIFont *)defaultVeryLargeFont;
++ (UIFont *)defaultBoldVeryLargeFont;
 
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;

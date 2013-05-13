@@ -157,14 +157,22 @@
     [self notifyViewControllerAppearing:[self selectedIndex] + 1];
     [scrollView setNeedsDisplay];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"I want this!"
-                                                             style:UIBarButtonItemStyleBordered target:self
-                                                            action:@selector(wantButtonPressed:)];
-    [item setTintColor:[UIColor redColor]];
-    // It doesn't seem to be possible to set the width and the font simultaneously here,
-    // so we'll use the default font.
-    [item setWidth:(bounds.size.width - 10)];
+
+    CGRect toolbarFrame = [[[self navigationController] toolbar] frame];
+    float wantButtonWidth = toolbarFrame.size.width;
+    float wantButtonX = 0;
+    float wantButtonY = toolbarFrame.origin.y;
+    float wantButtonHeight = toolbarFrame.size.height;
+    
+    UIButton *wantButton = [[UIButton alloc] init];
+    [wantButton setFrame:CGRectMake(wantButtonX, wantButtonY, wantButtonWidth, wantButtonHeight)];
+    [wantButton setTitle:@"I want this!" forState:UIControlStateNormal];
+    wantButton.titleLabel.font = [GOTConstants defaultBoldVeryLargeFont];
+    [wantButton addTarget:self action:@selector(wantButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:wantButton];
+    
     [self setToolbarItems:[NSArray arrayWithObject:item]];
+    self.navigationController.toolbar.tintColor = [UIColor redColor];
     [[self navigationController] setToolbarHidden:NO animated:YES];
 }
 
