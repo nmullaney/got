@@ -159,7 +159,9 @@
     
 
     CGRect toolbarFrame = [[[self navigationController] toolbar] frame];
-    float wantButtonWidth = toolbarFrame.size.width;
+    // The toolbar leaves a margin of 10px at the edge, so to
+    // center the button, we need to remove 20 from the width
+    float wantButtonWidth = toolbarFrame.size.width - 20;
     float wantButtonX = 0;
     float wantButtonY = toolbarFrame.origin.y;
     float wantButtonHeight = toolbarFrame.size.height;
