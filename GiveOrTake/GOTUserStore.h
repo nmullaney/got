@@ -34,7 +34,7 @@
 - (void)removePendingEmailWithCompletion:(void (^)(id result, NSError *err))block;
 - (void)verifyPendingEmailCode:(NSString *)code withCompletion:(void (^)(id result, NSError *err))block;
 
-- (void)fetchUsersWhoWantItemID:(NSNumber *)itemID
+- (void)fetchUsersWhoRequestedItemID:(NSNumber *)itemID
                  withCompletion:(void (^)(NSArray *users, NSError *err))block;
 
 - (void)updateActiveUserKarma:(NSDictionary *)karmaDict;

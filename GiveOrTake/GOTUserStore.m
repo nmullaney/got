@@ -299,9 +299,9 @@
 
 #pragma mark Users who want items
 
-- (void)fetchUsersWhoWantItemID:(NSNumber *)itemID withCompletion:(void (^)(NSArray *, NSError *))block
+- (void)fetchUsersWhoRequestedItemID:(NSNumber *)itemID withCompletion:(void (^)(NSArray *, NSError *))block
 {
-    NSString *stringURL = [NSString stringWithFormat:@"users.php?wantItemID=%@", itemID];
+    NSString *stringURL = [NSString stringWithFormat:@"users.php?wantItemID=%@&minMessages=1", itemID];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:stringURL
                                                                           relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];

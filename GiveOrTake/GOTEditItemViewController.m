@@ -49,7 +49,7 @@ int PICKER_VIEW_TAG = 1;
 {
     [[self navigationItem] setTitle:[i name]];
     [self setDraftState:[i state]];
-    [[GOTUserStore sharedStore] fetchUsersWhoWantItemID:[i itemID] withCompletion:^(NSArray *users, NSError *err) {
+    [[GOTUserStore sharedStore] fetchUsersWhoRequestedItemID:[i itemID] withCompletion:^(NSArray *users, NSError *err) {
         if (err) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch users who want this item" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
