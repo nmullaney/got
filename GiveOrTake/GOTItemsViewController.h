@@ -16,7 +16,6 @@
 @interface GOTItemsViewController : UITableViewController
 {
     IBOutlet UITableView *tableView;
-    UIRefreshControl *refreshControl;
 }
 
 @property (nonatomic, strong) GOTItemList *itemList;
@@ -28,6 +27,5 @@
 
 - (void)filterSearch:(id)sender;
 - (void)fetchThumbnailForItem:(GOTItem *)item atIndexPath:(NSIndexPath *)path;
-- (void)refresh:(id)sender;
 
 @end

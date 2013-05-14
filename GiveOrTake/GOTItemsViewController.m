@@ -36,10 +36,6 @@
         [[self fisvc] setFilterChanged:YES];
         itemList = [[GOTItemList alloc] init];
         [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew context:nil];
-        
-        refreshControl = [[UIRefreshControl alloc] init];
-        [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-        [self setRefreshControl:refreshControl];
     }
     return self;
 }
@@ -85,21 +81,42 @@
     return [[GOTSettings instance] getIntValueForKey:[GOTSettings distanceKey]];
 }
 
-- (void)refresh:(id)sender
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"refresh sender: %@", sender);
-    // If a single item is set, clear it
-    if ([self freeItemID]) {
-        [self setFreeItemID:nil];
-        [self setSingleItemViewController:nil];
-        [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
-        [[self itemList] setSearchText:[[self fisvc] searchText]];
-    }
+    CGPoint contentOffset = [scrollView contentOffset];
+    if (contentOffset.y < 0 && abs(contentOffset.y) > [[self tableView] rowHeight] && ![[self tableView] tableHeaderView]) {
+        
+        // If a single item is set, clear it
+        if ([self freeItemID]) {
+            [self setFreeItemID:nil];
+            [self setSingleItemViewController:nil];
+            [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
+            [[self itemList] setSearchText:[[self fisvc] searchText]];
+        }
     
-    [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
-        NSLog(@"Reloading data because most recent loaded");
-        [refreshControl endRefreshing];
-    }];
+        // Update most recent items and show a header
+        UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
+        UIColor *headerColor = [GOTConstants defaultBackgroundColor];
+        [tableHeaderView setBackgroundColor:headerColor];
+        UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        CGRect indicatorFrame = CGRectMake(0, 0, [indicatorView bounds].size.width * 2, [indicatorView bounds].size.height * 2);
+        [indicatorView setFrame:indicatorFrame];
+        [tableHeaderView addSubview:indicatorView];
+        [indicatorView startAnimating];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[self tableView] bounds].size.width, [[self tableView] rowHeight])];
+        [label setText:@"Updating items"];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setFont:[GOTConstants defaultMediumFont]];
+        [label setTextColor:[UIColor darkGrayColor]];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        [tableHeaderView addSubview:label];
+        [[self tableView] setTableHeaderView:tableHeaderView];
+        [[self tableView] setNeedsDisplay];
+        [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
+            [[self tableView] setTableHeaderView:nil];
+            NSLog(@"Reloading data because most recent loaded");
+        }];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
