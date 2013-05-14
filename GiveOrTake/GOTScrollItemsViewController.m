@@ -196,7 +196,7 @@
     NSLog(@"Want button pressed in scrollview!");
     GOTItem *currentItem = [[self itemList] getItemAtIndex:[self selectedIndex]];
     if ([currentItem state] == [GOTItemState AVAILABLE]) {
-        GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItem:currentItem];
+        GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItemList:[self itemList] selectedIndex:[self selectedIndex]];
         [[self navigationController] pushViewController:smvc animated:YES];
     } else {
         [[GOTItemsStore sharedStore] sendWantItem:currentItem withCompletion:^(NSDictionary *result, NSError *err) {

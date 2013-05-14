@@ -83,7 +83,7 @@
         if ([d objectForKey:@"error"]) {
             NSLog(@"returning error");
             NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];
-            [self completionBlock](nil, err);
+            [self completionBlock](d, err);
             return;
         }
         

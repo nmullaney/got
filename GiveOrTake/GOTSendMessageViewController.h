@@ -10,20 +10,21 @@
 
 #import "GOTTextView.h"
 
-@class GOTItem;
+@class GOTItemList;
 
 @interface GOTSendMessageViewController : UIViewController
 {
     GOTTextView *messageTextView;
 }
 
-- (id)initWithItem:(GOTItem *)item;
+- (id)initWithItemList:(GOTItemList *)list selectedIndex:(NSUInteger)index;
 - (IBAction)backgroundTapped:(id)sender;
 - (void)cancelMessage:(id)sender;
 - (void)sendMessage:(id)sender;
 - (void)keyboardWasShown:(NSNotification *)notification;
 - (void)keyboardWasHidden:(NSNotification *)notification;
 
-@property (nonatomic, strong) GOTItem *item;
+@property (nonatomic, strong) GOTItemList *itemList;
+@property (nonatomic) NSUInteger selectedIndex;
 
 @end

@@ -260,6 +260,7 @@
         [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
     [[self items] removeObjectAtIndex:idx];
+    [self setItems:[self items]];
 }
 
 - (void)insertItem:(GOTItem *)item atIndex:(NSUInteger)idx

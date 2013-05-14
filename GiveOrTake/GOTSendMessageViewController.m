@@ -10,9 +10,11 @@
 
 #import "GOTConstants.h"
 #import "GOTItem.h"
+#import "GOTItemList.h"
 #import "GOTItemsStore.h"
 #import "GOTUser.h"
 #import "GOTUserStore.h"
+#import "GOTItemState.h"
 #import "GOTActiveUser.h"
 
 @interface GOTSendMessageViewController ()
@@ -21,17 +23,22 @@
 
 @implementation GOTSendMessageViewController
 
-@synthesize item;
+@synthesize itemList, selectedIndex;
 
 static float border = 10;
 
-- (id)initWithItem:(GOTItem *)it
+- (id)initWithItemList:(GOTItemList *)list selectedIndex:(NSUInteger)index
 {
     self = [super init];
     if (self) {
-        [self setItem:it];
+        [self setItemList:list];
+        [self setSelectedIndex:index];
     }
     return self;
+}
+
+- (GOTItem *)item {
+    return [[self itemList] getItemAtIndex:[self selectedIndex]];
 }
 
 - (void)viewDidLoad
@@ -135,6 +142,16 @@ static float border = 10;
         if (err) {
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message Send Failed" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
+            NSDictionary *itemDict = [result objectForKey:@"item"];
+            if (itemDict) {
+                GOTItem *item = [self item];
+                [item readFromJSONDictionary:itemDict];
+                if ([[item state] isEqual:[GOTItemState DELETED]]) {
+                    NSLog(@"item is deleted");
+                    [[self itemList] removeItemAtIndex:[self selectedIndex]];
+                    [[self navigationController] popToRootViewControllerAnimated:YES];
+                }
+            }
             return;
         } else {
             NSNumber *numMessagesSent = [result objectForKey:@"numMessagesSent"];
