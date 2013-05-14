@@ -87,6 +87,7 @@
 
 - (void)refresh:(id)sender
 {
+    NSLog(@"refresh sender: %@", sender);
     // If a single item is set, clear it
     if ([self freeItemID]) {
         [self setFreeItemID:nil];
@@ -123,7 +124,8 @@
             NSData *data = (NSData *)image;
             [item setThumbnailData:data];
             [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                                    withRowAnimation:UITableViewRowAnimationNone];
+                                    withRowAnimation:UITableViewRowAnimationAutomatic];
+        
         }
     };
     [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];

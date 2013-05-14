@@ -235,9 +235,28 @@ static float kBorderSize = 5.0;
     return [dateFormatter stringFromDate:date];
 }
 
+- (void)setItem:(GOTItem *)i
+{
+    if (item) {
+        [self removeObserver:self forKeyPath:@"item"];
+    }
+    item = i;
+    [self addObserver:self forKeyPath:@"item" options:NSKeyValueObservingOptionNew context:nil];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqual: @"item"]) {
+        NSLog(@"Updating for change in item");
+        [self autolayout];
+    }
+}
+
 - (void)dealloc
 {
     NSLog(@"Dealloc for FreeItemDetailViewController: %@", [[self item] name]);
+    [self removeObserver:self forKeyPath:@"item"];
 }
 
 @end

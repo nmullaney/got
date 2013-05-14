@@ -268,4 +268,11 @@
     [[self items] insertObject:item atIndex:idx];
 }
 
+
+- (void)refreshItems
+{
+    // Ensure a refresh of the controllers
+    [self setItems:[self items]];
+}
+
 @end

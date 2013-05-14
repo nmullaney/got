@@ -146,11 +146,20 @@ static float border = 10;
             if (itemDict) {
                 GOTItem *item = [self item];
                 [item readFromJSONDictionary:itemDict];
-                if ([[item state] isEqual:[GOTItemState DELETED]]) {
-                    NSLog(@"item is deleted");
+                NSLog(@"item state = %@", [item state]);
+                if ([[item state] isEqual:[GOTItemState DELETED]] || [[item state] isEqual:[GOTItemState TAKEN]]) {
                     [[self itemList] removeItemAtIndex:[self selectedIndex]];
                     [[self navigationController] popToRootViewControllerAnimated:YES];
                 }
+                if ([[item state] isEqual:[GOTItemState PENDING]]) {
+                    NSLog(@"Item is pending, popping controller");
+                    [[self itemList] refreshItems];
+                    [[self navigationController] popViewControllerAnimated:YES];
+                }
+            }
+            NSNumber *numMessagesSent = [result objectForKey:@"numMessagesSent"];
+            if (numMessagesSent) {
+                [[self item] setNumMessagesSent:numMessagesSent];
             }
             return;
         } else {
