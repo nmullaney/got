@@ -158,8 +158,8 @@ int PICKER_VIEW_TAG = 1;
     [stateButton addSubview:stateImage];
     stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, fullWidth - 30 * 2, stateButtonHeight)];
     [stateButton addSubview:stateLabel];
-    UIImage *chevron = [UIImage imageNamed:@"chevron"];
-    stateChevronView = [[UIImageView alloc] initWithFrame:CGRectMake(fullWidth - 30, 12, 15, 7.5)];
+    UIImage *chevron = [UIImage imageNamed:@"triangles"];
+    stateChevronView = [[UIImageView alloc] initWithFrame:CGRectMake(fullWidth - 30, 7.5, 15, 15)];
     [stateChevronView setImage:chevron];
     [stateButton addTarget:self
                     action:@selector(stateButtonPressed:)

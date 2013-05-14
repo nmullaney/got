@@ -40,6 +40,8 @@
 		8897645B173C69AD008B5CDB /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */; };
 		8897645D173C6A26008B5CDB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645C173C6A26008B5CDB /* CoreText.framework */; };
 		8897645F173C6A39008B5CDB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645E173C6A39008B5CDB /* QuartzCore.framework */; };
+		8897646A1742F7E3008B5CDB /* triangles.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764691742F7E3008B5CDB /* triangles.png */; };
+		8897646C1742FB92008B5CDB /* triangles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8897646B1742FB92008B5CDB /* triangles@2x.png */; };
 		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
 		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
 		88A904771730479B00D39CB6 /* whitehand.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A904761730479B00D39CB6 /* whitehand.png */; };
@@ -139,6 +141,8 @@
 		8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = HockeySDKResources.bundle; path = GiveOrTake/Vendor/HockeySDK.framework/Versions/A/Resources/HockeySDKResources.bundle; sourceTree = "<group>"; };
 		8897645C173C6A26008B5CDB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		8897645E173C6A39008B5CDB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		889764691742F7E3008B5CDB /* triangles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangles.png; sourceTree = "<group>"; };
+		8897646B1742FB92008B5CDB /* triangles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangles@2x.png"; sourceTree = "<group>"; };
 		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
 		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
 		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8897646B1742FB92008B5CDB /* triangles@2x.png */,
+				889764691742F7E3008B5CDB /* triangles.png */,
 				88A904841731959300D39CB6 /* icon@2x.png */,
 				88A90482173190E900D39CB6 /* icon.png */,
 				88A904801730721D00D39CB6 /* whitehand@2x.png */,
@@ -557,6 +563,8 @@
 				88A90483173190E900D39CB6 /* icon.png in Resources */,
 				88A904851731959300D39CB6 /* icon@2x.png in Resources */,
 				88976459173C6922008B5CDB /* HockeySDK.xcconfig in Resources */,
+				8897646A1742F7E3008B5CDB /* triangles.png in Resources */,
+				8897646C1742FB92008B5CDB /* triangles@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
