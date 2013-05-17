@@ -11,6 +11,7 @@
 @interface GOTConstants : NSObject
 
 + (NSURL *)baseURL;
++ (NSURL *)baseWebURL;
 + (NSArray *)trustedHosts;
 
 + (NSInteger)itemRequestLimit;
@@ -24,5 +25,6 @@
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;
 + (UIColor *)defaultGrayTextColor;
++ (UIColor *)defaultDarkBlueColor;
 
 @end

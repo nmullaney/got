@@ -16,6 +16,11 @@
     //return [NSURL URLWithString:@"https://nmullaney.dev"];
 }
 
++ (NSURL *)baseWebURL
+{
+    return [NSURL URLWithString:@"http://www.giveortakeapp.com"];
+}
+
 + (NSArray *)trustedHosts
 {
     return [NSArray arrayWithObjects:
@@ -74,6 +79,12 @@
 + (UIColor *)defaultGrayTextColor
 {
     return [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0];
+}
+
+// This is the blue for the fb share
++ (UIColor *)defaultDarkBlueColor
+{
+    return [UIColor colorWithRed:0.29 green:0.396 blue:0.616 alpha:1.0];
 }
 
 @end

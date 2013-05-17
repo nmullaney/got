@@ -18,7 +18,9 @@
 #import "GOTUserStore.h"
 #import "GOTUser.h"
 #import "GOTActiveUser.h"
+#import "GOTConstants.h"
 #import "JSONUtil.h"
+#import "GOTShareViewController.h"
 
 @implementation GOTEditItemViewController
 
@@ -120,6 +122,8 @@ int PICKER_VIEW_TAG = 1;
     int stateButtonHeight = 30;
     int descFieldHeight = 100;
     int halfWidth = fullScreenRect.size.width / 2 - 2 * border;
+    int threequartWidth = fullScreenRect.size.width * 3 / 4 - 2 * border;
+    int threequartStartX = fullScreenRect.size.width / 2 - threequartWidth / 2;
     int halfx = fullScreenRect.size.width / 2 - halfWidth / 2;
     int fullWidth = fullScreenRect.size.width - 2 * border;
     int picButtonHeight = 30;
@@ -209,16 +213,29 @@ int PICKER_VIEW_TAG = 1;
     [imageActivityIndicator setFrame:[imageView frame]];
     [control addSubview:imageActivityIndicator];
     
+    if (![[[self item] state] isEqual:[GOTItemState DRAFT]]) {
+        UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareButton setFrame:CGRectMake(threequartStartX, currentX, threequartWidth, picButtonHeight)];
+        [shareButton setTitle:@"Share on Facebook" forState:UIControlStateNormal];
+        [[shareButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
+        shareButton.layer.cornerRadius = 10.0;
+        [shareButton setBackgroundColor:[GOTConstants defaultDarkBlueColor]];
+        [shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [control addSubview:shareButton];
+        currentX = currentX + border + picButtonHeight;
+    }
+    
     // TODO: this button should change to "Update Offer"
     // once the offer is posted
-    postOfferButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [postOfferButton setFrame:CGRectMake(halfx,
+    postOfferButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [postOfferButton setFrame:CGRectMake(threequartStartX,
                                          currentX,
-                                         halfWidth,
+                                         threequartWidth,
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
-    // TODO make this red on appearance, not on selected
-    [postOfferButton setTintColor:[UIColor redColor]];
+    [postOfferButton setBackgroundColor:[UIColor redColor]];
+    [[postOfferButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
+    postOfferButton.layer.cornerRadius = 10.0;
     [postOfferButton addTarget:self
                         action:@selector(uploadItem)
               forControlEvents:UIControlEventTouchUpInside];
@@ -228,6 +245,12 @@ int PICKER_VIEW_TAG = 1;
     [scrollView becomeFirstResponder];
 
     self.view = scrollView;
+}
+
+- (void)shareButtonPressed:(id)sender
+{
+    GOTShareViewController *svc = [[GOTShareViewController alloc] initWithItem:[self item]];
+    [[self navigationController] pushViewController:svc animated:YES];
 }
 
 - (void)backButtonPressed:(id)sender

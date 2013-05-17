@@ -12,6 +12,7 @@
 #import "GOTItemsStore.h"
 #import "GOTActiveUser.h"
 #import "GOTItemState.h"
+#import "GOTConstants.h"
 
 @implementation GOTItem
 
@@ -76,6 +77,11 @@
     } else {
         desc = newDesc;
     }
+}
+
+- (NSURL *)itemURL
+{
+    return [NSURL URLWithString:[NSString stringWithFormat:@"/item.php?itemID=%@", [self itemID]] relativeToURL:[GOTConstants baseWebURL]];
 }
 
 #pragma mark load from dictionary

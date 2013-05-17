@@ -20,6 +20,7 @@
 - (void)setThumbnailDataFromImage:(UIImage *)i;
 - (UIImage *)imageFromPicture:(UIImage *)i;
 - (NSDictionary *)uploadDictionary;
+- (NSURL *)itemURL;
 
 - (BOOL)isEmpty;
 - (BOOL)matchesText:(NSString *)searchText;

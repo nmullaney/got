@@ -40,8 +40,10 @@
 - (BOOL)haveUnpostedChanges;
 - (void)updateValues;
 
+- (void)shareButtonPressed:(id)sender;
 - (void)backButtonPressed:(id)sender;
 - (void)stateButtonPressed:(id)sender;
 - (void)saveAndDismissStatePicker:(id)sender;
+
 
 @end
