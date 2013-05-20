@@ -87,4 +87,9 @@
     return [UIColor colorWithRed:0.29 green:0.396 blue:0.616 alpha:1.0];
 }
 
++ (NSString *)admobPublisherID
+{
+    return @"a1519a5dc401ede";
+}
+
 @end

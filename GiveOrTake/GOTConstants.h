@@ -27,4 +27,6 @@
 + (UIColor *)defaultGrayTextColor;
 + (UIColor *)defaultDarkBlueColor;
 
++ (NSString *)admobPublisherID;
+
 @end

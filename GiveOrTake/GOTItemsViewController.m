@@ -18,6 +18,8 @@
 #import "GOTMessageFooterViewBuilder.h"
 #import "GOTItemCell.h"
 
+#import "GADBannerView.h"
+
 @implementation GOTItemsViewController
 
 @synthesize itemList, singleItemViewController, fisvc, freeItemID;
@@ -36,6 +38,8 @@
         [[self fisvc] setFilterChanged:YES];
         itemList = [[GOTItemList alloc] init];
         [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew context:nil];
+        
+        adIndex = -1;
     }
     return self;
 }
@@ -44,6 +48,15 @@
 {
     if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
         [[self tableView] reloadData];
+    }
+}
+
+- (int)indexForIndexPath:(NSIndexPath *)path
+{
+    if (adIndex == 0) {
+        return [path row]  - 1;
+    } else {
+        return [path row];
     }
 }
 
@@ -65,6 +78,7 @@
         [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         [[self itemList] setSearchText:[[self fisvc] searchText]];
+        [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
             if (err) {
                 NSLog(@"Error occurred: %@", [err localizedDescription]);
@@ -112,6 +126,7 @@
         [tableHeaderView addSubview:label];
         [[self tableView] setTableHeaderView:tableHeaderView];
         [[self tableView] setNeedsDisplay];
+        [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
             [[self tableView] setTableHeaderView:nil];
             NSLog(@"Reloading data because most recent loaded");
@@ -168,18 +183,43 @@
 
 - (int)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    return [[self itemList] itemCount];
+    if (adIndex == 0) {
+        return [[self itemList] itemCount] + 1;
+    } else {
+        return [[self itemList] itemCount];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath row] == adIndex) {
+        return [self tableView:tv adCellForRowAtIndexPath:indexPath];
+    } else {
+        return [self tableView:tv itemCellForRowAtIndexPath:indexPath];
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tv adCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = (UITableViewCell *)[tv dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    }
+    GADBannerView *view = [self bannerView];
+    [cell addSubview:view];
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tv itemCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GOTItemCell *cell = (GOTItemCell *)[tv dequeueReusableCellWithIdentifier:@"GOTItemCell"];
     if (!cell) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"GOTItemCell" owner:[GOTItemCell class] options:nil];
         cell = [nib objectAtIndex:0];
     }
-    if ([indexPath row] < [[self itemList] itemCount]) {
-        GOTItem *item = [[self itemList] getItemAtIndex:[indexPath row]];
+    int index = [self indexForIndexPath:indexPath];
+    if (index < [[self itemList] itemCount]) {
+        GOTItem *item = [[self itemList] getItemAtIndex:index];
         [cell setTitle:[item name]];
         [cell setState:[item state]];
         if ([item thumbnail]) {
@@ -191,7 +231,6 @@
             [cell setItemImage:nil];
         }
     }
-    
     return cell;
 }
 
@@ -221,8 +260,61 @@
         [[self singleItemViewController] setItemList:[self itemList]];
         [[self singleItemViewController] setHidesBottomBarWhenPushed:YES];
     }
-    [[self singleItemViewController] setSelectedIndex:[indexPath row]];
+    int index = [self indexForIndexPath:indexPath];
+    [[self singleItemViewController] setSelectedIndex:index];
     [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
+}
+
+- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath row] == adIndex) {
+        return 50;
+    } else {
+        return 44;
+    }
+}
+
+#pragma mark -
+#pragma mark ad banner methods
+
+- (GADBannerView *)bannerView
+{
+    if (bannerView == nil) {
+        bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        bannerView.adUnitID = [GOTConstants admobPublisherID];
+        bannerView.rootViewController = self;
+        [bannerView setDelegate:self];
+    }
+    return bannerView;
+}
+
+- (GADRequest *)bannerRequest
+{
+    if (bannerRequest == nil) {
+        GADRequest *request = [[GADRequest alloc] init];
+        request.testDevices = [NSArray arrayWithObjects:@"346D55B0-E8BE-57A5-8D5D-4B6165269FF1", GAD_SIMULATOR_ID, @"GAD_SIMULATOR_ID", nil];
+        [request setTesting:YES];
+    }
+    return bannerRequest;
+}
+
+- (void)reloadBannerView
+{
+    NSLog(@"Loading ad banner");
+    [[self bannerView] loadRequest:[self bannerRequest]];
+}
+
+- (void)adViewDidReceiveAd:(GADBannerView *)view
+{
+    NSLog(@"Received ad");
+    adIndex = 0;
+    [[self tableView] reloadData];
+}
+
+- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"Failed to load ad");
+    adIndex = -1;
 }
 
 #pragma mark -
