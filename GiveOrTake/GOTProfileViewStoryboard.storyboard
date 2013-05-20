@@ -95,9 +95,9 @@
                                             <rect key="frame" x="10" y="1" width="267" height="99"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="niC-XI-8LR">
+                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="niC-XI-8LR">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="132" id="5Dy-EY-0ZH"/>
+                                                        <constraint firstAttribute="width" constant="267" id="10C-Q7-Hnc"/>
                                                         <constraint firstAttribute="height" constant="99" id="WIf-s1-jzT"/>
                                                     </constraints>
                                                 </mapView>
@@ -105,8 +105,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="niC-XI-8LR" firstAttribute="top" secondItem="fKf-1R-8aJ" secondAttribute="top" constant="1" id="HQ4-9Y-Rha"/>
-                                            <constraint firstItem="niC-XI-8LR" firstAttribute="centerX" secondItem="fKf-1R-8aJ" secondAttribute="centerX" type="default" id="RAZ-p0-jrB"/>
+                                            <constraint firstItem="niC-XI-8LR" firstAttribute="top" secondItem="fKf-1R-8aJ" secondAttribute="top" constant="1" id="NAV-E0-HYK"/>
+                                            <constraint firstItem="niC-XI-8LR" firstAttribute="leading" secondItem="fKf-1R-8aJ" secondAttribute="leading" constant="10" id="Tu7-Pc-Uq8"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
