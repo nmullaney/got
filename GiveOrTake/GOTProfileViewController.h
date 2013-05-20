@@ -21,7 +21,7 @@
 
 
 - (IBAction)karmaInfoPressed:(id)sender;
-
 - (IBAction)logout:(id)sender;
+- (IBAction)aboutButtonPressed:(id)sender;
 
 @end

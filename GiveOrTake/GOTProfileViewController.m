@@ -15,6 +15,8 @@
 #import "GOTUsernameUpdateViewController.h"
 #import "GOTEmailUpdateViewController.h"
 #import "GOTLocationUpdateViewController.h"
+#import "GOTConstants.h"
+#import "GOTWebViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -92,4 +94,14 @@
     GOTAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate logout];
 }
+
+- (IBAction)aboutButtonPressed:(id)sender {
+    NSURL *url = [NSURL URLWithString:@"/about.php" relativeToURL:[GOTConstants baseWebURL]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    GOTWebViewController *wvc = [[GOTWebViewController alloc] initWithURLRequest:request];
+    [[wvc navigationItem] setTitle:@"About"];
+    [wvc setHidesBottomBarWhenPushed:YES];
+    [[self navigationController] pushViewController:wvc animated:YES];
+}
+
 @end
