@@ -19,6 +19,7 @@
 #import "GOTItemCell.h"
 
 #import "GADBannerView.h"
+#import <AdSupport/ASIdentifierManager.h>
 
 @implementation GOTItemsViewController
 
@@ -292,7 +293,7 @@
 {
     if (bannerRequest == nil) {
         GADRequest *request = [[GADRequest alloc] init];
-        request.testDevices = [NSArray arrayWithObjects:@"346D55B0-E8BE-57A5-8D5D-4B6165269FF1", GAD_SIMULATOR_ID, @"GAD_SIMULATOR_ID", nil];
+        [request setTestDevices:[NSArray arrayWithObjects:@"346D55B0-E8BE-57A5-8D5D-4B6165269FF1", @"c71da42dea2d3919ea3ec2e70bb8c52b8fe74214", GAD_SIMULATOR_ID, @"GAD_SIMULATOR_ID", nil]];
         [request setTesting:YES];
     }
     return bannerRequest;
