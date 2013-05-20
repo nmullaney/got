@@ -16,17 +16,25 @@
 #import "GOTEmailUpdateViewController.h"
 #import "GOTLocationUpdateViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @implementation GOTProfileViewController
 
 - (void)loadView
 {
     [super loadView];
     [[self navigationItem] setTitle:@"Profile"];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [logoutButton setBackgroundColor:[UIColor redColor]];
+    [logoutButton.titleLabel setTextColor:[UIColor whiteColor]];
+    [logoutButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    logoutButton.layer.cornerRadius = 8.0;
     
     // Refresh the user
     NSArray *extraFields = [NSArray arrayWithObject:@"pending_email"];

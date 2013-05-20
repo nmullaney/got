@@ -16,6 +16,7 @@
     __weak IBOutlet UILabel *email;
     __weak IBOutlet MKMapView *mapView;
     __weak IBOutlet UILabel *karmaLabel;
+    __weak IBOutlet UIButton *logoutButton;
 }
 
 
