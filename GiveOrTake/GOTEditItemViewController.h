@@ -17,7 +17,7 @@
 {
     UIScrollView *view;
     UITextField *nameField;
-    UIControl *stateButton;
+    UIButton *stateButton;
     UIImageView *stateImage;
     UILabel *stateLabel;
     UIImageView *stateChevronView;
@@ -40,6 +40,7 @@
 - (BOOL)haveUnpostedChanges;
 - (void)updateValues;
 - (NSString *)offerActionString;
+- (float)maxStatusLabelWidth;
 
 - (void)shareButtonPressed:(id)sender;
 - (void)backButtonPressed:(id)sender;

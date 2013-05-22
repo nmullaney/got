@@ -125,7 +125,7 @@ int PICKER_VIEW_TAG = 1;
     int halfx = fullScreenRect.size.width / 2 - halfWidth / 2;
     int fullWidth = fullScreenRect.size.width - 2 * border;
     int picButtonHeight = 30;
-    int currentX = border;
+    int currentY = border;
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:fullScreenRect];
     scrollView.showsHorizontalScrollIndicator = YES;
@@ -142,7 +142,7 @@ int PICKER_VIEW_TAG = 1;
     
     nameField = [[UITextField alloc]
                       initWithFrame:CGRectMake(border,
-                                               currentX,
+                                               currentY,
                                                fullWidth,
                                                nameFieldHeight)];
     [control addSubview:nameField];
@@ -151,45 +151,60 @@ int PICKER_VIEW_TAG = 1;
     [nameField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [nameField setDelegate:self];
     [nameField addTarget:self action:@selector(nameEditingEnded:) forControlEvents:UIControlEventEditingDidEnd];
-    currentX = currentX + border + nameFieldHeight;
+    currentY = currentY + border + nameFieldHeight;
     
-    stateButton = [[UIControl alloc] initWithFrame:CGRectMake(border, currentX, fullWidth, stateButtonHeight)];
-    [stateButton setBackgroundColor:[UIColor whiteColor]];
-    [stateButton.layer setCornerRadius:8];
+    NSString *stateLabelLabelStr = @" Item State: ";
+    CGSize stateLabelLabelSize = [stateLabelLabelStr sizeWithFont:[GOTConstants defaultMediumFont] constrainedToSize:CGSizeMake(fullWidth, stateButtonHeight)];
+    UILabel *stateLabelLabel = [[UILabel alloc] initWithFrame:CGRectMake(border, currentY, stateLabelLabelSize.width, stateButtonHeight)];
+    [stateLabelLabel setFont:[GOTConstants defaultMediumFont]];
+    [stateLabelLabel setText:stateLabelLabelStr];
+    [stateLabelLabel setBackgroundColor:[UIColor clearColor]];
+    [scrollView addSubview:stateLabelLabel];
+    float currentX = border * 2 + stateLabelLabelSize.width;
+    
+    float stateLabelWidth = [self maxStatusLabelWidth];
+    UIView *stateLabelView = [[UIView alloc] initWithFrame:CGRectMake(currentX, currentY, stateLabelWidth + 30, stateButtonHeight)];
+    [stateLabelView setBackgroundColor:[UIColor whiteColor]];
+    stateLabelView.layer.cornerRadius = 8.0;
     stateImage = [[UIImageView alloc] initWithFrame:CGRectMake(7.5, 7.5, 15, 15)];
-    [stateButton addSubview:stateImage];
-    stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, fullWidth - 30 * 2, stateButtonHeight)];
-    [stateButton addSubview:stateLabel];
-    UIImage *chevron = [UIImage imageNamed:@"triangles"];
-    stateChevronView = [[UIImageView alloc] initWithFrame:CGRectMake(fullWidth - 30, 7.5, 15, 15)];
-    [stateChevronView setImage:chevron];
+    [stateLabelView addSubview:stateImage];
+    stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, stateLabelWidth, stateButtonHeight)];
+    [stateLabel setBackgroundColor:[UIColor clearColor]];
+    [stateLabelView addSubview:stateLabel];
+    [scrollView addSubview:stateLabelView];
+    currentX = currentX + stateLabelWidth + 30 + border;
+    
+    stateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [stateButton setFrame:CGRectMake(currentX, currentY, fullWidth - currentX + border, stateButtonHeight)];
+    [stateButton setTitle:@"Change" forState:UIControlStateNormal];
+    if ([[self item] state] == [GOTItemState DRAFT]) {
+        [stateButton setHidden:YES];
+    }
     [stateButton addTarget:self
                     action:@selector(stateButtonPressed:)
           forControlEvents:UIControlEventTouchUpInside];
-    [stateButton addSubview:stateChevronView];
-    
-    [control addSubview:stateButton];
-    currentX = currentX + border + stateButtonHeight;
+    [scrollView addSubview:stateButton];
+    currentY = currentY + border + stateButtonHeight;
   
     descField = [[GOTTextView alloc]
                  initWithFrame:CGRectMake(border,
-                                          currentX,
+                                          currentY,
                                           fullWidth,
                                           descFieldHeight)];
     [descField setPlaceholder:@"Describe your item."];
     [descField setFont:[nameField font]];
     [control addSubview:descField];
-    currentX = currentX + border + descFieldHeight;
+    currentY = currentY + border + descFieldHeight;
     
     UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [takePhotoButton setFrame:CGRectMake(halfx,
-                                         currentX,
+                                         currentY,
                                          halfWidth,
                                          picButtonHeight)];
     [takePhotoButton addTarget:self
                         action:@selector(takePicture:)
               forControlEvents:UIControlEventTouchUpInside];
-    currentX = currentX + border + picButtonHeight;
+    currentY = currentY + border + picButtonHeight;
  
     // TODO: be nice to have a camera icon, instead of text here
     [takePhotoButton setTitle:@"Take a Photo" forState:UIControlStateNormal];
@@ -197,12 +212,12 @@ int PICKER_VIEW_TAG = 1;
     
     imageView = [[UIImageView alloc]
                  initWithFrame:CGRectMake(border,
-                                          currentX,
+                                          currentY,
                                           fullWidth,
                                           fullWidth)];
     [imageView setBackgroundColor:[UIColor whiteColor]];
     [control addSubview:imageView];
-    currentX = currentX + border + fullWidth;
+    currentY = currentY + border + fullWidth;
     
     imageActivityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -213,21 +228,21 @@ int PICKER_VIEW_TAG = 1;
     
     if (![[[self item] state] isEqual:[GOTItemState DRAFT]]) {
         UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareButton setFrame:CGRectMake(threequartStartX, currentX, threequartWidth, picButtonHeight)];
+        [shareButton setFrame:CGRectMake(threequartStartX, currentY, threequartWidth, picButtonHeight)];
         [shareButton setTitle:@"Share on Facebook" forState:UIControlStateNormal];
         [[shareButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
         shareButton.layer.cornerRadius = 10.0;
         [shareButton setBackgroundColor:[GOTConstants defaultDarkBlueColor]];
         [shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [control addSubview:shareButton];
-        currentX = currentX + border + picButtonHeight;
+        currentY = currentY + border + picButtonHeight;
     }
     
     // TODO: this button should change to "Update Offer"
     // once the offer is posted
     postOfferButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [postOfferButton setFrame:CGRectMake(threequartStartX,
-                                         currentX,
+                                         currentY,
                                          threequartWidth,
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
@@ -237,12 +252,25 @@ int PICKER_VIEW_TAG = 1;
     [postOfferButton addTarget:self
                         action:@selector(uploadItem)
               forControlEvents:UIControlEventTouchUpInside];
-    currentX = currentX + border + picButtonHeight;
+    currentY = currentY + border + picButtonHeight;
     
-    scrollView.contentSize = CGSizeMake(fullScreenRect.size.width, currentX);
+    scrollView.contentSize = CGSizeMake(fullScreenRect.size.width, currentY);
     [scrollView becomeFirstResponder];
 
     self.view = scrollView;
+}
+
+- (float)maxStatusLabelWidth
+{
+    float maxWidth = 0;
+    for (NSString *state in [GOTItemState values]) {
+        CGSize size = [state sizeWithFont:[GOTConstants defaultMediumFont]];
+        if (size.width > maxWidth) {
+            maxWidth = size.width;
+        }
+    }
+    // Add in a little padding
+    return maxWidth + 15;
 }
 
 - (void)shareButtonPressed:(id)sender
