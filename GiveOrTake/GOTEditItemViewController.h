@@ -39,6 +39,7 @@
 - (void)uploadItem;
 - (BOOL)haveUnpostedChanges;
 - (void)updateValues;
+- (NSString *)offerActionString;
 
 - (void)shareButtonPressed:(id)sender;
 - (void)backButtonPressed:(id)sender;

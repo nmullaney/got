@@ -91,10 +91,8 @@ int PICKER_VIEW_TAG = 1;
     if ([[[self item] state] isEqual:[GOTItemState DRAFT]]) {
         [stateChevronView setHidden:YES];
         [stateButton removeTarget:self action:@selector(stateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [postOfferButton setTitle:@"Post Offer" forState:UIControlStateNormal];
-    } else {
-        [postOfferButton setTitle:@"Update Offer" forState:UIControlStateNormal];
     }
+    [postOfferButton setTitle:[self offerActionString] forState:UIControlStateNormal];
     [imageActivityIndicator startAnimating];
     [[GOTImageStore sharedStore] fetchImageForItem:[self item] withCompletion:^(id image, NSError *err) {
         [imageActivityIndicator stopAnimating];
@@ -256,10 +254,19 @@ int PICKER_VIEW_TAG = 1;
 - (void)backButtonPressed:(id)sender
 {
     if ([self haveUnpostedChanges]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Unsaved Changes" delegate:self cancelButtonTitle:@"Continue without posting" destructiveButtonTitle:nil otherButtonTitles:@"Update offer", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Unsaved Changes" delegate:self cancelButtonTitle:@"Continue without posting" destructiveButtonTitle:nil otherButtonTitles:[self offerActionString], nil];
         [actionSheet showInView:self.view];
     } else {
         [[self navigationController] popViewControllerAnimated:YES];
+    }
+}
+
+- (NSString *)offerActionString
+{
+    if ([[[self item] state] isEqual:[GOTItemState DRAFT]]) {
+        return @"Post Offer";
+    } else {
+        return @"Update Offer";
     }
 }
 
@@ -480,6 +487,9 @@ int PICKER_VIEW_TAG = 1;
 
 - (void)stateButtonPressed:(id)sender
 {
+    // Dismiss any editing in progress
+    [[self view] endEditing:YES];
+    
     UIPickerView *statePicker = [[UIPickerView alloc] init];
     [statePicker setShowsSelectionIndicator:YES];
     [statePicker setDataSource:self];
