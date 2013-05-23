@@ -15,7 +15,7 @@
 
 @implementation GOTItemList
 
-@synthesize items, distance, searchText, ownedByID;
+@synthesize items, distance, searchText, ownedByID, showMyItems;
 
 - (id)init
 {
@@ -80,6 +80,26 @@
     }
     self->isAllDataLoaded = NO;
     searchText = newSearchText;
+}
+
+- (void)setShowMyItems:(BOOL)smi
+{
+    // We only need to filter in the case where we had user-owned items and will no longer show them
+    if (showMyItems == YES && smi == NO) {
+        NSLog(@"Attempting to filter out my items");
+        NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
+        NSNumber *activeUserID = [[GOTActiveUser activeUser] userID];
+        [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+            if ([[item userID] integerValue]  == [activeUserID integerValue]) {
+                [indicesToRemove addIndex:idx];
+            }
+        }];
+        NSLog(@"Indicies to remove: %@", indicesToRemove);
+        [[self items] removeObjectsAtIndexes:indicesToRemove];
+        [self setItems:[self items]];
+    }
+    self->isAllDataLoaded = NO;
+    showMyItems = smi;
 }
 
 #pragma mark -
@@ -148,6 +168,7 @@
     if ([self ownedByID]) {
         [params setObject:[self ownedByID] forKey:@"ownedBy"];
     }
+    [params setObject:[NSNumber numberWithBool:[self showMyItems]] forKey:@"showMyItems"];
     return params;
 }
 

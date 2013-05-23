@@ -168,7 +168,12 @@ static float kBorderSize = 5.0;
     NSNumber *numMessages = [[self item] numMessagesSent];
     NSString *msg = nil;
     GOTItemState *state = [[self item] state];
-    BOOL isStateUserActiveUser = [[self item] stateUserID] == [[GOTActiveUser activeUser] userID];
+    BOOL isStateUserActiveUser = [[[self item] stateUserID] intValue] == [[[GOTActiveUser activeUser] userID] intValue];
+    
+    if ([[[self item] userID] intValue] == [[[GOTActiveUser activeUser] userID] intValue]) {
+        // This is your own item.
+        return nil;
+    }
     
     if (numMessages == nil) {
         // The user has not expressed interest in this item

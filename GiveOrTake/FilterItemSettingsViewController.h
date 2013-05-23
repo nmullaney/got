@@ -14,6 +14,7 @@
     __weak IBOutlet UITextField *searchField;
     __weak IBOutlet UISlider *distanceSlider;
     __weak IBOutlet UILabel *distanceLabel;
+    __weak IBOutlet UIButton *showItemsCheckBox;
 }
 
 @property (nonatomic) BOOL filterChanged;
@@ -24,5 +25,9 @@
 - (void)updateDistanceToValue:(int)value;
 - (int)roundDistanceValue;
 - (NSString *)searchText;
+
+- (BOOL)getCurrentShowItems;
+- (BOOL)showMyItemsValue;
+- (IBAction)showItemsChecked:(id)sender;
 
 @end

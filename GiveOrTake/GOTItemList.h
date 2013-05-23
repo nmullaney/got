@@ -21,6 +21,7 @@
 @property (nonatomic) NSNumber *distance;
 @property (nonatomic) NSString *searchText;
 @property (nonatomic) NSNumber *ownedByID;
+@property (nonatomic) BOOL showMyItems;
 
 - (void)mergeNewItems:(NSMutableArray *)newItems;
 - (void)loadMostRecentItemsWithCompletion:(void (^)(id items, NSError *err))block;

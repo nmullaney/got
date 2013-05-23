@@ -29,12 +29,19 @@
     return @"defaultDistance";
 }
 
++ (NSString *)showMyItemsKey
+{
+    return @"showMyItems";
+}
+
 // Register any default values here.  This will give an initial value the
 // first time the app starts.
 - (void)setupDefaults
 {
-    NSDictionary *defaults = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:15]
-                                                         forKey:[GOTSettings distanceKey]];
+    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithInt:15], [GOTSettings distanceKey],
+                              [NSNumber numberWithBool:YES], [GOTSettings showMyItemsKey],
+                              nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
@@ -47,6 +54,16 @@
 {
     [[NSUserDefaults standardUserDefaults] setInteger:v
                                                forKey:s];
+}
+
+- (BOOL)getBoolValueForKey:(NSString *)s
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:s];
+}
+
+- (void)setBoolValue:(BOOL)v forKey:(NSString *)s
+{
+    [[NSUserDefaults standardUserDefaults] setBool:v forKey:s];
 }
 
 @end

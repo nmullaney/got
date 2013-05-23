@@ -52,6 +52,10 @@
 		889764A7174A9E74008B5CDB /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 889764A5174A9E74008B5CDB /* README.txt */; };
 		889764AA174ADF17008B5CDB /* GOTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889764A9174ADF16008B5CDB /* GOTWebViewController.m */; };
 		889764AC174AE0A7008B5CDB /* GOTWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889764AB174AE0A7008B5CDB /* GOTWebViewController.xib */; };
+		889764AF174D8BA7008B5CDB /* notchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764AD174D8BA7008B5CDB /* notchecked@2x.png */; };
+		889764B0174D8BA7008B5CDB /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764AE174D8BA7008B5CDB /* checked@2x.png */; };
+		889764B3174EAAA3008B5CDB /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764B1174EAAA1008B5CDB /* checked.png */; };
+		889764B4174EAAA3008B5CDB /* notchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764B2174EAAA2008B5CDB /* notchecked.png */; };
 		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
 		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
 		88A904771730479B00D39CB6 /* whitehand.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A904761730479B00D39CB6 /* whitehand.png */; };
@@ -174,6 +178,10 @@
 		889764A8174ADF16008B5CDB /* GOTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTWebViewController.h; sourceTree = "<group>"; };
 		889764A9174ADF16008B5CDB /* GOTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTWebViewController.m; sourceTree = "<group>"; };
 		889764AB174AE0A7008B5CDB /* GOTWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTWebViewController.xib; sourceTree = "<group>"; };
+		889764AD174D8BA7008B5CDB /* notchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notchecked@2x.png"; sourceTree = "<group>"; };
+		889764AE174D8BA7008B5CDB /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
+		889764B1174EAAA1008B5CDB /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		889764B2174EAAA2008B5CDB /* notchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notchecked.png; sourceTree = "<group>"; };
 		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
 		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
 		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
@@ -526,6 +534,10 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				889764B1174EAAA1008B5CDB /* checked.png */,
+				889764B2174EAAA2008B5CDB /* notchecked.png */,
+				889764AD174D8BA7008B5CDB /* notchecked@2x.png */,
+				889764AE174D8BA7008B5CDB /* checked@2x.png */,
 				8897646B1742FB92008B5CDB /* triangles@2x.png */,
 				889764691742F7E3008B5CDB /* triangles.png */,
 				88A904841731959300D39CB6 /* Icon@2x.png */,
@@ -641,6 +653,10 @@
 				8897647217456CD3008B5CDB /* GOTShareViewController.xib in Resources */,
 				889764A7174A9E74008B5CDB /* README.txt in Resources */,
 				889764AC174AE0A7008B5CDB /* GOTWebViewController.xib in Resources */,
+				889764AF174D8BA7008B5CDB /* notchecked@2x.png in Resources */,
+				889764B0174D8BA7008B5CDB /* checked@2x.png in Resources */,
+				889764B3174EAAA3008B5CDB /* checked.png in Resources */,
+				889764B4174EAAA3008B5CDB /* notchecked.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

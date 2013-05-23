@@ -79,6 +79,7 @@
         [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         [[self itemList] setSearchText:[[self fisvc] searchText]];
+        [[self itemList] setShowMyItems:[[self fisvc] getCurrentShowItems]];
         [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
             if (err) {
@@ -107,6 +108,7 @@
             [self setSingleItemViewController:nil];
             [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
             [[self itemList] setSearchText:[[self fisvc] searchText]];
+            [[self itemList] setShowMyItems:[[self fisvc] showMyItemsValue]];
         }
     
         // Update most recent items and show a header

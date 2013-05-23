@@ -16,10 +16,14 @@
 
 // Keys for different values
 + (NSString *)distanceKey;
++ (NSString *)showMyItemsKey;
 
 - (void)setupDefaults;
 
 - (int)getIntValueForKey:(NSString *)s;
 - (void)setIntValue:(int)v forKey:(NSString*)s;
+
+- (BOOL)getBoolValueForKey:(NSString *)s;
+- (void)setBoolValue:(BOOL)v forKey:(NSString *)s;
 
 @end
