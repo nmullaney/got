@@ -25,6 +25,8 @@
     UIImageView *imageView;
     UIActivityIndicatorView *imageActivityIndicator;
     UIButton *postOfferButton;
+    
+    UIImagePickerController *imagePicker;
 }
 
 @property (nonatomic, strong) GOTItem *item;
@@ -47,5 +49,6 @@
 - (void)stateButtonPressed:(id)sender;
 - (void)saveAndDismissStatePicker:(id)sender;
 
+- (void)showPhotoLibrary:(id)sender;
 
 @end

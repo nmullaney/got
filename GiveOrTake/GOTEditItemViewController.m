@@ -207,7 +207,7 @@ int PICKER_VIEW_TAG = 1;
     currentY = currentY + border + picButtonHeight;
  
     // TODO: be nice to have a camera icon, instead of text here
-    [takePhotoButton setTitle:@"Take a Photo" forState:UIControlStateNormal];
+    [takePhotoButton setTitle:@"Add Photo" forState:UIControlStateNormal];
     [control addSubview:takePhotoButton];
     
     imageView = [[UIImageView alloc]
@@ -427,13 +427,38 @@ int PICKER_VIEW_TAG = 1;
     // Dismiss any editing in progress
     [[self view] endEditing:YES];
     
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker = [[UIImagePickerController alloc] init];
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+        
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            // TODO: this may look wrong/bad on a non-retina screen
+            CGRect bounds = [[UIScreen mainScreen] bounds];
+            float bottomBarHeight = 100;
+            UIButton *libraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            float buttonWidth = 75;
+            float buttonHeight = 35;
+            float border = 15;
+            [libraryButton setFrame:CGRectMake(bounds.size.width - buttonWidth - border,
+                                               bounds.size.height - bottomBarHeight - buttonHeight - border,
+                                               buttonWidth,
+                                               buttonHeight)];
+            [libraryButton setTitle:@"Library" forState:UIControlStateNormal];
+            [libraryButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            UIColor *backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            [libraryButton setBackgroundColor:backgroundColor];
+            libraryButton.layer.borderColor = [UIColor blackColor].CGColor;
+            libraryButton.layer.borderWidth = 1.0f;
+            libraryButton.layer.cornerRadius = buttonHeight / 2;
+            [libraryButton addTarget:self action:@selector(showPhotoLibrary:)
+                    forControlEvents:UIControlEventTouchUpInside];
+            [imagePicker setCameraOverlayView:libraryButton];
+        }
     } else {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
+    [imagePicker setShowsCameraControls:YES];
     [imagePicker setAllowsEditing:YES];
     [imagePicker setDelegate:self];
     void (^takingPictureDone)() = ^void() {
@@ -443,7 +468,13 @@ int PICKER_VIEW_TAG = 1;
         [scrollView scrollRectToVisible:postOfferButton.frame animated:YES];
         [scrollView becomeFirstResponder];
     };
+    
     [self presentViewController:imagePicker animated:YES completion:takingPictureDone];
+}
+
+- (void)showPhotoLibrary:(id)sender
+{
+    [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
