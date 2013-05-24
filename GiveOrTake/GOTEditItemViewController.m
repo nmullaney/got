@@ -454,11 +454,11 @@ int PICKER_VIEW_TAG = 1;
             [libraryButton addTarget:self action:@selector(showPhotoLibrary:)
                     forControlEvents:UIControlEventTouchUpInside];
             [imagePicker setCameraOverlayView:libraryButton];
+            [imagePicker setShowsCameraControls:YES];
         }
     } else {
         [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }
-    [imagePicker setShowsCameraControls:YES];
     [imagePicker setAllowsEditing:YES];
     [imagePicker setDelegate:self];
     void (^takingPictureDone)() = ^void() {
