@@ -89,7 +89,7 @@ int PICKER_VIEW_TAG = 1;
     [stateLabel setText:[[self item] state]];
     [stateImage setImage:[GOTItemState imageForState:[[self item] state]]];
     if ([[[self item] state] isEqual:[GOTItemState DRAFT]]) {
-        [stateChevronView setHidden:YES];
+        [stateButton setHidden:YES];
         [stateButton removeTarget:self action:@selector(stateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     [postOfferButton setTitle:[self offerActionString] forState:UIControlStateNormal];
@@ -307,8 +307,8 @@ int PICKER_VIEW_TAG = 1;
         // item as having unsaved changes, which can be uploaded later.
         [self updateValues];
         [[self item] setHasUnsavedChanges:YES];
+        [[self navigationController] popViewControllerAnimated:YES];
     }
-    [[self navigationController] popViewControllerAnimated:YES];
     NSLog(@"Clicked actionSheet button: %ld", (long)buttonIndex);
 }
 
@@ -393,32 +393,69 @@ int PICKER_VIEW_TAG = 1;
             [[self item] setItemID:itemID];
             if ([itemDict objectForKey:@"state"]) {
                 GOTItemState *state = [GOTItemState getValue:[itemDict objectForKey:@"state"]];
+                GOTItemState *oldState = [[self item] state];
                 [[self item] setState:state];
+                [stateLabel setText:[[self item] state]];
+                [stateImage setImage:[GOTItemState imageForState:[[self item] state]]];
+                if ([oldState isEqual:[GOTItemState DRAFT]] && state != oldState) {
+                    [stateButton setHidden:NO];
+                    [stateButton addTarget:self action:@selector(stateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+                }
             }
+            
+            NSDictionary *karmaDict = [dict objectForKey:@"karma"];
+            void (^avblock)(NSDictionary *, NSError *) = ^(NSDictionary *dict, NSError *err) {
+                if (karmaDict) {
+                    [self handleKarmaUpdate:karmaDict];
+                } else {
+                    [[self navigationController] popViewControllerAnimated:YES];
+                }
+            };
             
             // Upload the image
             if ([[self item] imageNeedsUpload]) {
                 NSLog(@"Updating the image because it changed");
-                [[GOTImageStore sharedStore] uploadImageForItem:[self item]];
+                [[GOTImageStore sharedStore] uploadImageForItem:[self item] withCompletion:avblock];
+                return;
             } else {
-                NSLog(@"Not updating the image: no change");
+                avblock(nil, nil);
+                return;
             }
-            // Go back to the table view
-            [[self navigationController] popViewControllerAnimated:YES];
-        }
-        if ([dict objectForKey:@"karma"]) {
-            NSDictionary *karmaDict = [dict objectForKey:@"karma"];
-            [[GOTUserStore sharedStore] updateActiveUserKarma:karmaDict];
-            NSNumber *karmaChange = [karmaDict objectForKey:@"karmaChange"];
-            if (karmaChange > 0) {
-                NSString *message = [NSString stringWithFormat:@"Your karma has increased by %@ points!", karmaChange];
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Karma Improved!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [av show];
-            }
+        
         }
     };
     
     [[GOTItemsStore sharedStore] uploadItem:[self item] withCompletion:block];
+}
+
+- (void)handleKarmaUpdate:(NSDictionary *)karmaDict
+{
+    if (!karmaDict) {
+        return;
+    }
+    [[GOTUserStore sharedStore] updateActiveUserKarma:karmaDict];
+    NSNumber *karmaChange = [karmaDict objectForKey:@"karmaChange"];
+    if (karmaChange > 0) {
+        NSString *message = [NSString stringWithFormat:@"Your karma has increased by %@ points!", karmaChange];
+        alertView = [[UIAlertView alloc] initWithTitle:@"Karma Improved!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        if ([[[self item] state] isEqual:[GOTItemState AVAILABLE]]) {
+            [alertView addButtonWithTitle:@"Share on Facebook"];
+        }
+        [alertView setDelegate:self];
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)av clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"Button clicked in alertView: %d", buttonIndex);
+    if ([[av buttonTitleAtIndex:buttonIndex] isEqualToString: @"Share on Facebook"]) {
+        // Share on facebook
+        GOTShareViewController *svc = [[GOTShareViewController alloc] initWithItem:[self item]];
+        [[self navigationController] pushViewController:svc animated:YES];
+    } else {
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark camera methods

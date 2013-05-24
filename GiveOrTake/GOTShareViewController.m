@@ -123,21 +123,32 @@ static float border = 10;
 
 - (void)sendPost:(id)sender
 {
-    if ([FBSession.activeSession.permissions
-         indexOfObject:@"publish_actions"] == NSNotFound) {
-        // No permissions found in session, ask for it
-        [FBSession.activeSession
-         requestNewPublishPermissions:
-         [NSArray arrayWithObject:@"publish_actions"]
-         defaultAudience:FBSessionDefaultAudienceFriends
-         completionHandler:^(FBSession *session, NSError *error) {
-             if (!error) {
-                 // If permissions granted, publish the story
-                 [self publishWithGraphAPI];
-             }
-         }];
+    if ([[FBSession activeSession] isOpen]) {
+        if ([FBSession.activeSession.permissions
+             indexOfObject:@"publish_actions"] == NSNotFound) {
+            // No permissions found in session, ask for it
+            [FBSession.activeSession
+             requestNewPublishPermissions:
+             [NSArray arrayWithObject:@"publish_actions"]
+             defaultAudience:FBSessionDefaultAudienceFriends
+             completionHandler:^(FBSession *session, NSError *error) {
+                 if (!error) {
+                     // If permissions granted, publish the story
+                     [self publishWithGraphAPI];
+                 }
+             }];
+        } else {
+            [self publishWithGraphAPI];
+        }
     } else {
-        [self publishWithGraphAPI];
+        [FBSession openActiveSessionWithPublishPermissions:[NSArray arrayWithObject:@"publish_actions"] defaultAudience:FBSessionDefaultAudienceFriends allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+            if (!error && status == FBSessionStateOpen) {
+                // If permissions granted, publish the story
+                [self publishWithGraphAPI];
+            } else {
+                NSLog(@"Failed to post to Facebook");
+            }
+        }];
     }
 }
 

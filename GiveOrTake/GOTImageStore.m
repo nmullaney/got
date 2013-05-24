@@ -185,9 +185,12 @@
     return nil;
 }
 
-- (void)uploadImageForItem:(GOTItem *)item
+- (void)uploadImageForItem:(GOTItem *)item withCompletion:(void (^)(NSDictionary *, NSError *))block
 {
     if (![item imageNeedsUpload]) {
+        if (block) {
+            block(nil, nil);
+        }
         return;
     }
     UIImage *image = [self imageForKey:[item imageKey]];
@@ -208,6 +211,9 @@
     [connection setCompletionBlock:^(id result, NSError *err) {
         [item setImageNeedsUpload:NO];
         NSLog(@"result = %@", result);
+        if (block) {
+            block(result, err);
+        }
     }];
     [connection start];
 }

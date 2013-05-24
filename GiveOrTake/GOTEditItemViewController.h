@@ -13,7 +13,7 @@
 @class GOTTextView;
 
 @interface GOTEditItemViewController : UIViewController
-    <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIActionSheetDelegate>
+    <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
     UIScrollView *view;
     UITextField *nameField;
@@ -27,6 +27,7 @@
     UIButton *postOfferButton;
     
     UIImagePickerController *imagePicker;
+    UIAlertView *alertView;
 }
 
 @property (nonatomic, strong) GOTItem *item;
@@ -43,6 +44,8 @@
 - (void)updateValues;
 - (NSString *)offerActionString;
 - (float)maxStatusLabelWidth;
+
+- (void)handleKarmaUpdate:(NSDictionary *)dict;
 
 - (void)shareButtonPressed:(id)sender;
 - (void)backButtonPressed:(id)sender;
