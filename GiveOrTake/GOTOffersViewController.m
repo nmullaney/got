@@ -90,16 +90,27 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         GOTItem *deletedItem = [[self offersList] getItemAtIndex:[indexPath row]];
         [deletedItem setState:[GOTItemState DELETED]];
+        [[self offersList] removeItemAtIndex:[indexPath row]];
+        [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                withRowAnimation:UITableViewRowAnimationFade];
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
-                [[self offersList] removeItemAtIndex:[indexPath row]];
-                [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                        withRowAnimation:UITableViewRowAnimationFade];
                 // TODO itemsStore update?
                 [[GOTImageStore sharedStore] deleteImageForKey:[deletedItem imageKey]];
                 
             }
         }];
+    }
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [[self tableView] setEditing:editing animated:animated];
+    if (editing) {
+        [[self navigationItem] rightBarButtonItem].enabled = NO;
+    } else {
+        [[self navigationItem] rightBarButtonItem].enabled = YES;
     }
 }
 
