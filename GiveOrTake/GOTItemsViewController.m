@@ -38,7 +38,7 @@
         // Ensures we get an initial load
         [[self fisvc] setFilterChanged:YES];
         itemList = [[GOTItemList alloc] init];
-        [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew context:nil];
+        [itemList addObserver:self forKeyPath:@"itemIDs" options:NSKeyValueObservingOptionNew context:nil];
         
         adIndex = -1;
     }
@@ -47,7 +47,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
+    if ([keyPath isEqualToString:@"itemIDs"] && object == [self itemList]) {
         [[self tableView] reloadData];
     }
 }
@@ -141,7 +141,7 @@
 {
     UITableViewCell *cell = [[[self tableView] visibleCells] lastObject];
     NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
-    if (row == ([[self itemList] itemCount] - 1)) {
+    if (row >= ([[self itemList] itemCount] - 1)) {
         [[self itemList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
             // reload by observer
         }];
@@ -324,7 +324,7 @@
 
 - (void)dealloc
 {
-    [[self itemList] removeObserver:self forKeyPath:@"items"];
+    [[self itemList] removeObserver:self forKeyPath:@"itemIDs"];
 }
 
 @end

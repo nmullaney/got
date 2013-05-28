@@ -19,11 +19,17 @@
 @synthesize itemID, name, desc, imageKey, imageNeedsUpload, thumbnail, thumbnailData, thumbnailURL, userID, numMessagesSent,
     distance, imageURL, state, stateUserID;
 
+static int localItemID = -1;
+
 - (id)initWithName:(NSString *)itemName
        description:(NSString *)itemDescription
 {
     self = [super init];
     if (self) {
+        // Local items use a negative ID.  Once they are uploaded
+        // they will have a positive, server-granted ID
+        [self setItemID:[NSNumber numberWithInt:localItemID]];
+        localItemID--;
         [self setName:itemName];
         [self setDesc:itemDescription];
         [self setUserID:[[GOTActiveUser activeUser] userID]];
@@ -156,7 +162,7 @@
 {
     NSMutableArray *objs = [[NSMutableArray alloc] init];
     NSMutableArray *keys = [[NSMutableArray alloc] init];
-    if ([self itemID]) {
+    if ([self itemID] && [[self itemID] intValue] > 0) {
         [objs addObject:[self itemID]];
         [keys addObject:@"item_id"];
     }

@@ -18,6 +18,8 @@
 }
 + (GOTItemsStore *)sharedStore;
 
+@property (nonatomic, strong) NSMutableDictionary *items;
+
 - (void)fetchItemsWithParams:(NSDictionary *)params
               forRootObject:(GOTItemList *)list
               withCompletion:(void (^)(GOTItemList *list, NSError *err))block;
@@ -33,5 +35,13 @@
 - (void)sendMessage:(NSString *)message
             forItem:(GOTItem *)item
      withCompletion:(void (^)(id result, NSError *err))block;
+
+// items managment
+- (void)addItem:(GOTItem *)item;
+- (GOTItem *)itemWithID:(NSNumber *)itemID;
+- (NSArray *)itemsWithIDs:(NSArray *)itemIDs;
+- (void)deleteItemWithID:(NSNumber *)itemID;
+- (void)deleteItem:(GOTItem *)item;
+- (void)clearItems;
 
 @end

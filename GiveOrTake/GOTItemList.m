@@ -15,13 +15,13 @@
 
 @implementation GOTItemList
 
-@synthesize items, distance, searchText, ownedByID, showMyItems;
+@synthesize itemIDs, distance, searchText, ownedByID, showMyItems;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        items = [[NSMutableArray alloc] init];
+        itemIDs = [[NSMutableArray alloc] init];
         self->isAllDataLoaded = NO;
     }
     return self;
@@ -37,7 +37,7 @@
         // If we changed the owned user, we should
         // remove any existing items, since they
         // would be filtered out
-        items = [[NSMutableArray alloc] init];
+        itemIDs = [[NSMutableArray alloc] init];
     }
     self->isAllDataLoaded = NO;
     ownedByID = userID;
@@ -50,15 +50,16 @@
         [newDistance intValue] < [distance intValue]) {
         // filter out any existing items that no longer fit the criteria
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
-        [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+        NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
+        [items enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
             NSLog(@"Checking item");
             if ([[item distance] intValue] > [newDistance intValue]) {
                 [indicesToRemove addIndex:idx];
             }
         }];
-        [[self items] removeObjectsAtIndexes:indicesToRemove];
+        [[self itemIDs] removeObjectsAtIndexes:indicesToRemove];
         // Explicitly setting the items ensures that the observers reload data
-        [self setItems:[self items]];
+        [self setItemIDs:[self itemIDs]];
     }
     self->isAllDataLoaded = NO;
     distance = newDistance;
@@ -69,14 +70,15 @@
     if (![newSearchText isEqualToString:searchText]) {
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
         NSLog(@"Checking item matches %@", newSearchText);
-        [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+        NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
+        [items enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
             if (![item matchesText:newSearchText]) {
                 [indicesToRemove addIndex:idx];
             }
         }];
-        [[self items] removeObjectsAtIndexes:indicesToRemove];
+        [[self itemIDs] removeObjectsAtIndexes:indicesToRemove];
         // Explicitly setting the items ensures that the observers reload data
-        [self setItems:[self items]];
+        [self setItemIDs:[self itemIDs]];
     }
     self->isAllDataLoaded = NO;
     searchText = newSearchText;
@@ -89,14 +91,15 @@
         NSLog(@"Attempting to filter out my items");
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
         NSNumber *activeUserID = [[GOTActiveUser activeUser] userID];
-        [[self items] enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
+        NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
+        [items enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
             if ([[item userID] integerValue]  == [activeUserID integerValue]) {
                 [indicesToRemove addIndex:idx];
             }
         }];
         NSLog(@"Indicies to remove: %@", indicesToRemove);
-        [[self items] removeObjectsAtIndexes:indicesToRemove];
-        [self setItems:[self items]];
+        [[self itemIDs] removeObjectsAtIndexes:indicesToRemove];
+        [self setItemIDs:[self itemIDs]];
     }
     self->isAllDataLoaded = NO;
     showMyItems = smi;
@@ -126,30 +129,29 @@
     if ([newItems count] == 0) {
         return;
     }
-    NSMutableDictionary *itemsByID = [[NSMutableDictionary alloc] init];
-    // Add all original items to the dictionary
-    [[self items] enumerateObjectsUsingBlock:^(GOTItem *item,
-                                               NSUInteger idx,
-                                               BOOL *stop) {
-        [itemsByID setObject:item forKey:[item itemID]];
-        
-    }];
+    // Use a set to ensure we have one copy of each itemID
+    NSMutableSet *allItemIDs = [NSMutableSet setWithArray:[self itemIDs]];
     [newItems enumerateObjectsUsingBlock:^(GOTItem *newItem, NSUInteger idx, BOOL *stop) {
-        GOTItem *oldItem = [itemsByID objectForKey:[newItem itemID]];
+        NSLog(@"New item = %@", newItem);
+        GOTItem *oldItem = [[GOTItemsStore sharedStore] itemWithID:[newItem itemID]];
         if (!oldItem || ([[newItem dateUpdated] timeIntervalSinceDate:[oldItem dateUpdated]] > 0)) {
-            [itemsByID setObject:newItem forKey:[newItem itemID]];
+            [[GOTItemsStore sharedStore] addItem:newItem];
         }
+        [allItemIDs addObject:[newItem itemID]];
     }];
     // Sort all the items by date updated, then the name
-    NSMutableArray *allItems = [NSMutableArray arrayWithArray:[itemsByID allValues]];
-    allItems = [NSMutableArray arrayWithArray:[allItems sortedArrayUsingComparator:^NSComparisonResult(GOTItem *item1, GOTItem *item2) {
-        NSComparisonResult dateOrder = [[item2 dateUpdated] compare:[item1 dateUpdated]];
-        if (dateOrder == NSOrderedSame) {
-            return [[item2 name] compare:[item1 name]];
-        }
-        return dateOrder;
-    }]];
-    [self setItems:allItems];
+    NSMutableArray *sortedItemIDs = [NSMutableArray arrayWithArray:
+                                  [[allItemIDs allObjects]
+                                   sortedArrayUsingComparator:^NSComparisonResult(NSNumber *itemID1, NSNumber *itemID2) {
+                                       GOTItem *item1 = [[GOTItemsStore sharedStore] itemWithID:itemID1];
+                                       GOTItem *item2 = [[GOTItemsStore sharedStore] itemWithID:itemID2];
+                                       NSComparisonResult dateOrder = [[item2 dateUpdated] compare:[item1 dateUpdated]];
+                                       if (dateOrder == NSOrderedSame) {
+                                           return [[item2 name] compare:[item1 name]];
+                                       }
+                                       return dateOrder;
+                                   }]];
+    [self setItemIDs:sortedItemIDs];
 }
 
 #pragma mark load items
@@ -195,7 +197,7 @@
         return;
     }
     NSMutableDictionary *params = [self getLoadParams];
-    [params setObject:[NSNumber numberWithInteger:[[self items] count]]
+    [params setObject:[NSNumber numberWithInteger:[self itemCount]]
                forKey:@"offset"];
     [[GOTItemsStore sharedStore] fetchItemsWithParams:params
                                         forRootObject:self
@@ -224,15 +226,16 @@
     if (count == 0 || idx > (count - 1)) {
         [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
-    return [[self items] objectAtIndex:idx];
+    NSNumber *itemID = [[self itemIDs] objectAtIndex:idx];
+    return [[GOTItemsStore sharedStore] itemWithID:itemID];
 }
 
 - (void)fetchItemAtIndex:(NSUInteger)idx
              withCompletion:(void (^)(id item, NSError *))block
 {
     NSLog(@"Fetching item at index: %d", idx);
-    if (idx < [[self items] count]) {
-        GOTItem *item = [[self items] objectAtIndex:idx];
+    if (idx < [self itemCount]) {
+        GOTItem *item = [self getItemAtIndex:idx];
         if (block) {
             block(item, nil);
         }
@@ -253,14 +256,14 @@
             return;
         }
         GOTItemList *myList = (GOTItemList *)list;
-        if ([[myList items] count] <= idx) {
+        if ([[myList itemIDs] count] <= idx) {
             if (block) {
                 block(nil, nil);
             }
             return;
         }
         NSLog(@"Getting item from mylist");
-        GOTItem *item = [[myList items] objectAtIndex:idx];
+        GOTItem *item = [myList getItemAtIndex:idx];
         if (block) {
             block(item, nil);
         }
@@ -271,7 +274,7 @@
 // Returns the count of the currently loaded items
 - (NSUInteger)itemCount
 {
-    return [[self items] count];
+    return [[self itemIDs] count];
 }
 
 - (void)removeItemAtIndex:(NSUInteger)idx
@@ -280,20 +283,25 @@
     if (count == 0 || idx > (count - 1)) {
         [[NSException exceptionWithName:@"Index Error" reason:@"Index requested is beyond item list size." userInfo:nil] raise];
     }
-    [[self items] removeObjectAtIndex:idx];
-    [self setItems:[self items]];
+    GOTItem *deleteItem = [self getItemAtIndex:idx];
+     [[self itemIDs] removeObjectAtIndex:idx];
+    [[GOTItemsStore sharedStore] deleteItem:deleteItem];
+    // Trigger update
+    [self setItemIDs:[self itemIDs]];
 }
 
 - (void)insertItem:(GOTItem *)item atIndex:(NSUInteger)idx
 {
-    [[self items] insertObject:item atIndex:idx];
+    [[GOTItemsStore sharedStore] addItem:item];
+    // TODO, what if no ID yet?
+    [[self itemIDs] insertObject:[item itemID] atIndex:idx];
 }
 
 
 - (void)refreshItems
 {
     // Ensure a refresh of the controllers
-    [self setItems:[self items]];
+    [self setItemIDs:[self itemIDs]];
 }
 
 @end

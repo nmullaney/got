@@ -27,25 +27,25 @@
     NSLog(@"Resetting item list");
     if (itemList) {
         // remove observer
-        [itemList removeObserver:self forKeyPath:@"items"];
+        [itemList removeObserver:self forKeyPath:@"itemIDs"];
     }
     viewControllers = [[NSMutableArray alloc] initWithCapacity:[list itemCount]];
     for (int i = 0; i < [list itemCount]; i++) {
         [viewControllers addObject:[NSNull null]];
     }
     itemList = list;
-    [itemList addObserver:self forKeyPath:@"items" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    [itemList addObserver:self forKeyPath:@"itemIDs" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     NSLog(@"items changed value!");
     // Sanity check
-    if ([keyPath isEqualToString:@"items"] && object == [self itemList]) {
-        NSArray *oldItems = [change objectForKey:NSKeyValueChangeOldKey];
-        NSArray *newItems = [change objectForKey:NSKeyValueChangeNewKey];
-        if (![oldItems isEqualToArray:newItems]) {
-            [self itemListSizeChangedFrom:[oldItems count] to:[newItems count]];
+    if ([keyPath isEqualToString:@"itemIDs"] && object == [self itemList]) {
+        NSArray *oldItemIDs = [change objectForKey:NSKeyValueChangeOldKey];
+        NSArray *newItemIDs = [change objectForKey:NSKeyValueChangeNewKey];
+        if (![oldItemIDs isEqualToArray:newItemIDs]) {
+            [self itemListSizeChangedFrom:[oldItemIDs count] to:[newItemIDs count]];
         }
     }
 }
@@ -117,11 +117,14 @@
 {
     if (index < 0) {
         // TODO: fetch at high end?
+        NSLog(@"Negative index");
         return;
     } else if (index > [[self itemList] itemCount] - 1) {
+        NSLog(@"Fetching item at high index");
         [itemList fetchItemAtIndex:index withCompletion:nil];
         return;
     }
+    NSLog(@"Getting controller at index: %d", index);
     id currentController = [viewControllers objectAtIndex:index];
     if (currentController == [NSNull null]) {
         GOTFreeItemDetailViewController *viewController =
@@ -279,7 +282,7 @@
 - (void)dealloc
 {
     NSLog(@"dealloc for GOTScrollItemsViewController");
-    [[self itemList] removeObserver:self forKeyPath:@"items"];
+    [[self itemList] removeObserver:self forKeyPath:@"itemIDs"];
 }
 
 @end

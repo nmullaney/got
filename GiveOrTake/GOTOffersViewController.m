@@ -52,6 +52,7 @@
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"Number of items: %d", [[self offersList] itemCount]);
     return [[self offersList] itemCount];
 }
 

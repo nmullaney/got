@@ -18,6 +18,8 @@
 
 @implementation GOTItemsStore
 
+@synthesize items;
+
 + (GOTItemsStore *)sharedStore
 {
     static GOTItemsStore *store = nil;
@@ -25,6 +27,20 @@
         store = [[GOTItemsStore alloc] init];
     }
     return store;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        items = [[NSMutableDictionary alloc] init];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(clearItems)
+                   name:UIApplicationDidReceiveMemoryWarningNotification
+                 object:nil];
+    }
+    return self;
 }
 
 - (void)fetchItemsWithParams:(NSDictionary *)params
@@ -110,6 +126,50 @@
     [conn setDataType:JSON];
     [conn setCompletionBlock:block];
     [conn start];
+}
+
+#pragma mark Item storage methods
+
+- (void)addItem:(GOTItem *)item
+{
+    NSString *key = [self keyFromItemID:[item itemID]];
+    [[self items] setValue:item forKey:key];
+}
+
+- (NSString *)keyFromItemID:(NSNumber *)itemID
+{
+    return [NSString stringWithFormat:@"%@", itemID];
+}
+
+- (GOTItem *)itemWithID:(NSNumber *)itemID
+{
+    NSString *key = [self keyFromItemID:itemID];
+    return [[self items] objectForKey:key];
+}
+
+- (NSArray *)itemsWithIDs:(NSArray *)itemIDs
+{
+    NSMutableArray *itemsWithIDs = [[NSMutableArray alloc] initWithCapacity:[itemIDs count]];
+    [itemIDs enumerateObjectsUsingBlock:^(NSNumber *itemID, NSUInteger idx, BOOL *stop) {
+        [itemsWithIDs addObject:[self itemWithID:itemID]];
+    }];
+    return itemsWithIDs;
+}
+
+- (void)deleteItemWithID:(NSNumber *)itemID
+{
+    NSString *key = [self keyFromItemID:itemID];
+    [[self items] removeObjectForKey:key];
+}
+
+- (void)deleteItem:(GOTItem *)item
+{
+    [self deleteItemWithID:[item itemID]];
+}
+
+- (void)clearItems
+{
+    [[self items] removeAllObjects];
 }
 
 @end

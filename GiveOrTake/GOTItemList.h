@@ -17,7 +17,7 @@
     BOOL isAllDataLoaded;
 }
 
-@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) NSMutableArray *itemIDs;
 @property (nonatomic) NSNumber *distance;
 @property (nonatomic) NSString *searchText;
 @property (nonatomic) NSNumber *ownedByID;
