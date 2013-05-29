@@ -147,6 +147,8 @@ static int localItemID = -1;
     
     if ([d objectForKey:@"distance"]) {
         [self setDistance:[d objectForKey:@"distance"]];
+    } else if ([[self userID] intValue] == [[[GOTActiveUser activeUser] userID] intValue]) {
+        [self setDistance:[NSNumber numberWithInt:0]];
     }
     
     if ([d objectForKey:@"numMessagesSent"]) {
