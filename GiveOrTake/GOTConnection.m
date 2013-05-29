@@ -122,9 +122,6 @@ canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    // TODO: explicitly trusted our dev and prod hosts.
-    // Not sure if this is the best way long term.  We may want to
-    // use a real signing authority instead
     NSLog(@"Challenge: %@", challenge);
     NSLog(@"Proposed Credential: %@", challenge.proposedCredential);
     NSArray *trustedHosts = [GOTConstants trustedHosts];
@@ -133,11 +130,12 @@ canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
             NSLog(@"Is trusted host");
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
                  forAuthenticationChallenge:challenge];
+            return;
         } else {
             NSLog(@"host = %@", challenge.protectionSpace.host);
         }
-        [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
     }
+    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
 }
 
 #pragma mark -
