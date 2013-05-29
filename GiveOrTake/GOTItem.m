@@ -49,7 +49,7 @@ static int localItemID = -1;
 - (BOOL)isEmpty
 {
     NSLog(@"Name: %@", [self name]);
-    if([self itemID] || [self name] || [self desc] || [self thumbnailData]) {
+    if([[self itemID] intValue] > 0 || [self name] || [self desc] || [self thumbnailData]) {
         return NO;
     }
     return YES;

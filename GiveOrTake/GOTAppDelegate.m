@@ -31,11 +31,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
     // Startup the Hockey system
-    /*
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"778954ac708922955173508ac7d0cd24"
                                                            delegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
-     */
     
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
