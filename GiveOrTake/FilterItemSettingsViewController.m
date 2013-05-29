@@ -10,6 +10,8 @@
 #import "GOTSettings.h"
 #import "GOTConstants.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @implementation FilterItemSettingsViewController
 
 - (id)init
@@ -34,6 +36,10 @@
     
     [showItemsCheckBox setImage:[UIImage imageNamed:@"notchecked"] forState:UIControlStateNormal];
     [showItemsCheckBox setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateSelected];
+    
+    [filterButton setBackgroundColor:[GOTConstants actionButtonColor]];
+    [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    filterButton.layer.cornerRadius = 8.0;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -99,6 +105,11 @@
         [showItemsCheckBox setSelected:YES];
     }
     [self setFilterChanged:YES];
+}
+
+- (IBAction)applyFilter:(id)sender {
+    [self setFilterChanged:YES];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (BOOL)showMyItemsValue

@@ -15,6 +15,7 @@
     __weak IBOutlet UISlider *distanceSlider;
     __weak IBOutlet UILabel *distanceLabel;
     __weak IBOutlet UIButton *showItemsCheckBox;
+    __weak IBOutlet UIButton *filterButton;
 }
 
 @property (nonatomic) BOOL filterChanged;
@@ -29,5 +30,7 @@
 - (BOOL)getCurrentShowItems;
 - (BOOL)showMyItemsValue;
 - (IBAction)showItemsChecked:(id)sender;
+- (IBAction)applyFilter:(id)sender;
+
 
 @end
