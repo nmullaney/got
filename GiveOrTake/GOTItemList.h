@@ -35,6 +35,7 @@
 - (NSUInteger)itemCount;
 - (void)removeItemAtIndex:(NSUInteger)idx;
 - (void)insertItem:(GOTItem *)item atIndex:(NSUInteger)idx;
+- (void)refilterItems;
 - (void)refreshItems;
 
 @end

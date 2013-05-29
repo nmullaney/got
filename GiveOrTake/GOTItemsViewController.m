@@ -88,6 +88,10 @@
             }
             [[self fisvc] setFilterChanged:NO];
         }];
+    } else {
+        // In case something's changed in the shared data
+        [[self itemList] refilterItems];
+        [[self tableView] reloadData];
     }
     [[self navigationItem] setTitle:@"Free Items"];
 }

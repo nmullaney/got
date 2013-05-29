@@ -133,6 +133,9 @@
         [viewControllers replaceObjectAtIndex:index withObject:viewController];
         [[viewController view] setFrame:[self frameForViewAtIndex:index]];
         [scrollView addSubview:[viewController view]];
+    } else {
+      // This ensures that the data will be up-to-date
+      [currentController setItem:[[self itemList] getItemAtIndex:index]];
     }
 }
 

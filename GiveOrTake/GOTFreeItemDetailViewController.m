@@ -29,8 +29,9 @@ static float kBorderSize = 5.0;
     [super viewWillAppear:animated];
     if ([self messagesSentString] && !messagesSentLabel) {
         [self addMessagesSentLabel];
-        [self autolayout];
-    }
+        
+    } 
+    [self reloadItem];
 }
 
 - (void)viewDidLoad
@@ -48,18 +49,16 @@ static float kBorderSize = 5.0;
         }
     }];
     
-    
-
     // This tracks the labels we want to arrange
     labels = [[NSMutableArray alloc] init];
     
     [self addMessagesSentLabel];
     
-    [self addLabelWithText:[[self item] desc]];
+    descLabel = [self addLabelWithText:[[self item] desc]];
     
     [self loadUsernameLabel];
     NSString *statusStr = [NSString stringWithFormat:@"Status: %@", [[self item] state]];
-    [self addLabelWithText:statusStr];
+    statusLabel = [self addLabelWithText:statusStr];
     
     NSString *distanceStr = [NSString stringWithFormat:@"Distance: %@ Miles", [[self item] distance]];
     [self addLabelWithText:distanceStr];
@@ -68,17 +67,43 @@ static float kBorderSize = 5.0;
     [self addLabelWithText:postedDateString];
     
     NSString *updateDateString = [NSString stringWithFormat:@"Last updated: %@", [self dateStringForDate:[[self item] dateUpdated]]];
-    [self addLabelWithText:updateDateString];
+    updateDateLabel = [self addLabelWithText:updateDateString];
     
     [self autolayout];
+    
     [scrollView sizeToFit];
     [scrollView setNeedsUpdateConstraints];
     [scrollView setNeedsDisplay];
 }
 
+- (void)reloadItem
+{
+    // These are the fields that could be updated via offers, so might be changed if a user is looking
+    // at their own item.
+    [descLabel setText:[[self item] desc]];
+    
+    [statusLabel setText:[NSString stringWithFormat:@"Status: %@", [[self item] state]]];
+    NSString *updateDateString = [NSString stringWithFormat:@"Last updated: %@", [self dateStringForDate:[[self item] dateUpdated]]];
+    [updateDateLabel setText:updateDateString];
+    
+    // Only update the user if you can find it locally
+    GOTUser *owner = [[GOTUserStore sharedStore] fetchLocalUserWithUserID:[[self item] userID]];
+    if (owner) {
+        NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@ (karma: %@)", [owner username], [owner karma]];
+        [usernameLabel setText:postedByStr];
+    }
+    
+    // Only update the image if it's local
+    if ([[self item] image]) {
+        [imageView setImage:[[self item] image]];
+    }
+    
+    [self autolayout];
+}
+
 - (void)autolayout
 {
-    NSLog(@"Views to arrange: %@", labels);
+    NSLog(@"Layout for item: %@", [self item]);
     if (labelConstraints) {
         [[self view] removeConstraints:labelConstraints];
     }
@@ -148,8 +173,9 @@ static float kBorderSize = 5.0;
     // label of the correct size first, then asynchronously fill in the data
     // once we have it.
     NSString *postedByStr = [NSString stringWithFormat:@"Posted by:"];
-    UILabel *usernameLabel = [self addLabelWithText:postedByStr];
+    usernameLabel = [self addLabelWithText:postedByStr];
     
+    NSLog(@"Item = %@", [self item]);
     [[GOTUserStore sharedStore] fetchUserWithUserID:[[self item] userID] withCompletion:^(id usr, NSError *err) {
         if (err) {
             NSLog(@"Could not load user: %@", [err localizedDescription]);
@@ -253,7 +279,7 @@ static float kBorderSize = 5.0;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual: @"item"]) {
-        NSLog(@"Updating for change in item");
+        NSLog(@"Updating for change in item: %@", object);
         [self autolayout];
     }
 }

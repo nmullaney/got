@@ -174,9 +174,7 @@
                                userInfo:nil] raise];
     }
     
-    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"userID = %@"
-                                                    argumentArray:[NSArray arrayWithObject:userID]];
-    GOTUser *user = [self fetchUserFromDBWithPredicate:userPredicate];
+    GOTUser *user = [self fetchLocalUserWithUserID:userID];
     if (user) {
         NSLog(@"Fetched user from local storage");
         if (block) {
@@ -192,6 +190,13 @@
     [self fetchUserFromWebWithParams:params withRootObject:newUser withCompletion:block];
     
     return nil;
+}
+
+- (GOTUser *)fetchLocalUserWithUserID:(NSNumber *)userID
+{
+    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"userID = %@"
+                                                    argumentArray:[NSArray arrayWithObject:userID]];
+    return [self fetchUserFromDBWithPredicate:userPredicate];
 }
 
 - (void)fetchUserFromWebWithParams:(NSDictionary *)params

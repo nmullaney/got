@@ -25,6 +25,7 @@
 - (GOTUser *)createOrFetchUserWithID:(NSNumber *)userID;
 - (GOTUser *)fetchUserWithUserID:(NSNumber *)userID
                   withCompletion:(void (^)(id user, NSError *err))block;
+- (GOTUser *)fetchLocalUserWithUserID:(NSNumber *)userID;
 - (void)fetchActiveUserWithExtraFields:(NSArray *)extraFields
                                    withCompletion:(void (^)(GOTActiveUser *, NSError *err))block;
 - (GOTUser *)fetchUserFromDBWithPredicate:(NSPredicate *)userPredicate;

@@ -297,6 +297,20 @@
     [[self itemIDs] insertObject:[item itemID] atIndex:idx];
 }
 
+- (void)refilterItems
+{
+    // Filter for items that may have changed in Offers and should no longer show up in FreeItems
+    NSMutableArray *filteredItemIDs = [[NSMutableArray alloc] init];
+    [[self itemIDs] enumerateObjectsUsingBlock:^(NSNumber *itemID, NSUInteger idx, BOOL *stop) {
+        GOTItem *item = [[GOTItemsStore sharedStore] itemWithID:itemID];
+        if (!item ||
+            ![item matchesText:[self searchText]]) {
+            return;
+        }
+        [filteredItemIDs addObject:itemID];
+    }];
+    [self setItemIDs:filteredItemIDs];
+}
 
 - (void)refreshItems
 {

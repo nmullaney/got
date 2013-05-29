@@ -17,6 +17,11 @@
     __weak IBOutlet UIImageView *imageView;
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
+    UILabel *descLabel;
+    UILabel *usernameLabel;
+    UILabel *statusLabel;
+    UILabel *updateDateLabel;
+    
     NSMutableArray *labels;
     NSMutableArray *labelConstraints;
     
@@ -34,5 +39,6 @@
 - (void)addMessagesSentLabel;
 - (void)updateMessagesSent;
 - (void)autolayout;
+- (void)reloadItem;
 
 @end
