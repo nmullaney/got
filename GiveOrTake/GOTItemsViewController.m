@@ -72,6 +72,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     if ([self freeItemID]) {
         [[self itemList] loadSingleItem:[self freeItemID]];
     } else if ([[self fisvc] filterChanged]) {

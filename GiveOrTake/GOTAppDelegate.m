@@ -15,6 +15,7 @@
 #import "GOTSettings.h"
 #import "GOTUserStore.h"
 #import "GOTActiveUser.h"
+#import "GOTConstants.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <HockeySDK/HockeySDK.h>
@@ -30,9 +31,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
     // Startup the Hockey system
+    /*
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"778954ac708922955173508ac7d0cd24"
                                                            delegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
+     */
     
     // Initialize the settings
     [[GOTSettings instance] setupDefaults];
@@ -107,6 +110,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [tvc addChildViewController:profileNav];
     // Show free items first
     [tvc setSelectedIndex:1];
+    
+    // Setup default color scheme
+    [[UINavigationBar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
+    [[UIToolbar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
     
     if (url) {
         if ([[url host] isEqual:@"freeItem"]) {

@@ -10,6 +10,7 @@
 
 #import "GOTActiveUser.h"
 #import "GOTUserStore.h"
+#import "GOTConstants.h"
 
 @implementation GOTLoginViewController
 
@@ -27,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
     
     [self createLoginView];
 }

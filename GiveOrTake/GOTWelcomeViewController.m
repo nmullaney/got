@@ -9,12 +9,18 @@
 #import "GOTWelcomeViewController.h"
 
 #import "GOTUsernameUpdateViewController.h"
+#import "GOTConstants.h"
 
 @interface GOTWelcomeViewController ()
 
 @end
 
 @implementation GOTWelcomeViewController
+
+- (void)viewDidLoad
+{
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+}
 
 - (IBAction)startButtonPressed:(id)sender {
     GOTUsernameUpdateViewController *uvc = [[GOTUsernameUpdateViewController alloc] init];

@@ -8,6 +8,7 @@
 
 #import "GOTWebViewController.h"
 
+#import "GOTConstants.h"
 
 @implementation GOTWebViewController
 

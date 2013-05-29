@@ -11,6 +11,7 @@
 #import "GOTUserStore.h"
 #import "GOTActiveUser.h"
 #import "GOTAppDelegate.h"
+#import "GOTConstants.h"
 
 @implementation GOTEmailUpdateViewController
 
@@ -31,6 +32,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    
     [[self navigationItem] setTitle:@"Edit Email Address"];
     GOTActiveUser *activeUser = [GOTActiveUser activeUser];
     NSString *currentEmail = [activeUser email];

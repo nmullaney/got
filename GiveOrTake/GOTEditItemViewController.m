@@ -246,7 +246,7 @@ int PICKER_VIEW_TAG = 1;
                                          threequartWidth,
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
-    [postOfferButton setBackgroundColor:[UIColor redColor]];
+    [postOfferButton setBackgroundColor:[GOTConstants actionButtonColor]];
     [[postOfferButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
     postOfferButton.layer.cornerRadius = 10.0;
     [postOfferButton addTarget:self

@@ -77,7 +77,7 @@ static float border = 10;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.tintColor = nil;
+    [[[self navigationController] navigationBar] setTintColor:[GOTConstants defaultNavBarColor]];
 }
 
 // Returns true if this item belongs to the active user

@@ -10,6 +10,7 @@
 
 #import "GOTUserStore.h"
 #import "GOTActiveUser.h"
+#import "GOTConstants.h"
 #import "GOTEmailUpdateViewController.h"
 
 @implementation GOTLocationUpdateViewController
@@ -30,6 +31,9 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    
     [mapView setDelegate:self];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager setDelegate:self];
@@ -38,6 +42,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     GOTActiveUser *user = [GOTActiveUser activeUser];
+    
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
     
     [[self navigationItem] setTitle:@"Edit Location"];
     

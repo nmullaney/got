@@ -25,7 +25,18 @@
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;
 + (UIColor *)defaultGrayTextColor;
+
++ (UIColor *)defaultNavBarColor;
++ (UIColor *)actionButtonColor;
++ (UIColor *)iconLightGreen;
++ (UIColor *)iconMediumGreen;
++ (UIColor *)iconDarkGreen;
++ (UIColor *)iconLightPink;
++ (UIColor *)iconMediumPink;
++ (UIColor *)iconDarkPink;
 + (UIColor *)defaultDarkBlueColor;
+
++ (UIColor *)colorWith255Red:(float)red  with255Green:(float)green with255Blue:(float)blue;
 
 + (NSString *)admobPublisherID;
 

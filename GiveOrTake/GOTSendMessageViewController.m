@@ -45,6 +45,8 @@ static float border = 10;
 {
     [super viewDidLoad];
     
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    
     // Register for keyboard notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];

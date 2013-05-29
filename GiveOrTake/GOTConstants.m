@@ -10,6 +10,8 @@
 
 @implementation GOTConstants
 
+#pragma mark network constants
+
 + (NSURL *)baseURL
 {
     return [NSURL URLWithString:@"https://api.giveortakeapp.com"];
@@ -38,6 +40,9 @@
     return 15;
 }
 
+#pragma mark -
+#pragma mark fonts
+
 + (UIFont *)defaultSmallFont
 {
     return [UIFont systemFontOfSize:13.0];
@@ -63,6 +68,9 @@
     return [UIFont boldSystemFontOfSize:19.0];
 }
 
+#pragma mark -
+#pragma mark colors
+
 // This returns a light gray, partially translucent color
 + (UIColor *)defaultBackgroundColor
 {
@@ -72,7 +80,7 @@
 // This returns a silvery green color
 + (UIColor *)greenBackgroundColor
 {
-    return [UIColor colorWithRed:0.3867 green:0.7968 blue:0.3867 alpha:1.0];
+    return [GOTConstants colorWith255Red:167 with255Green:235 with255Blue:164];
 }
 
 // This is the steel crayon color
@@ -81,15 +89,71 @@
     return [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1.0];
 }
 
+#pragma mark -
+#pragma mark navigation header constants
+
 // This is the blue for the fb share
 + (UIColor *)defaultDarkBlueColor
 {
     return [UIColor colorWithRed:0.29 green:0.396 blue:0.616 alpha:1.0];
 }
 
++ (UIColor *)defaultNavBarColor
+{
+    return [GOTConstants iconMediumGreen];
+}
+
++ (UIColor *)actionButtonColor
+{
+    return [GOTConstants iconDarkPink];
+}
+
++ (UIColor *)iconLightGreen
+{
+    return [GOTConstants colorWith255Red:107 with255Green:218 with255Blue:113];
+}
+
++ (UIColor *)iconMediumGreen
+{
+    return [GOTConstants colorWith255Red:21.0f with255Green:151.0f with255Blue:43.0f];
+}
+
++ (UIColor *)iconDarkGreen
+{
+    return [GOTConstants colorWith255Red:51.0f with255Green:96.0f with255Blue:55.0f];
+}
+
++ (UIColor *)iconLightPink;
+{
+    return [GOTConstants colorWith255Red:238 with255Green:164 with255Blue:201];
+}
+
++ (UIColor *)iconMediumPink
+{
+    return [GOTConstants colorWith255Red:231 with255Green:128 with255Blue:184];
+}
+
++ (UIColor *)iconDarkPink
+{
+    return [GOTConstants colorWith255Red:182 with255Green:39 with255Blue:157];
+}
+
++ (UIColor *)colorWith255Red:(float)red  with255Green:(float)green with255Blue:(float)blue
+{
+    float normRed = red / 255.0f;
+    float normGreen = green / 255.0f;
+    float normBlue = blue / 255.0f;
+    return [UIColor colorWithRed:normRed green:normGreen blue:normBlue alpha:1.0];
+}
+
+#pragma mark -
+#pragma mark ad constants
+
 + (NSString *)admobPublisherID
 {
     return @"a1519a5dc401ede";
 }
+
+#pragma mark -
 
 @end

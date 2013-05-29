@@ -9,6 +9,7 @@
 #import "GOTUsernameUpdateViewController.h"
 
 #import "GOTActiveUser.h"
+#import "GOTConstants.h"
 #import "GOTUserStore.h"
 #import "GOTLocationUpdateViewController.h"
 
@@ -30,6 +31,8 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
     NSString *currentUsername = [[GOTActiveUser activeUser] username];
     [usernameField setText:currentUsername];
     [[self navigationItem] setTitle:@"Edit Username"];

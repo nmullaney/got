@@ -8,6 +8,7 @@
 
 #import "FilterItemSettingsViewController.h"
 #import "GOTSettings.h"
+#import "GOTConstants.h"
 
 @implementation FilterItemSettingsViewController
 
@@ -23,6 +24,7 @@
 
 - (void)viewDidLoad
 {
+    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
     UILabel *magnifyingGlass = [[UILabel alloc] init];
     [magnifyingGlass setText:[[NSString alloc] initWithUTF8String:"\xF0\x9F\x94\x8D"]];
     [magnifyingGlass sizeToFit];

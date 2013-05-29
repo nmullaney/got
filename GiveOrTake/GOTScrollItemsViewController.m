@@ -180,7 +180,7 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:wantButton];
     
     [self setToolbarItems:[NSArray arrayWithObject:item]];
-    self.navigationController.toolbar.tintColor = [UIColor redColor];
+    self.navigationController.toolbar.tintColor = [GOTConstants actionButtonColor];
     [[self navigationController] setToolbarHidden:NO animated:YES];
 }
 
