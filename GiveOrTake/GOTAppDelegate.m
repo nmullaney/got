@@ -14,6 +14,7 @@
 #import "GOTProfileViewController.h"
 #import "GOTSettings.h"
 #import "GOTUserStore.h"
+#import "GOTItemsStore.h"
 #import "GOTActiveUser.h"
 #import "GOTConstants.h"
 
@@ -164,6 +165,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     NSLog(@"logout and clear token info");
     [[FBSession activeSession] closeAndClearTokenInformation];
     [GOTActiveUser logout];
+    [[GOTItemsStore sharedStore] clearItems];
     [self setupLoginControllerWithURL:nil];
 }
 
