@@ -120,10 +120,10 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5G-Gs-EF8">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5G-Gs-EF8">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="210" id="KrU-c1-9uf"/>
-                                                        <constraint firstAttribute="height" constant="21" id="h98-kA-gwg"/>
+                                                        <constraint firstAttribute="height" constant="38" id="3TZ-Sc-9LW"/>
+                                                        <constraint firstAttribute="width" constant="83" id="79E-S1-cOd"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -142,14 +142,22 @@
                                                         <action selector="karmaInfoPressed:" destination="Sab-kp-HdF" eventType="touchUpInside" id="0WW-nb-nq6"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="karma" translatesAutoresizingMaskIntoConstraints="NO" id="GRT-hh-WA0">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="15" id="WWq-bc-yWo"/>
+                                                        <constraint firstAttribute="height" constant="15" id="ePR-GB-8aV"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="KzP-yk-QPv" firstAttribute="centerY" secondItem="1GH-Tb-Ev9" secondAttribute="centerY" type="default" id="4lD-fO-D6i"/>
-                                            <constraint firstAttribute="trailing" secondItem="KzP-yk-QPv" secondAttribute="trailing" constant="22" id="6kR-Jw-STD"/>
-                                            <constraint firstItem="C5G-Gs-EF8" firstAttribute="top" secondItem="1GH-Tb-Ev9" secondAttribute="top" constant="10" id="Pvd-0y-w5y"/>
-                                            <constraint firstItem="C5G-Gs-EF8" firstAttribute="centerX" secondItem="1GH-Tb-Ev9" secondAttribute="centerX" type="default" id="av5-pl-va8"/>
+                                            <constraint firstItem="GRT-hh-WA0" firstAttribute="centerY" secondItem="C5G-Gs-EF8" secondAttribute="centerY" type="default" id="1ce-x0-A3H"/>
+                                            <constraint firstItem="GRT-hh-WA0" firstAttribute="leading" secondItem="C5G-Gs-EF8" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="GLV-Fe-KSu"/>
+                                            <constraint firstItem="C5G-Gs-EF8" firstAttribute="leading" secondItem="1GH-Tb-Ev9" secondAttribute="leading" constant="78" id="PBN-yp-acq"/>
+                                            <constraint firstItem="GRT-hh-WA0" firstAttribute="centerY" secondItem="KzP-yk-QPv" secondAttribute="centerY" type="default" id="UnD-bE-Svp"/>
+                                            <constraint firstAttribute="trailing" secondItem="KzP-yk-QPv" secondAttribute="trailing" constant="22" id="d88-Ek-4V5"/>
+                                            <constraint firstItem="GRT-hh-WA0" firstAttribute="centerY" secondItem="1GH-Tb-Ev9" secondAttribute="centerY" type="default" id="tUO-Q1-Vrg"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -246,6 +254,9 @@
             <point key="canvasLocation" x="59" y="-6"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="karma" width="16" height="16"/>
+    </resources>
     <classes>
         <class className="GOTProfileViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GOTProfileViewController.h"/>

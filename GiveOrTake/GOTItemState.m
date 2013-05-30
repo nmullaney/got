@@ -87,13 +87,13 @@ static NSString *DELETED = @"Deleted";
 + (UIImage *)imageForState:(GOTItemState *)state
 {
     if (state == [GOTItemState AVAILABLE]) {
-       return [UIImage imageNamed:@"green-dot"];
+       return [UIImage imageNamed:@"available"];
     } else if (state == [GOTItemState DRAFT]) {
-       return [UIImage imageNamed:@"yellow-pencil"];
+       return [UIImage imageNamed:@"draft"];
     } else if (state == [GOTItemState PENDING]) {
-        return [UIImage imageNamed:@"pink-heart"];
+        return [UIImage imageNamed:@"promised"];
     } else if (state == [GOTItemState TAKEN]) {
-        return [UIImage imageNamed:@"red-noitem"];
+        return [UIImage imageNamed:@"taken"];
     } else {
         return nil;
     }

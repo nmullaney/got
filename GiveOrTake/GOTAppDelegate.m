@@ -84,13 +84,17 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // My Offers Controller
     GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
     UINavigationController *offerNav = [[UINavigationController alloc] initWithRootViewController:ovc];
-    UITabBarItem *offerItem = [[UITabBarItem alloc] initWithTitle:@"Give" image:[UIImage imageNamed:@"whitehand"] tag:0];
+    UITabBarItem *offerItem = [[UITabBarItem alloc] init];
+    [offerItem setTitle:@"Give"];
+    [offerItem setFinishedSelectedImage:[UIImage imageNamed:@"give-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"give"]];
     [offerNav setTabBarItem:offerItem];
     
     // Free Items Controller
     GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
     UINavigationController *freeNav = [[UINavigationController alloc] initWithRootViewController:ivc];
-    UITabBarItem *freeItem = [[UITabBarItem alloc] initWithTitle:@"Take" image:[UIImage imageNamed:@"whitegift"] tag:1];
+    UITabBarItem *freeItem = [[UITabBarItem alloc] init];
+    [freeItem setTitle:@"Take"];
+    [freeItem setFinishedSelectedImage:[UIImage imageNamed:@"take-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"take"]];
     [freeNav setTabBarItem:freeItem];
     
     // Profile Controller
@@ -98,7 +102,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                 bundle:nil];
     GOTProfileViewController *pvc = [profileStoryboard instantiateInitialViewController];
     UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:pvc];
-    UITabBarItem *profileItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"whiteprofile"] tag:2];
+    UITabBarItem *profileItem = [[UITabBarItem alloc] init];
+    [profileItem setTitle:@"Profile"];
+    [profileItem setFinishedSelectedImage:[UIImage imageNamed:@"profile-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"profile"]];
     [profileNav setTabBarItem:profileItem];
     
     // Tab Bar
