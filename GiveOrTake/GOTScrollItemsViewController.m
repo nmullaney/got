@@ -24,30 +24,11 @@
 
 - (void)setItemList:(GOTItemList *)list
 {
-    NSLog(@"Resetting item list");
-    if (itemList) {
-        // remove observer
-        [itemList removeObserver:self forKeyPath:@"itemIDs"];
-    }
     viewControllers = [[NSMutableArray alloc] initWithCapacity:[list itemCount]];
     for (int i = 0; i < [list itemCount]; i++) {
         [viewControllers addObject:[NSNull null]];
     }
     itemList = list;
-    [itemList addObserver:self forKeyPath:@"itemIDs" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSLog(@"items changed value!");
-    // Sanity check
-    if ([keyPath isEqualToString:@"itemIDs"] && object == [self itemList]) {
-        NSArray *oldItemIDs = [change objectForKey:NSKeyValueChangeOldKey];
-        NSArray *newItemIDs = [change objectForKey:NSKeyValueChangeNewKey];
-        if (![oldItemIDs isEqualToArray:newItemIDs]) {
-            [self itemListSizeChangedFrom:[oldItemIDs count] to:[newItemIDs count]];
-        }
-    }
 }
 
 - (void)itemListSizeChangedFrom:(NSUInteger)originalSize to:(NSUInteger)newSize
@@ -121,7 +102,13 @@
         return;
     } else if (index > [[self itemList] itemCount] - 1) {
         NSLog(@"Fetching item at high index");
-        [itemList fetchItemAtIndex:index withCompletion:nil];
+        int origSize = [[self itemList] itemCount];
+        [itemList fetchItemAtIndex:index withCompletion:^(id item, NSError *err) {
+            int newSize = [[self itemList] itemCount];
+            if (newSize != origSize) {
+                [self itemListSizeChangedFrom:origSize to:newSize];
+            }
+        }];
         return;
     }
     NSLog(@"Getting controller at index: %d", index);
@@ -133,6 +120,7 @@
         [viewControllers replaceObjectAtIndex:index withObject:viewController];
         [[viewController view] setFrame:[self frameForViewAtIndex:index]];
         [scrollView addSubview:[viewController view]];
+        [scrollView setNeedsDisplay];
     } else {
       // This ensures that the data will be up-to-date
       [currentController setItem:[[self itemList] getItemAtIndex:index]];
@@ -148,6 +136,8 @@
     NSLog(@"View will appear");
     [super viewWillAppear:animated];
     
+    [[self navigationController] setToolbarHidden:NO animated:YES];
+    
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
     CGRect scrollViewFrame = [scrollView frame];
     scrollViewFrame.origin.x = [self selectedIndex] * bounds.size.width;
@@ -162,8 +152,14 @@
     [self notifyViewControllerAppearing:[self selectedIndex] - 1];
     [self notifyViewControllerAppearing:[self selectedIndex] + 1];
     [scrollView setNeedsDisplay];
-    
+}
 
+- (void)loadView
+{
+    NSLog(@"Load view");
+    [super loadView];
+    [self initScrollView];
+    
     CGRect toolbarFrame = [[[self navigationController] toolbar] frame];
     // The toolbar leaves a margin of 10px at the edge, so to
     // center the button, we need to remove 20 from the width
@@ -181,14 +177,7 @@
     
     [self setToolbarItems:[NSArray arrayWithObject:item]];
     self.navigationController.toolbar.tintColor = [GOTConstants actionButtonColor];
-    [[self navigationController] setToolbarHidden:NO animated:YES];
-}
 
-- (void)loadView
-{
-    NSLog(@"Load view");
-    [super loadView];
-    [self initScrollView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -285,7 +274,6 @@
 - (void)dealloc
 {
     NSLog(@"dealloc for GOTScrollItemsViewController");
-    [[self itemList] removeObserver:self forKeyPath:@"itemIDs"];
 }
 
 @end

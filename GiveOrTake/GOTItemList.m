@@ -28,7 +28,6 @@
 }
 
 #pragma mark setters
-
 - (void)setOwnedByID:(NSNumber *)userID
 {
     if (!ownedByID ||
@@ -309,6 +308,7 @@
         }
         [filteredItemIDs addObject:itemID];
     }];
+    
     [self setItemIDs:filteredItemIDs];
 }
 

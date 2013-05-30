@@ -23,7 +23,7 @@
 
 @implementation GOTItemsViewController
 
-@synthesize itemList, singleItemViewController, fisvc, freeItemID;
+@synthesize itemList, fisvc, freeItemID;
 
 - (id)init
 {
@@ -77,7 +77,6 @@
         [[self itemList] loadSingleItem:[self freeItemID]];
     } else if ([[self fisvc] filterChanged]) {
         NSLog(@"Filter changed, should load most recent items");
-        [self setSingleItemViewController:nil];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         [[self itemList] setSearchText:[[self fisvc] searchText]];
         [[self itemList] setShowMyItems:[[self fisvc] getCurrentShowItems]];
@@ -110,7 +109,6 @@
         // If a single item is set, clear it
         if ([self freeItemID]) {
             [self setFreeItemID:nil];
-            [self setSingleItemViewController:nil];
             [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
             [[self itemList] setSearchText:[[self fisvc] searchText]];
             [[self itemList] setShowMyItems:[[self fisvc] showMyItemsValue]];
@@ -261,16 +259,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![self singleItemViewController]) {
-        [self setSingleItemViewController:[[GOTScrollItemsViewController alloc] init]];
-        float visibleHeight = [[self tableView] frame].size.height;
-        [[self singleItemViewController] setHeight:visibleHeight];
-        [[self singleItemViewController] setItemList:[self itemList]];
-        [[self singleItemViewController] setHidesBottomBarWhenPushed:YES];
-    }
+    GOTScrollItemsViewController *sivc = [[GOTScrollItemsViewController alloc] init];
+    float visibleHeight = [[self tableView] frame].size.height;
+    [sivc setHeight:visibleHeight];
+    [sivc setItemList:[self itemList]];
     int index = [self indexForIndexPath:indexPath];
-    [[self singleItemViewController] setSelectedIndex:index];
-    [[self navigationController] pushViewController:[self singleItemViewController] animated:YES];
+    [sivc setSelectedIndex:index];
+    [sivc setHidesBottomBarWhenPushed:YES];
+    
+    NSLog(@"Selectedc index:%d, item:%@", index, [[self itemList] getItemAtIndex:index]);
+    [[self navigationController] pushViewController:sivc animated:YES];
 }
 
 - (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

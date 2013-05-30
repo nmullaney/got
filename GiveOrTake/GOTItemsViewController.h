@@ -25,7 +25,6 @@
 }
 
 @property (nonatomic, strong) GOTItemList *itemList;
-@property (nonatomic, strong) GOTScrollItemsViewController *singleItemViewController;
 @property (nonatomic, strong) FilterItemSettingsViewController *fisvc;
 
 // This is used for openURL for a specific item

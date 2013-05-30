@@ -30,7 +30,8 @@ static float kBorderSize = 5.0;
     if ([self messagesSentString] && !messagesSentLabel) {
         [self addMessagesSentLabel];
         
-    } 
+    }
+    NSLog(@"Showing item: %@", item);
     [self reloadItem];
 }
 
