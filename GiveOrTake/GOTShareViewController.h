@@ -14,6 +14,8 @@
     
     IBOutlet UIControl *view;
     GOTTextView *textView;
+    UIBarButtonItem *postButton;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, strong) GOTItem *item;

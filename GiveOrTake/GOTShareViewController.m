@@ -38,7 +38,7 @@ static float border = 10;
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPost:)];
     [[self navigationItem] setLeftBarButtonItem:cancelButton];
     
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleDone target:self action:@selector(sendPost:)];
+    postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleDone target:self action:@selector(sendPost:)];
     [[self navigationItem] setRightBarButtonItem:postButton];
     
     [self.view setBackgroundColor:[GOTConstants defaultBackgroundColor]];
@@ -65,6 +65,11 @@ static float border = 10;
     imageView.layer.masksToBounds = YES;
     imageView.layer.opaque = NO;
     [self.view addSubview:imageView];
+    
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityIndicator setFrame:[textView frame]];
+    [activityIndicator setHidesWhenStopped:YES];
+    [self.view addSubview:activityIndicator];
     
 }
 
@@ -102,6 +107,7 @@ static float border = 10;
                          id result,
                          NSError *error) {
          NSLog(@"Post complete");
+         [activityIndicator stopAnimating];
          NSString *alertText;
          if (error) {
              alertText = [NSString stringWithFormat:
@@ -123,6 +129,8 @@ static float border = 10;
 
 - (void)sendPost:(id)sender
 {
+    [postButton setEnabled:NO];
+    [activityIndicator startAnimating];
     if ([[FBSession activeSession] isOpen]) {
         if ([FBSession.activeSession.permissions
              indexOfObject:@"publish_actions"] == NSNotFound) {
@@ -147,6 +155,7 @@ static float border = 10;
                 [self publishWithGraphAPI];
             } else {
                 NSLog(@"Failed to post to Facebook");
+                [postButton setEnabled:YES];
             }
         }];
     }
