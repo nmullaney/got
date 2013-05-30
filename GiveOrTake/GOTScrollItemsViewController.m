@@ -17,6 +17,7 @@
 #import "GOTFreeItemDetailViewController.h"
 #import "GOTSendMessageViewController.h"
 #import "GOTConstants.h"
+#import "GOTActiveUser.h"
 
 @implementation GOTScrollItemsViewController
 
@@ -190,6 +191,16 @@
 {
     NSLog(@"Want button pressed in scrollview!");
     GOTItem *currentItem = [[self itemList] getItemAtIndex:[self selectedIndex]];
+    if ([[currentItem userID] intValue] == [[[GOTActiveUser activeUser] userID] intValue]) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"" message:@"You cannot request your own item!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
+    if ([currentItem state] == [GOTItemState PENDING] && [currentItem numMessagesSent] != nil) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"" message:@"You've already signed up to be notified about this item." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
     if ([currentItem state] == [GOTItemState AVAILABLE]) {
         GOTSendMessageViewController *smvc = [[GOTSendMessageViewController alloc] initWithItemList:[self itemList] selectedIndex:[self selectedIndex]];
         [[self navigationController] pushViewController:smvc animated:YES];
