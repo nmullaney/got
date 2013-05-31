@@ -895,6 +895,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Documents/FacebookSDK\"",
