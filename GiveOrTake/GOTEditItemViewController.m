@@ -27,6 +27,7 @@
 @synthesize item, draftState, draftStateUserID, usersWantItem;
 
 int PICKER_VIEW_TAG = 1;
+int NAME_MAX_LENGTH = 25;
 
 - (id) init
 {
@@ -556,6 +557,16 @@ int PICKER_VIEW_TAG = 1;
 - (void)backgroundTapped:(id)sender {
     [[self view] endEditing:YES];
     [[self view] becomeFirstResponder];
+}
+
+// Limit the nameField to NAME_MAX_LENGTH characters
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == nameField) {
+        NSUInteger newLength = [textField.text length] - range.length + [string length];
+        return newLength <= NAME_MAX_LENGTH || newLength < [textField.text length];
+    }
+    return YES;
 }
 
 #pragma mark -

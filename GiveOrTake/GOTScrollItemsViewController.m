@@ -137,6 +137,8 @@
     NSLog(@"View will appear");
     [super viewWillAppear:animated];
     
+    [[[self navigationController] navigationBar] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:18] forKey:UITextAttributeFont]];
     [[self navigationController] setToolbarHidden:NO animated:YES];
     
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
@@ -185,6 +187,8 @@
 {
     [super viewWillDisappear:animated];
     [[self navigationController] setToolbarHidden:YES animated:animated];
+    [[[self navigationController] navigationBar] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:0] forKey:UITextAttributeFont]];
 }
 
 - (void)wantButtonPressed:(id)sender
