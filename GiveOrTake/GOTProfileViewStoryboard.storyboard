@@ -88,7 +88,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Location" id="YNz-yw-cXm">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="fKf-1R-8aJ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="fKf-1R-8aJ">
                                         <rect key="frame" x="0.0" y="182" width="320" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
