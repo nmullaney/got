@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+@class GOTActiveUser;
+
 @interface GOTProfileViewController : UITableViewController <UITableViewDelegate>
 {
     IBOutlet UITableView *tableView;
@@ -23,5 +25,8 @@
 - (IBAction)karmaInfoPressed:(id)sender;
 - (IBAction)logout:(id)sender;
 - (IBAction)aboutButtonPressed:(id)sender;
+
+- (void)displayUserData:(GOTActiveUser *)user;
+- (void)setUserMapAnnotation:(GOTActiveUser *)user;
 
 @end

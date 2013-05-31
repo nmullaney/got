@@ -83,7 +83,15 @@
         [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
             if (err) {
-                NSLog(@"Error occurred: %@", [err localizedDescription]);
+                NSString *errorString = [NSString stringWithFormat:@"Failed to fetch items: %@",
+                                         [err localizedDescription]];
+                
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                             message:errorString
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+                [av show];
                 return;
             }
             [[self fisvc] setFilterChanged:NO];

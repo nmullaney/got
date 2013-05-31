@@ -44,7 +44,8 @@
     [self deleteEmptyItems];
     if ([[self offersList] itemCount] == 0) {
         [self updateOffers];
-    } 
+    }
+    NSLog(@"In view will appear, realoading data");
     [[self tableView] reloadData];
 }
 
@@ -140,6 +141,19 @@
     NSUInteger row = [[[self tableView] indexPathForCell:cell] row];
     if (row == ([[self offersList] itemCount] - 1)) {
         [[self offersList] loadMoreItemsWithCompletion:^(id items, NSError *err) {
+            if (err) {
+                NSString *errorString = [NSString stringWithFormat:@"Failed to fetch more items: %@",
+                                         [err localizedDescription]];
+                
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                             message:errorString
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+                [av show];
+                return;
+            }
+            NSLog(@"In scrollViewDidEndDecelerating: realoading the table");
             [[self tableView] reloadData];
         }];
     }
@@ -190,7 +204,9 @@
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil];
             [av show];
+            return;
         } else {
+            NSLog(@"In updateOffers, reloading data");
             [[self tableView] reloadData];
         }
     }];
@@ -201,11 +217,17 @@
 {
     NSURL *url = [item thumbnailURL];
     void (^block)(id, NSError *) = ^void(id image, NSError *err) {
-        NSData *data = (NSData *)image;
-        [item setThumbnailData:data];
-        [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                                withRowAnimation:UITableViewRowAnimationNone];
-         
+        if (err) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Download Error" message:@"Failed to fetch thumbnail image" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
+        } else if (image) {
+            NSData *data = (NSData *)image;
+            [item setThumbnailData:data];
+            NSLog(@"Reloading rows for thumbnail data");
+            [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                                    withRowAnimation:UITableViewRowAnimationNone];
+        }
+        
     };
     [[GOTItemsStore sharedStore] fetchThumbnailAtURL:url withCompletion:block];
 }

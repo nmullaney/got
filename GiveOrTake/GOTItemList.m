@@ -185,7 +185,7 @@
     
 }
 
-- (void)loadMoreItemsWithCompletion:(void (^)(id list, NSError *))block
+- (void)loadMoreItemsWithCompletion:(void (^)(id list, NSError *err))block
 {
     NSLog(@"Loading more items");
     if (self->isAllDataLoaded) {

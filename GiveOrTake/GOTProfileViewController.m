@@ -10,6 +10,7 @@
 
 #import "GOTAppDelegate.h"
 #import "GOTActiveUser.h"
+#import "GOTUser.h"
 #import "GOTUserStore.h"
 
 #import "GOTUsernameUpdateViewController.h"
@@ -38,27 +39,52 @@
     [logoutButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     logoutButton.layer.cornerRadius = 8.0;
     
+    [mapView setMapType:MKMapTypeStandard];
+    [mapView setZoomEnabled:TRUE];
+    
+    // Attempt to fill in user data that may be stale
+    if ([GOTActiveUser activeUser]) {
+        [self displayUserData:[GOTActiveUser activeUser]];
+    }
+    
     // Refresh the user
     NSArray *extraFields = [NSArray arrayWithObject:@"pending_email"];
     [[GOTUserStore sharedStore] fetchActiveUserWithExtraFields:extraFields
                                                 withCompletion:^(GOTActiveUser *user, NSError *err) {
-                                         
-        [username setText:[user username]];
-        // TODO: bug is here
-        [email setText:[user email]];
-        
-        [mapView removeAnnotations:[mapView annotations]];
-        CLLocationCoordinate2D userCoordinate =
-        CLLocationCoordinate2DMake([[user latitude] doubleValue], [[user longitude] doubleValue]);
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-        [annotation setCoordinate:userCoordinate];
-        [mapView addAnnotation:annotation];
-        [mapView setMapType:MKMapTypeStandard];
-        [mapView setRegion:MKCoordinateRegionMakeWithDistance(userCoordinate, 1000, 1000)];
-        [mapView setZoomEnabled:TRUE];
-        
-        [karmaLabel setText:[[user karma] stringValue]];
+                                                    
+        if (err) {
+            NSString *errorString = [NSString stringWithFormat:@"Failed to refresh user: %@",
+                                     [err localizedDescription]];
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:errorString
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+            return;
+        }
+        [self displayUserData:user];
     }];
+}
+
+- (void)displayUserData:(GOTActiveUser *)user
+{
+    [username setText:[user username]];
+    [email setText:[user email]];
+    [self setUserMapAnnotation:user];
+    [karmaLabel setText:[[user karma] stringValue]];
+}
+
+- (void)setUserMapAnnotation:(GOTActiveUser *)user
+{
+    [mapView removeAnnotations:[mapView annotations]];
+    CLLocationCoordinate2D userCoordinate =
+    CLLocationCoordinate2DMake([[user latitude] doubleValue], [[user longitude] doubleValue]);
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    [annotation setCoordinate:userCoordinate];
+    [mapView addAnnotation:annotation];
+    [mapView setRegion:MKCoordinateRegionMakeWithDistance(userCoordinate, 1000, 1000)];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath

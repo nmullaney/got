@@ -54,7 +54,7 @@ int NAME_MAX_LENGTH = 25;
     [self setDraftState:[i state]];
     [[GOTUserStore sharedStore] fetchUsersWhoRequestedItemID:[i itemID] withCompletion:^(NSArray *users, NSError *err) {
         if (err) {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to fetch users who want this item" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
             return;
         }
@@ -455,7 +455,10 @@ int NAME_MAX_LENGTH = 25;
         GOTShareViewController *svc = [[GOTShareViewController alloc] initWithItem:[self item]];
         [[self navigationController] pushViewController:svc animated:YES];
     } else {
-        [[self navigationController] popViewControllerAnimated:YES];
+        if (![[av title] isEqualToString:@"Error"]) {
+            // Only pop on non-error messages
+            [[self navigationController] popViewControllerAnimated:YES];
+        }
     }
 }
 
