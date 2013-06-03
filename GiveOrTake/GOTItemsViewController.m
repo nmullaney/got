@@ -75,7 +75,7 @@
     
     if ([self freeItemID]) {
         [[self itemList] loadSingleItem:[self freeItemID]];
-    } else if ([[self fisvc] filterChanged]) {
+    } else if ([[self fisvc] filterChanged] || [[self itemList] itemCount] == 0) {
         NSLog(@"Filter changed, should load most recent items");
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         [[self itemList] setSearchText:[[self fisvc] searchText]];

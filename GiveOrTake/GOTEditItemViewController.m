@@ -532,11 +532,13 @@ int NAME_MAX_LENGTH = 25;
     [item setImageKey:key];
     [item setImageNeedsUpload:YES];
     [[GOTImageStore sharedStore] setImage:image forKey:key];
+    [[GOTImageStore sharedStore] saveCacheToDisk];
     [item setThumbnailDataFromImage:image];
     
     [imageView setImage:image];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    imagePicker = nil;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

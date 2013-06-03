@@ -23,6 +23,12 @@
     if (self) {
         itemIDs = [[NSMutableArray alloc] init];
         self->isAllDataLoaded = NO;
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(clearList)
+                   name:UIApplicationDidReceiveMemoryWarningNotification
+                 object:nil];
+        
     }
     return self;
 }
@@ -316,6 +322,12 @@
 {
     // Ensure a refresh of the controllers
     [self setItemIDs:[self itemIDs]];
+}
+
+- (void)clearList
+{
+    self->isAllDataLoaded = NO;
+    [[self itemIDs] removeAllObjects];
 }
 
 @end

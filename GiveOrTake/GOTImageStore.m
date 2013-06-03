@@ -135,6 +135,12 @@
         
         UIImage *image = (UIImage *) obj;
         NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
+        if (!imageData) {
+            NSLog(@"Failed to save cache to disk in ImageStore");
+            return;
+        } else {
+            NSLog(@"Saved image to cache for key: %@", key);
+        }
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager createFileAtPath:[self filePathForKey:key]
@@ -169,7 +175,7 @@
     if ([fileManager fileExistsAtPath:filePath]) {
         NSDictionary *fileAttr = [fileManager attributesOfItemAtPath:filePath error:nil];
         NSLog(@"Image updated on: %@", [fileAttr fileModificationDate]);
-        if ([[fileAttr fileModificationDate] timeIntervalSinceDate:date] < 0) {
+        if (date && [[fileAttr fileModificationDate] timeIntervalSinceDate:date] < 0) {
             // Image is out of date
             NSLog(@"Image is out of date");
             [fileManager removeItemAtPath:filePath error:nil];
@@ -194,10 +200,29 @@
         return;
     }
     UIImage *image = [self imageForKey:[item imageKey]];
+    if (image == nil) {
+        NSLog(@"Image to upload is nil!  Checking disk");
+        image = [self fetchImageFromDisk:[item imageKey] updatedAfter:nil];
+        if (image) {
+            NSLog(@"Found image on disk");
+        }
+    }
+    if (!image) {
+        NSLog(@"Image to upload is STILL nil!");
+    }
     NSData *jpgData = UIImageJPEGRepresentation(image, 0.8);
-    
+    if (!jpgData) {
+        // try min compression
+        jpgData = UIImageJPEGRepresentation(image, 0.0);
+    }
+    if (!jpgData) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong while trying to upload the image.  Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
+        return;
+    }
     
     NSURL *url = [NSURL URLWithString:@"/item/image.php" relativeToURL:[GOTConstants baseURL]];
+    NSLog(@"item = %@, item ID = %@", item, [item itemID]);
     NSDictionary *formData = [NSDictionary dictionaryWithObject:[item itemID]
                                                          forKey:@"item_id"];
     NSDictionary *imageData = [NSDictionary
