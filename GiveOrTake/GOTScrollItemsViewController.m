@@ -213,10 +213,14 @@
             if (err) {
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error registering for item" message:[err localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [av show];
+                return;
             } else {
                 [currentItem setNumMessagesSent:[result objectForKey:@"numMessagesSent"]];
                 GOTFreeItemDetailViewController *currentVC = [viewControllers objectAtIndex:[self selectedIndex]];
                 [currentVC updateMessagesSent];
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Success" message:@"We will email you if this item becomes available." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [av show];
+                return;
             }
         }];
     }
