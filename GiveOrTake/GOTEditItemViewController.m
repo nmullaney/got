@@ -372,6 +372,13 @@ int NAME_MAX_LENGTH = 25;
         return;
     }
     
+    [postOfferButton setEnabled:NO];
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityIndicator setFrame:[UIScreen mainScreen].bounds];
+    [activityIndicator setHidesWhenStopped:YES];
+    [[self view] addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    
     void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
         NSLog(@"calling item upload completion block, error: %@", err);
         if (err) {
@@ -406,6 +413,9 @@ int NAME_MAX_LENGTH = 25;
             
             NSDictionary *karmaDict = [dict objectForKey:@"karma"];
             void (^avblock)(NSDictionary *, NSError *) = ^(NSDictionary *dict, NSError *err) {
+                [postOfferButton setEnabled:YES];
+                [activityIndicator stopAnimating];
+                [activityIndicator removeFromSuperview];
                 if (karmaDict) {
                     [self handleKarmaUpdate:karmaDict];
                 } else {
