@@ -64,10 +64,10 @@ static float kBorderSize = 5.0;
     NSString *distanceStr = [NSString stringWithFormat:@"Distance: %@ Miles", [[self item] distance]];
     [self addLabelWithText:distanceStr];
     
-    NSString *postedDateString = [NSString stringWithFormat:@"Posted on: %@", [self dateStringForDate:[[self item] datePosted]]];
+    NSString *postedDateString = [NSString stringWithFormat:@"Posted %@", [self timeAgo:[[self item] datePosted]]];
     [self addLabelWithText:postedDateString];
     
-    NSString *updateDateString = [NSString stringWithFormat:@"Last updated: %@", [self dateStringForDate:[[self item] dateUpdated]]];
+    NSString *updateDateString = [NSString stringWithFormat:@"Updated %@", [self timeAgo:[[self item] dateUpdated]]];
     updateDateLabel = [self addLabelWithText:updateDateString];
     
     [self autolayout];
@@ -84,7 +84,7 @@ static float kBorderSize = 5.0;
     [descLabel setText:[[self item] desc]];
     
     [statusLabel setText:[NSString stringWithFormat:@"Status: %@", [[self item] state]]];
-    NSString *updateDateString = [NSString stringWithFormat:@"Last updated: %@", [self dateStringForDate:[[self item] dateUpdated]]];
+    NSString *updateDateString = [NSString stringWithFormat:@"Updated %@", [self timeAgo:[[self item] dateUpdated]]];
     [updateDateLabel setText:updateDateString];
     
     // Only update the user if you can find it locally
@@ -259,12 +259,29 @@ static float kBorderSize = 5.0;
     [self autolayout];
 }
 
-- (NSString *)dateStringForDate:(NSDate *)date
+- (NSString *)timeAgo:(NSDate *)date
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    return [dateFormatter stringFromDate:date];
+    NSTimeInterval timeInterval = -[date timeIntervalSinceNow];
+    if (timeInterval < 60) {
+        return @"less than 1 minute ago";
+    } else if (timeInterval < 60 * 2) {
+        return @"1 minute ago";
+    } else if (timeInterval < 60 * 60) {
+        NSInteger minutes = (NSInteger)(timeInterval / 60.0);
+        return [NSString stringWithFormat:@"%d minutes ago", minutes];
+    } else if (timeInterval < 2 * 60 * 60) {
+        return @"1 hour ago";
+    } else if (timeInterval < 24 * 60 * 60) {
+        NSInteger hours = (NSInteger) (timeInterval / (60.0 * 60.0));
+        return [NSString stringWithFormat:@"%d hours ago", hours];
+    } else if (timeInterval <= 2 * 24 * 60 * 60) {
+        return @"1 day ago";
+    } else if (timeInterval < 30 * 24 * 60 * 60) {
+        NSInteger days = (NSInteger) (timeInterval / (24.0 * 60.0 * 60.0));
+        return [NSString stringWithFormat:@"%d days ago", days];
+    } else {
+        return @"more than a month ago";
+    }
 }
 
 - (void)setItem:(GOTItem *)i

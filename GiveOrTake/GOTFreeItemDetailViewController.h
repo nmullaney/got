@@ -33,7 +33,7 @@
 - (UILabel *)addLabelWithText:(NSString *)labelText;
 - (UILabel *)createLabelWithText:(NSString *)labelText;
 - (NSNumber *)heightForLabel:(UILabel *)label;
-- (NSString *)dateStringForDate:(NSDate *)date;
+- (NSString *)timeAgo:(NSDate *)date;
 - (void)loadUsernameLabel;
 - (NSString *)messagesSentString;
 - (void)addMessagesSentLabel;
