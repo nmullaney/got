@@ -15,6 +15,7 @@
 
 @property (nonatomic, copy) NSString *placeholder;
 @property (nonatomic, strong) UIColor *placeholderColor;
+@property (nonatomic, strong) NSNumber *maxContentLength;
 
 - (void)showPlaceholder;
 - (void)hidePlaceholder;

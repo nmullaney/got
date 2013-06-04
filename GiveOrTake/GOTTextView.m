@@ -12,7 +12,7 @@
 
 @implementation GOTTextView
 
-@synthesize placeholderColor, placeholder;
+@synthesize placeholderColor, placeholder, maxContentLength;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -85,6 +85,15 @@
     } else {
         [self showPlaceholder];
     }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([self maxContentLength] == nil) {
+        return YES;
+    }
+    NSUInteger newLength = textView.text.length - range.length + text.length;
+    return (newLength <= [[self maxContentLength] integerValue] || newLength < textView.text.length);
 }
 
 @end

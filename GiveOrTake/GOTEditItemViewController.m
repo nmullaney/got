@@ -28,6 +28,7 @@
 
 int PICKER_VIEW_TAG = 1;
 int NAME_MAX_LENGTH = 25;
+int DESC_MAX_LENGTH = 250;
 
 - (id) init
 {
@@ -194,6 +195,7 @@ int NAME_MAX_LENGTH = 25;
                                           descFieldHeight)];
     [descField setPlaceholder:@"Describe your item."];
     [descField setFont:[nameField font]];
+    [descField setMaxContentLength:[NSNumber numberWithInt:DESC_MAX_LENGTH]];
     [control addSubview:descField];
     currentY = currentY + border + descFieldHeight;
     
