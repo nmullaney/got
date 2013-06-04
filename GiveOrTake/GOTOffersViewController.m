@@ -91,10 +91,16 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         GOTItem *deletedItem = [[self offersList] getItemAtIndex:[indexPath row]];
+        GOTItemState *initialState = [deletedItem state];
         [deletedItem setState:[GOTItemState DELETED]];
         [[self offersList] removeItemAtIndex:[indexPath row]];
         [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                 withRowAnimation:UITableViewRowAnimationFade];
+        // If the item is still a draft, we don't need to inform the server
+        if (initialState == [GOTItemState DRAFT]) {
+            [[GOTImageStore sharedStore] deleteImageForKey:[deletedItem imageKey]];
+            return;
+        }
         [[GOTItemsStore sharedStore] uploadItem:deletedItem withCompletion:^(id result, NSError *err) {
             if (!err) {
                 // TODO itemsStore update?
