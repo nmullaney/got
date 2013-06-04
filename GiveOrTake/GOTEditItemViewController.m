@@ -376,7 +376,7 @@ int DESC_MAX_LENGTH = 250;
     
     [postOfferButton setEnabled:NO];
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [activityIndicator setFrame:[UIScreen mainScreen].bounds];
+    [activityIndicator setFrame:[self view].bounds];
     [activityIndicator setHidesWhenStopped:YES];
     [[self view] addSubview:activityIndicator];
     [activityIndicator startAnimating];
