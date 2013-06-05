@@ -41,6 +41,7 @@
 - (void)addMessagesSentLabel;
 - (void)updateMessagesSent;
 - (void)autolayout;
+- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label withPreviousView:(UIView *)prev;
 - (void)reloadItem;
 
 @end

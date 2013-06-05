@@ -53,9 +53,9 @@ static float kBorderSize = 5.0;
     // This tracks the labels we want to arrange
     labels = [[NSMutableArray alloc] init];
     
-    [self addMessagesSentLabel];
-    
     descLabel = [self addLabelWithText:[[self item] desc] withFont:[GOTConstants defaultMediumFont]];
+    
+    [self addMessagesSentLabel];
     
     [self loadUsernameLabel];
     NSString *statusStr = [NSString stringWithFormat:@"Status:      %@", [[self item] state]];
@@ -116,28 +116,41 @@ static float kBorderSize = 5.0;
     labelConstraints = [[NSMutableArray alloc] initWithCapacity:([labels count] * 2)];
     NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:kBorderSize] forKey:@"border"];
     UIView *previousView = imageView;
-    if (messagesSentLabel) {
-        NSNumber *messagesSentLabelHeight = [self heightForLabel:messagesSentLabel];
-        NSNumber *superViewHeight = [NSNumber numberWithFloat:[messagesSentLabelHeight floatValue] + kBorderSize * 2];
-        [metrics setValue:messagesSentLabelHeight forKey:@"height"];
-        [metrics setValue:superViewHeight forKey:@"superviewHeight"];
-        NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:imageView, @"imageView", [messagesSentLabel superview], @"superview", messagesSentLabel, @"messagesSentLabel", nil];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[imageView]-border-[superview(superviewHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[superview]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[messagesSentLabel]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-border-[messagesSentLabel(height)]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        previousView = [messagesSentLabel superview];
-        NSLog(@"Constraints for messages sent: %@", labelConstraints);
-    }
     for (UIView *currentView in labels) {
-        [metrics setValue:[self heightForLabel:(UILabel *)currentView] forKey:@"height"];
-        NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:previousView, @"prev", currentView, @"current", nil];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[current(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[current]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+        NSNumber *labelHeight = [self heightForLabel:(UILabel *)currentView];
+        if ([labelHeight intValue] == 0) {
+            continue;
+        } else if ([currentView isEqual:messagesSentLabel]) {
+            NSArray *messagesSentConstraints = [self constraintsForMessagesSentLabel:messagesSentLabel
+                                                                    withPreviousView:previousView];
+            [labelConstraints addObjectsFromArray:messagesSentConstraints];
+        } else {
+            [metrics setValue:[self heightForLabel:(UILabel *)currentView] forKey:@"height"];
+            NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:previousView, @"prev", currentView, @"current", nil];
+            [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[current(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+            [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[current]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+        }
         previousView = currentView;
     }
     [[self view] addConstraints:labelConstraints];
     [[self view] needsUpdateConstraints];
+}
+
+- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label withPreviousView:(UIView *)prev
+{
+    NSMutableArray *constraints = [[NSMutableArray alloc] init];
+    NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:kBorderSize] forKey:@"border"];
+    
+    NSNumber *messagesSentLabelHeight = [self heightForLabel:label];
+    NSNumber *superViewHeight = [NSNumber numberWithFloat:[messagesSentLabelHeight floatValue] + kBorderSize * 2];
+    [metrics setValue:messagesSentLabelHeight forKey:@"height"];
+    [metrics setValue:superViewHeight forKey:@"superviewHeight"];
+    NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:prev, @"prev", [messagesSentLabel superview], @"superview", messagesSentLabel, @"messagesSentLabel", nil];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[superview(superviewHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[superview]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[messagesSentLabel]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-border-[messagesSentLabel(height)]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    return constraints;
 }
 
 - (NSNumber *)heightForLabel:(UILabel *)label
@@ -258,6 +271,11 @@ static float kBorderSize = 5.0;
         [messagesSentLabel setTextAlignment:NSTextAlignmentCenter];
         [messagesSentLabel setBackgroundColor:[UIColor clearColor]];
         [labelBackground addSubview:messagesSentLabel];
+        if ([labels count] > 0) {
+            [labels insertObject:messagesSentLabel atIndex:1];
+        } else {
+            [labels addObject:messagesSentLabel];
+        }
         [scrollView addSubview:labelBackground];
     }
 }
