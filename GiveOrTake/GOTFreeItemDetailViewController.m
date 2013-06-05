@@ -16,6 +16,8 @@
 #import "GOTUserStore.h"
 #import "GOTConstants.h"
 
+#import "GOTItemMetadataView.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @implementation GOTFreeItemDetailViewController
@@ -23,6 +25,8 @@
 @synthesize item;
 
 static float kBorderSize = 5.0;
+static float kPadding = 2.0;
+static float kMetaHeight = 140.0;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -50,30 +54,15 @@ static float kBorderSize = 5.0;
         }
     }];
     
-    // This tracks the labels we want to arrange
-    labels = [[NSMutableArray alloc] init];
-    
     descLabel = [self addLabelWithText:[[self item] desc] withFont:[GOTConstants defaultMediumFont]];
     
     [self addMessagesSentLabel];
     
-    [self loadUsernameLabel];
-    NSString *statusStr = [NSString stringWithFormat:@"Status:      %@", [[self item] state]];
-    statusLabel = [self addLabelWithText:statusStr];
-    
-    NSString *distanceStr = nil;
-    if ([[[self item] distance] intValue] < 1) {
-        distanceStr = @"Distance:   less than 1 mile";
-    } else {
-        distanceStr = [NSString stringWithFormat:@"Distance:   %@ Miles", [[self item] distance]];
-    }
-    [self addLabelWithText:distanceStr];
-    
-    NSString *postedDateString = [NSString stringWithFormat:@"Posted:      %@", [self timeAgo:[[self item] datePosted]]];
-    [self addLabelWithText:postedDateString];
-    
-    NSString *updateDateString = [NSString stringWithFormat:@"Updated:   %@", [self timeAgo:[[self item] dateUpdated]]];
-    updateDateLabel = [self addLabelWithText:updateDateString];
+    metaView = [[GOTItemMetadataView alloc] init];
+    //[metaView setFrame:CGRectMake(300, 200, 200, 200)];
+    [metaView loadItemData:[self item]];
+    [metaView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [scrollView addSubview:metaView];
     
     [self autolayout];
     
@@ -86,18 +75,9 @@ static float kBorderSize = 5.0;
 {
     // These are the fields that could be updated via offers, so might be changed if a user is looking
     // at their own item.
-    //[descLabel setText:[[self item] desc]];
+    [descLabel setText:[[self item] desc]];
     
-    [statusLabel setText:[NSString stringWithFormat:@"Status:       %@", [[self item] state]]];
-    NSString *updateDateString = [NSString stringWithFormat:@"Updated:   %@", [self timeAgo:[[self item] dateUpdated]]];
-    [updateDateLabel setText:updateDateString];
-    
-    // Only update the user if you can find it locally
-    GOTUser *owner = [[GOTUserStore sharedStore] fetchLocalUserWithUserID:[[self item] userID]];
-    if (owner) {
-        NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@ (karma: %@)", [owner username], [owner karma]];
-        [usernameLabel setText:postedByStr];
-    }
+    [metaView loadItemData:[self item]];
     
     // Only update the image if it's local
     if ([[self item] image]) {
@@ -110,46 +90,55 @@ static float kBorderSize = 5.0;
 - (void)autolayout
 {
     NSLog(@"Layout for item: %@", [self item]);
-    if (labelConstraints) {
-        [[self view] removeConstraints:labelConstraints];
+    if (allConstraints) {
+        [[self view] removeConstraints:allConstraints];
     }
-    labelConstraints = [[NSMutableArray alloc] initWithCapacity:([labels count] * 2)];
-    NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:kBorderSize] forKey:@"border"];
-    UIView *previousView = imageView;
-    for (UIView *currentView in labels) {
-        NSNumber *labelHeight = [self heightForLabel:(UILabel *)currentView];
-        if ([labelHeight intValue] == 0) {
-            continue;
-        } else if ([currentView isEqual:messagesSentLabel]) {
-            NSArray *messagesSentConstraints = [self constraintsForMessagesSentLabel:messagesSentLabel
-                                                                    withPreviousView:previousView];
-            [labelConstraints addObjectsFromArray:messagesSentConstraints];
-        } else {
-            [metrics setValue:[self heightForLabel:(UILabel *)currentView] forKey:@"height"];
-            NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:previousView, @"prev", currentView, @"current", nil];
-            [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[current(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-            [labelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[current]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-        }
-        previousView = currentView;
+    allConstraints = [[NSMutableArray alloc] init];
+
+    UIView *previous = imageView;
+    NSNumber *height = nil;
+    
+    if (![descLabel.text isEqual:@""]) {
+        height = [self heightForLabel:descLabel];
+        [allConstraints addObjectsFromArray:[self constraintsForView:descLabel withPreviousView:previous withHeight:height]];
+        previous = descLabel;
     }
-    [[self view] addConstraints:labelConstraints];
+    
+    if (messagesSentLabel) {
+        height = [NSNumber numberWithFloat:[[self heightForLabel:messagesSentLabel] floatValue] + 2 * kPadding];
+        [allConstraints addObjectsFromArray:[self constraintsForView:[messagesSentLabel superview] withPreviousView:previous withHeight:height]];
+        previous = [messagesSentLabel superview];
+        [allConstraints addObjectsFromArray:[self constraintsForMessagesSentLabel:messagesSentLabel]];
+    }
+    
+    [allConstraints addObjectsFromArray:[self constraintsForView:metaView withPreviousView:previous withHeight:[NSNumber numberWithFloat:kMetaHeight]]];
+    
+    [[self view] addConstraints:allConstraints];
     [[self view] needsUpdateConstraints];
 }
 
-- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label withPreviousView:(UIView *)prev
+- (NSArray *)constraintsForView:(UIView *)current
+              withPreviousView :(UIView *)prev
+                     withHeight:(NSNumber *)height
 {
     NSMutableArray *constraints = [[NSMutableArray alloc] init];
     NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:kBorderSize] forKey:@"border"];
-    
+    [metrics setValue:height forKey:@"height"];
+    NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:prev, @"prev", current, @"current", nil];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[current(height)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[current]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    return constraints;
+}
+
+- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label
+{
+    NSMutableArray *constraints = [[NSMutableArray alloc] init];
+    NSMutableDictionary *metrics = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:kPadding] forKey:@"padding"];
     NSNumber *messagesSentLabelHeight = [self heightForLabel:label];
-    NSNumber *superViewHeight = [NSNumber numberWithFloat:[messagesSentLabelHeight floatValue] + kBorderSize * 2];
     [metrics setValue:messagesSentLabelHeight forKey:@"height"];
-    [metrics setValue:superViewHeight forKey:@"superviewHeight"];
-    NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:prev, @"prev", [messagesSentLabel superview], @"superview", messagesSentLabel, @"messagesSentLabel", nil];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[prev]-border-[superview(superviewHeight)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[superview]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-border-[messagesSentLabel]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-border-[messagesSentLabel(height)]-border-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    NSDictionary *viewSet = [NSDictionary dictionaryWithObjectsAndKeys:messagesSentLabel, @"messagesSentLabel", nil];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-padding-[messagesSentLabel]-padding-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[messagesSentLabel(height)]-padding-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:metrics views:viewSet]];
     return constraints;
 }
 
@@ -176,7 +165,6 @@ static float kBorderSize = 5.0;
 {
     UILabel *newLabel = [self createLabelWithText:labelText withFont:font];
     [scrollView addSubview:newLabel];
-    [labels addObject:newLabel];
     return newLabel;
 }
 
@@ -196,28 +184,6 @@ static float kBorderSize = 5.0;
     return newLabel;
 }
 
-- (void)loadUsernameLabel
-{
-    // We may need to load the user from the web, so we'll need to setup a blank
-    // label of the correct size first, then asynchronously fill in the data
-    // once we have it.
-    NSString *postedByStr = [NSString stringWithFormat:@"Posted by:"];
-    usernameLabel = [self addLabelWithText:postedByStr];
-    
-    NSLog(@"Item = %@", [self item]);
-    [[GOTUserStore sharedStore] fetchUserWithUserID:[[self item] userID] withCompletion:^(id usr, NSError *err) {
-        if (err) {
-            NSLog(@"Could not load user: %@", [err localizedDescription]);
-        }
-        if (usr) {
-            GOTUser *user = (GOTUser *)usr;
-            NSString *postedByStr = [NSString stringWithFormat:@"Posted by: %@ (karma: %@)", [user username], [user karma]];
-            [usernameLabel setText:postedByStr];
-            [usernameLabel setNeedsDisplay];
-        }
-    }];
-}
-
 - (NSString *)messagesSentString
 {
     NSNumber *numMessages = [[self item] numMessagesSent];
@@ -232,22 +198,20 @@ static float kBorderSize = 5.0;
     
     if (numMessages == nil) {
         // The user has not expressed interest in this item
-        if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  Click 'I want this' to be informed if it becomes available."];
-        }
+        return nil;
     } else if ([numMessages isEqual:[NSNumber numberWithInt:0]]) {
         // The user has expressed interest, but has not sent a message
         if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available."];
+            msg = [NSString stringWithFormat:@"We'll email you if this item becomes available."];
         } else {
-            msg = [NSString stringWithFormat:@"You expressed interest in this item.  Click 'I want this' to send a message to the owner of the item."];
+            msg = [NSString stringWithFormat:@"You want this item, but haven't sent a message yet."];
         }
     } else {
         // The user has successfully sent a message to the owner
         if (isStateUserActiveUser) {
-            msg = [NSString stringWithFormat:@"Congratulations! This item has been promised to you!"];
+            msg = [NSString stringWithFormat:@"Congrats! This item has been promised to you!"];
         } else if (state == [GOTItemState PENDING]) {
-            msg = [NSString stringWithFormat:@"This item has been promised to another user.  You will be sent an email if it becomes available."];
+            msg = [NSString stringWithFormat:@"We'll email you if this item becomes available."];
         } else {
             // Message has been sent, and the item is still available
             msg = [NSString stringWithFormat:@"You've sent a message to the owner of this item."];
@@ -271,11 +235,6 @@ static float kBorderSize = 5.0;
         [messagesSentLabel setTextAlignment:NSTextAlignmentCenter];
         [messagesSentLabel setBackgroundColor:[UIColor clearColor]];
         [labelBackground addSubview:messagesSentLabel];
-        if ([labels count] > 0) {
-            [labels insertObject:messagesSentLabel atIndex:1];
-        } else {
-            [labels addObject:messagesSentLabel];
-        }
         [scrollView addSubview:labelBackground];
     }
 }
@@ -290,31 +249,6 @@ static float kBorderSize = 5.0;
     NSLog(@"Creating new message label: %@", [self messagesSentString]);
     [messagesSentLabel setNeedsDisplay];
     [self autolayout];
-}
-
-- (NSString *)timeAgo:(NSDate *)date
-{
-    NSTimeInterval timeInterval = -[date timeIntervalSinceNow];
-    if (timeInterval < 60) {
-        return @"less than 1 minute ago";
-    } else if (timeInterval < 60 * 2) {
-        return @"1 minute ago";
-    } else if (timeInterval < 60 * 60) {
-        NSInteger minutes = (NSInteger)(timeInterval / 60.0);
-        return [NSString stringWithFormat:@"%d minutes ago", minutes];
-    } else if (timeInterval < 2 * 60 * 60) {
-        return @"1 hour ago";
-    } else if (timeInterval < 24 * 60 * 60) {
-        NSInteger hours = (NSInteger) (timeInterval / (60.0 * 60.0));
-        return [NSString stringWithFormat:@"%d hours ago", hours];
-    } else if (timeInterval <= 2 * 24 * 60 * 60) {
-        return @"1 day ago";
-    } else if (timeInterval < 30 * 24 * 60 * 60) {
-        NSInteger days = (NSInteger) (timeInterval / (24.0 * 60.0 * 60.0));
-        return [NSString stringWithFormat:@"%d days ago", days];
-    } else {
-        return @"more than a month ago";
-    }
 }
 
 - (void)setItem:(GOTItem *)i

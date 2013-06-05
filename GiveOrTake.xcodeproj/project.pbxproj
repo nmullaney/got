@@ -98,6 +98,8 @@
 		88D1A00D175D4AC800009CEB /* 29forSpotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A009175D4AC700009CEB /* 29forSpotlight.png */; };
 		88D1A00E175D4AC800009CEB /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A00A175D4AC800009CEB /* iTunesArtwork@2x.png */; };
 		88D1A00F175D4AC800009CEB /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A00B175D4AC800009CEB /* iTunesArtwork.png */; };
+		88D1A016175FBCB200009CEB /* GOTItemMetadataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D1A015175FBCB100009CEB /* GOTItemMetadataView.m */; };
+		88D1A018175FBCDC00009CEB /* GOTItemMetadataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A017175FBCDB00009CEB /* GOTItemMetadataView.xib */; };
 		88EED99A172B482300C29D8C /* FilterItemSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EED999172B482300C29D8C /* FilterItemSettingsViewController.xib */; };
 		88F2BCC516CC39F5003C9D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC416CC39F5003C9D90 /* UIKit.framework */; };
 		88F2BCC716CC39F5003C9D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCC616CC39F5003C9D90 /* Foundation.framework */; };
@@ -248,6 +250,9 @@
 		88D1A009175D4AC700009CEB /* 29forSpotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 29forSpotlight.png; sourceTree = "<group>"; };
 		88D1A00A175D4AC800009CEB /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		88D1A00B175D4AC800009CEB /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		88D1A014175FBCB000009CEB /* GOTItemMetadataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemMetadataView.h; sourceTree = "<group>"; };
+		88D1A015175FBCB100009CEB /* GOTItemMetadataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemMetadataView.m; sourceTree = "<group>"; };
+		88D1A017175FBCDB00009CEB /* GOTItemMetadataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTItemMetadataView.xib; sourceTree = "<group>"; };
 		88EED999172B482300C29D8C /* FilterItemSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterItemSettingsViewController.xib; sourceTree = "<group>"; };
 		88F2BCC116CC39F5003C9D90 /* GiveOrTake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiveOrTake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2BCC416CC39F5003C9D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -396,6 +401,9 @@
 				889B08E11713511B001901B1 /* GOTSendMessageViewController.h */,
 				889B08E21713511B001901B1 /* GOTSendMessageViewController.m */,
 				889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */,
+				88D1A014175FBCB000009CEB /* GOTItemMetadataView.h */,
+				88D1A015175FBCB100009CEB /* GOTItemMetadataView.m */,
+				88D1A017175FBCDB00009CEB /* GOTItemMetadataView.xib */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -721,6 +729,7 @@
 				88D1A00D175D4AC800009CEB /* 29forSpotlight.png in Resources */,
 				88D1A00E175D4AC800009CEB /* iTunesArtwork@2x.png in Resources */,
 				88D1A00F175D4AC800009CEB /* iTunesArtwork.png in Resources */,
+				88D1A018175FBCDC00009CEB /* GOTItemMetadataView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,6 +774,7 @@
 				889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */,
 				8897647117456CD3008B5CDB /* GOTShareViewController.m in Sources */,
 				889764AA174ADF17008B5CDB /* GOTWebViewController.m in Sources */,
+				88D1A016175FBCB200009CEB /* GOTItemMetadataView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

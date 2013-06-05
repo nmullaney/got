@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class GOTItem;
+@class GOTItemMetadataView;
 
 @interface GOTFreeItemDetailViewController : UIViewController
 {
@@ -18,14 +19,11 @@
     __weak IBOutlet UIActivityIndicatorView *imageLoadingIndicator;
     
     UILabel *descLabel;
-    UILabel *usernameLabel;
-    UILabel *statusLabel;
-    UILabel *updateDateLabel;
-    
-    NSMutableArray *labels;
-    NSMutableArray *labelConstraints;
-    
     UILabel *messagesSentLabel;
+    GOTItemMetadataView *metaView;
+    
+    NSMutableArray *allConstraints;
+    
 }
 
 @property (nonatomic, strong) GOTItem *item;
@@ -35,13 +33,14 @@
 - (UILabel *)createLabelWithText:(NSString *)labelText;
 - (UILabel *)createLabelWithText:(NSString *)labelText withFont:(UIFont *)font;
 - (NSNumber *)heightForLabel:(UILabel *)label;
-- (NSString *)timeAgo:(NSDate *)date;
-- (void)loadUsernameLabel;
 - (NSString *)messagesSentString;
 - (void)addMessagesSentLabel;
 - (void)updateMessagesSent;
 - (void)autolayout;
-- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label withPreviousView:(UIView *)prev;
+- (NSArray *)constraintsForView:(UIView *)view
+               withPreviousView:(UIView *)prev
+                     withHeight:(NSNumber *)height;
+- (NSArray *)constraintsForMessagesSentLabel:(UILabel *)label;
 - (void)reloadItem;
 
 @end
