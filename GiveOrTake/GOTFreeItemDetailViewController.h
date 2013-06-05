@@ -31,7 +31,9 @@
 @property (nonatomic, strong) GOTItem *item;
 
 - (UILabel *)addLabelWithText:(NSString *)labelText;
+- (UILabel *)addLabelWithText:(NSString *)labelText withFont:(UIFont *)font;
 - (UILabel *)createLabelWithText:(NSString *)labelText;
+- (UILabel *)createLabelWithText:(NSString *)labelText withFont:(UIFont *)font;
 - (NSNumber *)heightForLabel:(UILabel *)label;
 - (NSString *)timeAgo:(NSDate *)date;
 - (void)loadUsernameLabel;

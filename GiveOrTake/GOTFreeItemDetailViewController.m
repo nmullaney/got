@@ -55,19 +55,24 @@ static float kBorderSize = 5.0;
     
     [self addMessagesSentLabel];
     
-    descLabel = [self addLabelWithText:[[self item] desc]];
+    descLabel = [self addLabelWithText:[[self item] desc] withFont:[GOTConstants defaultMediumFont]];
     
     [self loadUsernameLabel];
-    NSString *statusStr = [NSString stringWithFormat:@"Status: %@", [[self item] state]];
+    NSString *statusStr = [NSString stringWithFormat:@"Status:      %@", [[self item] state]];
     statusLabel = [self addLabelWithText:statusStr];
     
-    NSString *distanceStr = [NSString stringWithFormat:@"Distance: %@ Miles", [[self item] distance]];
+    NSString *distanceStr = nil;
+    if ([[[self item] distance] intValue] < 1) {
+        distanceStr = @"Distance:   less than 1 mile";
+    } else {
+        distanceStr = [NSString stringWithFormat:@"Distance:   %@ Miles", [[self item] distance]];
+    }
     [self addLabelWithText:distanceStr];
     
-    NSString *postedDateString = [NSString stringWithFormat:@"Posted %@", [self timeAgo:[[self item] datePosted]]];
+    NSString *postedDateString = [NSString stringWithFormat:@"Posted:      %@", [self timeAgo:[[self item] datePosted]]];
     [self addLabelWithText:postedDateString];
     
-    NSString *updateDateString = [NSString stringWithFormat:@"Updated %@", [self timeAgo:[[self item] dateUpdated]]];
+    NSString *updateDateString = [NSString stringWithFormat:@"Updated:   %@", [self timeAgo:[[self item] dateUpdated]]];
     updateDateLabel = [self addLabelWithText:updateDateString];
     
     [self autolayout];
@@ -81,10 +86,10 @@ static float kBorderSize = 5.0;
 {
     // These are the fields that could be updated via offers, so might be changed if a user is looking
     // at their own item.
-    [descLabel setText:[[self item] desc]];
+    //[descLabel setText:[[self item] desc]];
     
-    [statusLabel setText:[NSString stringWithFormat:@"Status: %@", [[self item] state]]];
-    NSString *updateDateString = [NSString stringWithFormat:@"Updated %@", [self timeAgo:[[self item] dateUpdated]]];
+    [statusLabel setText:[NSString stringWithFormat:@"Status:       %@", [[self item] state]]];
+    NSString *updateDateString = [NSString stringWithFormat:@"Updated:   %@", [self timeAgo:[[self item] dateUpdated]]];
     [updateDateLabel setText:updateDateString];
     
     // Only update the user if you can find it locally
@@ -140,7 +145,7 @@ static float kBorderSize = 5.0;
     NSString *labelText = [label text];
     float height = 0;
     if (labelText) {
-        UIFont *font = [GOTConstants defaultSmallFont];
+        UIFont *font = [label font];
         float contentWidth = [[UIScreen mainScreen] bounds].size.width - 2 * kBorderSize;
         CGSize labelSize = [labelText sizeWithFont:font constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
         height = labelSize.height;
@@ -148,10 +153,15 @@ static float kBorderSize = 5.0;
     return [NSNumber numberWithFloat:height];
 }
 
-// Adds a label that can be multi-line and is guaranteed to fit
 - (UILabel *)addLabelWithText:(NSString *)labelText
 {
-    UILabel *newLabel = [self createLabelWithText:labelText];
+    return [self addLabelWithText:labelText withFont:[GOTConstants defaultSmallFont]];
+}
+
+// Adds a label that can be multi-line and is guaranteed to fit
+- (UILabel *)addLabelWithText:(NSString *)labelText withFont:(UIFont *)font
+{
+    UILabel *newLabel = [self createLabelWithText:labelText withFont:font];
     [scrollView addSubview:newLabel];
     [labels addObject:newLabel];
     return newLabel;
@@ -159,9 +169,14 @@ static float kBorderSize = 5.0;
 
 - (UILabel *)createLabelWithText:(NSString *)labelText
 {
+    return [self createLabelWithText:labelText withFont:[GOTConstants defaultSmallFont]];
+}
+
+- (UILabel *)createLabelWithText:(NSString *)labelText withFont:(UIFont *)font
+{
     UILabel *newLabel = [[UILabel alloc] init];
     [newLabel setText:labelText];
-    [newLabel setFont:[GOTConstants defaultSmallFont]];
+    [newLabel setFont:font];
     [newLabel setLineBreakMode:NSLineBreakByWordWrapping];
     [newLabel setNumberOfLines:0];
     [newLabel setTranslatesAutoresizingMaskIntoConstraints:NO];

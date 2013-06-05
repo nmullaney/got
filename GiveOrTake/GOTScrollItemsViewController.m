@@ -80,8 +80,8 @@
     
     [scrollView setPagingEnabled:YES];
     [scrollView setDirectionalLockEnabled:YES];
-    scrollView.showsHorizontalScrollIndicator = YES;
-    scrollView.showsVerticalScrollIndicator = NO;
+    [scrollView setShowsHorizontalScrollIndicator:YES];
+    [scrollView setShowsVerticalScrollIndicator:NO];
     [self setView:scrollView];
 }
 
