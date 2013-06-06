@@ -122,7 +122,7 @@
 }
 
 - (IBAction)aboutButtonPressed:(id)sender {
-    NSURL *url = [NSURL URLWithString:@"/about.php" relativeToURL:[GOTConstants baseWebURL]];
+    NSURL *url = [NSURL URLWithString:@"/about.php?nonavbar=1" relativeToURL:[GOTConstants baseWebURL]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     GOTWebViewController *wvc = [[GOTWebViewController alloc] initWithURLRequest:request];
     [[wvc navigationItem] setTitle:@"About"];
