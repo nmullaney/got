@@ -679,6 +679,11 @@ int DESC_MAX_LENGTH = 250;
     }
     if (state == [GOTItemState AVAILABLE]) {
         [self setDraftStateUserID:nil];
+    } else if ([pickerView numberOfComponents] == 2 && [pickerView numberOfRowsInComponent:1] > 0) {
+        NSInteger userRow = [pickerView selectedRowInComponent:1];
+        GOTUser *stateUser = [[self usersWantItem] objectAtIndex:userRow];
+        [self setDraftStateUserID:[stateUser userID]];
+        NSLog(@"Setting state draft user to %@", [self draftStateUserID]);
     }
     [stateLabel setText:state];
     [stateImage setImage:[GOTItemState imageForState:state]];
