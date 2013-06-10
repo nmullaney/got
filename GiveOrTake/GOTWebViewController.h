@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GOTWebViewController : UIViewController <UIActionSheetDelegate>
+@interface GOTWebViewController : UIViewController <UIWebViewDelegate, UIActionSheetDelegate>
 {
     IBOutlet UIView *view;
+    
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     
     __weak IBOutlet UIWebView *webView;
 }

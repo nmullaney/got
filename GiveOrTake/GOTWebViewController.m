@@ -25,6 +25,8 @@
 
 - (void)viewDidLoad
 {
+    activityIndicator.color = [UIColor darkGrayColor];
+    [webView setDelegate:self];
     if (request) {
         [webView loadRequest:[self request]];
     }
@@ -35,6 +37,25 @@
     return webView;
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [activityIndicator startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [activityIndicator stopAnimating];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [activityIndicator stopAnimating];
+}
 
 - (IBAction)refresh:(id)sender {
     [webView reload];
@@ -51,6 +72,11 @@
         NSURL *url = [request URL];
         [[UIApplication sharedApplication] openURL:url];
     }
+}
+
+- (void)dealloc
+{
+    [webView setDelegate:nil];
 }
 
 @end
