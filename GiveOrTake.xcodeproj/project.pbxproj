@@ -40,8 +40,6 @@
 		8897645B173C69AD008B5CDB /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */; };
 		8897645D173C6A26008B5CDB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645C173C6A26008B5CDB /* CoreText.framework */; };
 		8897645F173C6A39008B5CDB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897645E173C6A39008B5CDB /* QuartzCore.framework */; };
-		8897646A1742F7E3008B5CDB /* triangles.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764691742F7E3008B5CDB /* triangles.png */; };
-		8897646C1742FB92008B5CDB /* triangles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8897646B1742FB92008B5CDB /* triangles@2x.png */; };
 		8897647117456CD3008B5CDB /* GOTShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8897646F17456CD3008B5CDB /* GOTShareViewController.m */; };
 		8897647217456CD3008B5CDB /* GOTShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8897647017456CD3008B5CDB /* GOTShareViewController.xib */; };
 		88976487174A9BA5008B5CDB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88976486174A9BA5008B5CDB /* StoreKit.framework */; };
@@ -62,7 +60,6 @@
 		88AD62BC17026D020091E80E /* GOTItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62BB17026D020091E80E /* GOTItemCell.m */; };
 		88AD62BE17026D300091E80E /* GOTItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62BD17026D300091E80E /* GOTItemCell.xib */; };
 		88AD62CB1703A9590091E80E /* GOTItemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62CA1703A9580091E80E /* GOTItemState.m */; };
-		88AD62D11704F3430091E80E /* chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D01704F3430091E80E /* chevron.png */; };
 		88AD62D7170640FA0091E80E /* GOTUsernameUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */; };
 		88AD62D917064D450091E80E /* GOTEmailUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62D817064D450091E80E /* GOTEmailUpdateViewController.xib */; };
 		88AD62DB170659310091E80E /* GOTLocationUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88AD62DA170659310091E80E /* GOTLocationUpdateViewController.xib */; };
@@ -173,8 +170,6 @@
 		8897645A173C69AD008B5CDB /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = HockeySDKResources.bundle; path = GiveOrTake/Vendor/HockeySDK.framework/Versions/A/Resources/HockeySDKResources.bundle; sourceTree = "<group>"; };
 		8897645C173C6A26008B5CDB /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		8897645E173C6A39008B5CDB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		889764691742F7E3008B5CDB /* triangles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangles.png; sourceTree = "<group>"; };
-		8897646B1742FB92008B5CDB /* triangles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangles@2x.png"; sourceTree = "<group>"; };
 		8897646E17456CD3008B5CDB /* GOTShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTShareViewController.h; sourceTree = "<group>"; };
 		8897646F17456CD3008B5CDB /* GOTShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTShareViewController.m; sourceTree = "<group>"; };
 		8897647017456CD3008B5CDB /* GOTShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTShareViewController.xib; sourceTree = "<group>"; };
@@ -210,7 +205,6 @@
 		88AD62BD17026D300091E80E /* GOTItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTItemCell.xib; sourceTree = "<group>"; };
 		88AD62C91703A9580091E80E /* GOTItemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemState.h; sourceTree = "<group>"; };
 		88AD62CA1703A9580091E80E /* GOTItemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItemState.m; sourceTree = "<group>"; };
-		88AD62D01704F3430091E80E /* chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron.png; sourceTree = "<group>"; };
 		88AD62D6170640FA0091E80E /* GOTUsernameUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTUsernameUpdateViewController.xib; sourceTree = "<group>"; };
 		88AD62D817064D450091E80E /* GOTEmailUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTEmailUpdateViewController.xib; sourceTree = "<group>"; };
 		88AD62DA170659310091E80E /* GOTLocationUpdateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTLocationUpdateViewController.xib; sourceTree = "<group>"; };
@@ -606,9 +600,6 @@
 				889764B2174EAAA2008B5CDB /* notchecked.png */,
 				889764AD174D8BA7008B5CDB /* notchecked@2x.png */,
 				889764AE174D8BA7008B5CDB /* checked@2x.png */,
-				8897646B1742FB92008B5CDB /* triangles@2x.png */,
-				889764691742F7E3008B5CDB /* triangles.png */,
-				88AD62D01704F3430091E80E /* chevron.png */,
 				88F2BCCC16CC39F5003C9D90 /* GiveOrTake-Info.plist */,
 				88F2BCCD16CC39F5003C9D90 /* InfoPlist.strings */,
 				88F2BCD016CC39F5003C9D90 /* main.m */,
@@ -684,7 +675,6 @@
 				88957D3316E1786E00ADDC8A /* GOTLoginViewController.xib in Resources */,
 				88957D4116E529F400ADDC8A /* GOTProfileViewStoryboard.storyboard in Resources */,
 				88AD62BE17026D300091E80E /* GOTItemCell.xib in Resources */,
-				88AD62D11704F3430091E80E /* chevron.png in Resources */,
 				88AD62D7170640FA0091E80E /* GOTUsernameUpdateViewController.xib in Resources */,
 				88AD62D917064D450091E80E /* GOTEmailUpdateViewController.xib in Resources */,
 				88AD62DB170659310091E80E /* GOTLocationUpdateViewController.xib in Resources */,
@@ -692,8 +682,6 @@
 				889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */,
 				88EED99A172B482300C29D8C /* FilterItemSettingsViewController.xib in Resources */,
 				88976459173C6922008B5CDB /* HockeySDK.xcconfig in Resources */,
-				8897646A1742F7E3008B5CDB /* triangles.png in Resources */,
-				8897646C1742FB92008B5CDB /* triangles@2x.png in Resources */,
 				8897647217456CD3008B5CDB /* GOTShareViewController.xib in Resources */,
 				889764A7174A9E74008B5CDB /* README.txt in Resources */,
 				889764AC174AE0A7008B5CDB /* GOTWebViewController.xib in Resources */,
