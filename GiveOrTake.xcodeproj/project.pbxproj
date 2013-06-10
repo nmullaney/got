@@ -94,8 +94,8 @@
 		88D1A003175BCBA600009CEB /* available.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D19FFF175BCBA600009CEB /* available.png */; };
 		88D1A006175BCC6D00009CEB /* karma@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A004175BCC6D00009CEB /* karma@2x.png */; };
 		88D1A007175BCC6D00009CEB /* karma.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A005175BCC6D00009CEB /* karma.png */; };
-		88D1A00C175D4AC800009CEB /* 58forSpotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A008175D4AC700009CEB /* 58forSpotlight.png */; };
-		88D1A00D175D4AC800009CEB /* 29forSpotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A009175D4AC700009CEB /* 29forSpotlight.png */; };
+		88D1A00C175D4AC800009CEB /* spotlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A008175D4AC700009CEB /* spotlight@2x.png */; };
+		88D1A00D175D4AC800009CEB /* spotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A009175D4AC700009CEB /* spotlight.png */; };
 		88D1A00E175D4AC800009CEB /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A00A175D4AC800009CEB /* iTunesArtwork@2x.png */; };
 		88D1A00F175D4AC800009CEB /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 88D1A00B175D4AC800009CEB /* iTunesArtwork.png */; };
 		88D1A016175FBCB200009CEB /* GOTItemMetadataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D1A015175FBCB100009CEB /* GOTItemMetadataView.m */; };
@@ -246,8 +246,8 @@
 		88D19FFF175BCBA600009CEB /* available.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = available.png; sourceTree = "<group>"; };
 		88D1A004175BCC6D00009CEB /* karma@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "karma@2x.png"; sourceTree = "<group>"; };
 		88D1A005175BCC6D00009CEB /* karma.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = karma.png; sourceTree = "<group>"; };
-		88D1A008175D4AC700009CEB /* 58forSpotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 58forSpotlight.png; sourceTree = "<group>"; };
-		88D1A009175D4AC700009CEB /* 29forSpotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 29forSpotlight.png; sourceTree = "<group>"; };
+		88D1A008175D4AC700009CEB /* spotlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spotlight@2x.png"; sourceTree = "<group>"; };
+		88D1A009175D4AC700009CEB /* spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotlight.png; sourceTree = "<group>"; };
 		88D1A00A175D4AC800009CEB /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		88D1A00B175D4AC800009CEB /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		88D1A014175FBCB000009CEB /* GOTItemMetadataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItemMetadataView.h; sourceTree = "<group>"; };
@@ -574,8 +574,8 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				88D1A008175D4AC700009CEB /* 58forSpotlight.png */,
-				88D1A009175D4AC700009CEB /* 29forSpotlight.png */,
+				88D1A008175D4AC700009CEB /* spotlight@2x.png */,
+				88D1A009175D4AC700009CEB /* spotlight.png */,
 				88D1A00A175D4AC800009CEB /* iTunesArtwork@2x.png */,
 				88D1A00B175D4AC800009CEB /* iTunesArtwork.png */,
 				88D1A004175BCC6D00009CEB /* karma@2x.png */,
@@ -725,8 +725,8 @@
 				88D1A003175BCBA600009CEB /* available.png in Resources */,
 				88D1A006175BCC6D00009CEB /* karma@2x.png in Resources */,
 				88D1A007175BCC6D00009CEB /* karma.png in Resources */,
-				88D1A00C175D4AC800009CEB /* 58forSpotlight.png in Resources */,
-				88D1A00D175D4AC800009CEB /* 29forSpotlight.png in Resources */,
+				88D1A00C175D4AC800009CEB /* spotlight@2x.png in Resources */,
+				88D1A00D175D4AC800009CEB /* spotlight.png in Resources */,
 				88D1A00E175D4AC800009CEB /* iTunesArtwork@2x.png in Resources */,
 				88D1A00F175D4AC800009CEB /* iTunesArtwork.png in Resources */,
 				88D1A018175FBCDC00009CEB /* GOTItemMetadataView.xib in Resources */,
