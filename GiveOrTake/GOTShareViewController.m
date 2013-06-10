@@ -66,8 +66,9 @@ static float border = 10;
     imageView.layer.opaque = NO;
     [self.view addSubview:imageView];
     
-    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [activityIndicator setFrame:[textView frame]];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicator.color = [UIColor darkGrayColor];
+    [activityIndicator setFrame:[self view].frame];
     [activityIndicator setHidesWhenStopped:YES];
     [self.view addSubview:activityIndicator];
     
