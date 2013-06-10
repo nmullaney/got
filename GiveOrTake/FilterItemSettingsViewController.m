@@ -18,7 +18,6 @@
 {
     self = [super init];
     if (self) {
-        NSLog(@"Initting new Filter item settings view");
         [self setFilterChanged:NO];
     }
     return self;
@@ -51,7 +50,6 @@
 }
 
 - (IBAction)searchChanged:(id)sender {
-    NSLog(@"searchChanged");
     [self setFilterChanged:YES];
 }
 
@@ -98,7 +96,6 @@
 }
 
 - (IBAction)showItemsChecked:(id)sender {
-    NSLog(@"Called Show items checked");
     if ([showItemsCheckBox isSelected]) {
         [showItemsCheckBox setSelected:NO];
     } else {

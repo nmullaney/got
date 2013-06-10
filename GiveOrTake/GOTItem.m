@@ -48,7 +48,6 @@ static int localItemID = -1;
 // Returns true if this item has no data
 - (BOOL)isEmpty
 {
-    NSLog(@"Name: %@", [self name]);
     if([[self itemID] intValue] > 0 || [self name] || [self desc] || [self thumbnailData]) {
         return NO;
     }

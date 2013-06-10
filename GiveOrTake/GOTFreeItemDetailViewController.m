@@ -35,7 +35,6 @@ static float kMetaHeight = 140.0;
         [self addMessagesSentLabel];
         
     }
-    NSLog(@"Showing item: %@", item);
     [self reloadItem];
 }
 
@@ -89,7 +88,6 @@ static float kMetaHeight = 140.0;
 
 - (void)autolayout
 {
-    NSLog(@"Layout for item: %@", [self item]);
     if (allConstraints) {
         [[self view] removeConstraints:allConstraints];
     }
@@ -224,7 +222,6 @@ static float kMetaHeight = 140.0;
 {
     NSString *messagesSentString = [self messagesSentString];
     if (messagesSentString) {
-        NSLog(@"Setting the add Messages sent label");
         UIView *labelBackground = [[UIView alloc] init];
         [labelBackground setTranslatesAutoresizingMaskIntoConstraints:NO];
         [labelBackground setBackgroundColor:[GOTConstants defaultBackgroundColor]];
@@ -246,7 +243,6 @@ static float kMetaHeight = 140.0;
     } else {
         [self addMessagesSentLabel];
     }
-    NSLog(@"Creating new message label: %@", [self messagesSentString]);
     [messagesSentLabel setNeedsDisplay];
     [self autolayout];
 }
@@ -264,14 +260,12 @@ static float kMetaHeight = 140.0;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqual: @"item"]) {
-        NSLog(@"Updating for change in item: %@", object);
         [self autolayout];
     }
 }
 
 - (void)dealloc
 {
-    NSLog(@"Dealloc for FreeItemDetailViewController: %@", [[self item] name]);
     [self removeObserver:self forKeyPath:@"item"];
 }
 

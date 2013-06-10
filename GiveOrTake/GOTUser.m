@@ -23,7 +23,6 @@
     NSMutableArray *objs = [[NSMutableArray alloc] init];
     NSMutableArray *keys = [[NSMutableArray alloc] init];
     if ([self userID] && [[self userID] intValue] != 0) {
-        NSLog(@"Setting userID to %@", [self userID]);
         [objs addObject:[self userID]];
         [keys addObject:@"user_id"];
     }
@@ -33,7 +32,6 @@
     }
     // TODO: figure out a better way to determine these are unset
     if ([self latitude] && [[self latitude] intValue] != 0) {
-        NSLog(@"Setting latitude to %@", [self latitude]);
         [objs addObject:[self latitude]];
         [keys addObject:@"latitude"];
     }

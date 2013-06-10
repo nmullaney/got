@@ -75,23 +75,18 @@
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
-    NSLog(@"loginView showing logged in user");
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
-    NSLog(@"loginView showing logged out user");
 }
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)lv user:(id<FBGraphUser>)user
 {
     [self showLoggingIn];
-    NSLog(@"Logging in with: %@", user);
     FBSession *activeSession = [FBSession activeSession];
     FBAccessTokenData *tokenData = activeSession.accessTokenData;
     NSString *accessToken = tokenData.accessToken;
-    NSDate *expireDate = tokenData.expirationDate;
-    NSLog(@"Got FB token %@, expires %@", accessToken, expireDate);
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:10];
     [params setObject:[user objectForKey:@"id"] forKey:@"facebook_id"];

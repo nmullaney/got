@@ -55,7 +55,6 @@
     if ([[self offersList] itemCount] == 0) {
         [self updateOffers];
     }
-    NSLog(@"In view will appear, realoading data");
     [[self tableView] reloadData];
 }
 
@@ -63,7 +62,6 @@
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Number of items: %d", [[self offersList] itemCount]);
     return [[self offersList] itemCount];
 }
 
@@ -169,7 +167,6 @@
                 [av show];
                 return;
             }
-            NSLog(@"In scrollViewDidEndDecelerating: realoading the table");
             [[self tableView] reloadData];
         }];
     }
@@ -225,7 +222,6 @@
             [av show];
             return;
         } else {
-            NSLog(@"In updateOffers, reloading data");
             [[self tableView] reloadData];
         }
     }];
@@ -242,7 +238,6 @@
         } else if (image) {
             NSData *data = (NSData *)image;
             [item setThumbnailData:data];
-            NSLog(@"Reloading rows for thumbnail data");
             [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path]
                                     withRowAnimation:UITableViewRowAnimationNone];
         }

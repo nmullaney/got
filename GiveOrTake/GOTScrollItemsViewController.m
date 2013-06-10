@@ -40,11 +40,9 @@
         bounds.size.height = [self height];
     }
     float width = bounds.size.width * [[self itemList] itemCount];
-    NSLog(@"Setting content width to %f, (for %d items)", width, [[self itemList] itemCount]);
     scrollView.contentSize = CGSizeMake(width,
                                         bounds.size.height);
     [self cleanupViews:NO];
-    NSLog(@"Clearing viewControllers because items changed");
     viewControllers = [[NSMutableArray alloc] initWithCapacity:[[self itemList] itemCount]];
     for (int i = 0; i < [[self itemList] itemCount]; i++) {
         [viewControllers addObject:[NSNull null]];
@@ -99,10 +97,9 @@
 {
     if (index < 0) {
         // TODO: fetch at high end?
-        NSLog(@"Negative index");
+        NSLog(@"ERROR: Negative index");
         return;
     } else if (index > [[self itemList] itemCount] - 1) {
-        NSLog(@"Fetching item at high index");
         int origSize = [[self itemList] itemCount];
         [itemList fetchItemAtIndex:index withCompletion:^(id item, NSError *err) {
             int newSize = [[self itemList] itemCount];
@@ -112,7 +109,6 @@
         }];
         return;
     }
-    NSLog(@"Getting controller at index: %d", index);
     id currentController = [viewControllers objectAtIndex:index];
     if (currentController == [NSNull null]) {
         GOTFreeItemDetailViewController *viewController =
@@ -134,7 +130,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"View will appear");
     [super viewWillAppear:animated];
     
     [[[self navigationController] navigationBar] setTitleTextAttributes:
@@ -159,7 +154,6 @@
 
 - (void)loadView
 {
-    NSLog(@"Load view");
     [super loadView];
     [self initScrollView];
     
@@ -193,7 +187,6 @@
 
 - (void)wantButtonPressed:(id)sender
 {
-    NSLog(@"Want button pressed in scrollview!");
     GOTItem *currentItem = [[self itemList] getItemAtIndex:[self selectedIndex]];
     if ([[currentItem userID] intValue] == [[[GOTActiveUser activeUser] userID] intValue]) {
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"" message:@"You cannot request your own item!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -243,7 +236,6 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)sv
 {
-    //NSLog(@"super scrollViewDidScroll");
     CGFloat viewWidth = sv.frame.size.width;
     int index = floor((sv.contentOffset.x - viewWidth / 2) / viewWidth) + 1;
     if (index < 0) {
@@ -270,7 +262,6 @@
             // This leaves the 3 viewable views
             continue;
         }
-        NSLog(@"Cleanup views");
         if ([viewControllers objectAtIndex:i] == [NSNull null]) {
             continue;
         }
@@ -288,11 +279,6 @@
 - (void)didReceiveMemoryWarning
 {
     [self cleanupViews:YES];
-}
-
-- (void)dealloc
-{
-    NSLog(@"dealloc for GOTScrollItemsViewController");
 }
 
 @end

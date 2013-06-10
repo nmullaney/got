@@ -112,7 +112,6 @@ static GOTActiveUser *activeUser = nil;
 {
     // activeUser needs to be initialized before this is called
     NSNumber *userID = [aDecoder decodeObjectForKey:@"userID"];
-    NSLog(@"Activer user from coder, id = %@", userID);
     if (userID && ![userID isEqualToNumber:[NSNumber numberWithInt:0]]) {
         [self setUser:[[GOTUserStore sharedStore] createOrFetchUserWithID:userID]];
     }

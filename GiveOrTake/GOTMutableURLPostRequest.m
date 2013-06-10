@@ -33,11 +33,9 @@
             NSLog(@"No token found");
         }
         if (newFormData) {
-            NSLog(@"Adding form data: %@", newFormData);
             [self appendBodyWithFormData:newFormData];
         }
         if (imageData) {
-            NSLog(@"appending body with image Data");
             [self appendBodyWithImageData:imageData];
         }
         [self setHTTPBody:body];

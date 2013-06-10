@@ -57,7 +57,6 @@
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
         NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
         [items enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
-            NSLog(@"Checking item");
             if ([[item distance] intValue] > [newDistance intValue]) {
                 [indicesToRemove addIndex:idx];
             }
@@ -74,7 +73,6 @@
 {
     if (![newSearchText isEqualToString:searchText]) {
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
-        NSLog(@"Checking item matches %@", newSearchText);
         NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
         [items enumerateObjectsUsingBlock:^(GOTItem *item, NSUInteger idx, BOOL *stop) {
             if (![item matchesText:newSearchText]) {
@@ -93,7 +91,6 @@
 {
     // We only need to filter in the case where we had user-owned items and will no longer show them
     if (showMyItems == YES && smi == NO) {
-        NSLog(@"Attempting to filter out my items");
         NSMutableIndexSet *indicesToRemove = [[NSMutableIndexSet alloc] init];
         NSNumber *activeUserID = [[GOTActiveUser activeUser] userID];
         NSArray *items = [[GOTItemsStore sharedStore] itemsWithIDs:[self itemIDs]];
@@ -102,7 +99,6 @@
                 [indicesToRemove addIndex:idx];
             }
         }];
-        NSLog(@"Indicies to remove: %@", indicesToRemove);
         [[self itemIDs] removeObjectsAtIndexes:indicesToRemove];
         [self setItemIDs:[self itemIDs]];
     }
@@ -125,7 +121,6 @@
     if ([newItems count] < [GOTConstants itemRequestLimit]) {
         self->isAllDataLoaded = YES;
     }
-    NSLog(@"Got new items: %@", newItems);
     [self mergeNewItems:newItems];
 }
 
@@ -137,7 +132,6 @@
     // Use a set to ensure we have one copy of each itemID
     NSMutableSet *allItemIDs = [NSMutableSet setWithArray:[self itemIDs]];
     [newItems enumerateObjectsUsingBlock:^(GOTItem *newItem, NSUInteger idx, BOOL *stop) {
-        NSLog(@"New item = %@", newItem);
         GOTItem *oldItem = [[GOTItemsStore sharedStore] itemWithID:[newItem itemID]];
         if (!oldItem || ([[newItem dateUpdated] timeIntervalSinceDate:[oldItem dateUpdated]] > 0)) {
             [[GOTItemsStore sharedStore] addItem:newItem];
@@ -181,7 +175,6 @@
 
 - (void)loadMostRecentItemsWithCompletion:(void (^)(id list, NSError *))block
 {
-    NSLog(@"Loading most recent items");
     NSMutableDictionary *params = [self getLoadParams];
     [params setObject:[NSNumber numberWithInteger:0]
                forKey:@"offset"];
@@ -193,9 +186,7 @@
 
 - (void)loadMoreItemsWithCompletion:(void (^)(id list, NSError *err))block
 {
-    NSLog(@"Loading more items");
     if (self->isAllDataLoaded) {
-        NSLog(@"All data loaded");
         if (block) {
             block(self, nil);
         }
@@ -238,7 +229,6 @@
 - (void)fetchItemAtIndex:(NSUInteger)idx
              withCompletion:(void (^)(id item, NSError *))block
 {
-    NSLog(@"Fetching item at index: %d", idx);
     if (idx < [self itemCount]) {
         GOTItem *item = [self getItemAtIndex:idx];
         if (block) {
@@ -267,7 +257,6 @@
             }
             return;
         }
-        NSLog(@"Getting item from mylist");
         GOTItem *item = [myList getItemAtIndex:idx];
         if (block) {
             block(item, nil);

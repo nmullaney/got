@@ -17,7 +17,6 @@
 
 - (id)init
 {
-    NSLog(@"In init");
     NSArray *objs = [[NSBundle mainBundle] loadNibNamed:@"GOTItemMetadataView" owner:self options:nil];
     self = [objs objectAtIndex:0];
     return self;
@@ -25,7 +24,6 @@
 
 - (void)loadItemData:(GOTItem *)item
 {
-    NSLog(@"In loadItemData");
     [self loadUserForItem:item];
     [statusImage setImage:[GOTItemState imageForState:[item state]]];
     [statusLabel setText:[item state]];

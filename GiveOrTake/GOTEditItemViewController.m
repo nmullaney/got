@@ -312,7 +312,6 @@ int DESC_MAX_LENGTH = 250;
         [[self item] setHasUnsavedChanges:YES];
         [[self navigationController] popViewControllerAnimated:YES];
     }
-    NSLog(@"Clicked actionSheet button: %ld", (long)buttonIndex);
 }
 
 - (BOOL)haveUnpostedChanges
@@ -383,7 +382,6 @@ int DESC_MAX_LENGTH = 250;
     [activityIndicator startAnimating];
     
     void (^block)(NSDictionary *, NSError *) = ^void(NSDictionary *dict, NSError *err) {
-        NSLog(@"calling item upload completion block, error: %@", err);
         if (err) {
             // TODO centralize the errror code
             NSString *errorString = [NSString stringWithFormat:@"Failed to upload: %@",
@@ -398,7 +396,6 @@ int DESC_MAX_LENGTH = 250;
             return;
         } else if ([self item]) {
             [[self item] setHasUnsavedChanges:NO];
-            NSLog(@"%@", dict);
             NSDictionary *itemDict = [dict objectForKey:@"item"];
             NSNumber *itemID = [itemDict objectForKey:@"id"];
             [[self item] setItemID:itemID];
@@ -428,7 +425,6 @@ int DESC_MAX_LENGTH = 250;
             
             // Upload the image
             if ([[self item] imageNeedsUpload]) {
-                NSLog(@"Updating the image because it changed");
                 [[GOTImageStore sharedStore] uploadImageForItem:[self item] withCompletion:avblock];
                 return;
             } else {
@@ -462,7 +458,6 @@ int DESC_MAX_LENGTH = 250;
 
 - (void)alertView:(UIAlertView *)av clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Button clicked in alertView: %d", buttonIndex);
     if ([[av buttonTitleAtIndex:buttonIndex] isEqualToString: @"Share on Facebook"]) {
         // Share on facebook
         GOTShareViewController *svc = [[GOTShareViewController alloc] initWithItem:[self item]];
@@ -673,7 +668,6 @@ int DESC_MAX_LENGTH = 250;
     UIPickerView *pickerView = (UIPickerView *)[subView viewWithTag:PICKER_VIEW_TAG];
     UIView *fullView = [subView superview];
     NSInteger row = [pickerView selectedRowInComponent:0];
-    NSLog(@"row = %d", row);
     GOTItemState *state = [[self item] state];
     if (row >= 0) {
         state = [[GOTItemState pickableValues] objectAtIndex:row];
@@ -684,7 +678,6 @@ int DESC_MAX_LENGTH = 250;
         NSInteger userRow = [pickerView selectedRowInComponent:1];
         GOTUser *stateUser = [[self usersWantItem] objectAtIndex:userRow];
         [self setDraftStateUserID:[stateUser userID]];
-        NSLog(@"Setting state draft user to %@", [self draftStateUserID]);
     }
     [stateLabel setText:state];
     [stateImage setImage:[GOTItemState imageForState:state]];
@@ -713,13 +706,11 @@ int DESC_MAX_LENGTH = 250;
     if (component == 0) {
         GOTItemState *state = [[GOTItemState pickableValues] objectAtIndex:row];
         [self setDraftState:state];
-        NSLog(@"reloading all components");
         [pickerView reloadAllComponents];
         [pickerView setNeedsDisplay];
     } else if (component == 1) {
         GOTUser *stateUser = [[self usersWantItem] objectAtIndex:row];
         [self setDraftStateUserID:[stateUser userID]];
-        NSLog(@"Setting Draft user to: %@, current item id value: %@", stateUser, [[self item] stateUserID]);
     }
 }
 

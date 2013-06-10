@@ -47,11 +47,8 @@
                                          URL:storeURL
                                      options:nil
                                        error:&err]) {
-            NSLog(@"Open database failed");
             [NSException raise:@"Open database failed"
                         format:@"Reason: %@", err];
-        } else {
-            NSLog(@"Open database succeeded");
         }
         
         context = [[NSManagedObjectContext alloc] init];
@@ -79,10 +76,7 @@
 - (void)updateUserWithParams:(NSDictionary *)params
     withCompletion:(void (^)(id, NSError *))block
 {
-    NSLog(@"Updating user with values: %@", params);
-    
     NSURL *url = [NSURL URLWithString:@"/user.php" relativeToURL:[GOTConstants baseURL]];
-    NSLog(@"Updating user at: %@", url);
     GOTMutableURLPostRequest *req = [[GOTMutableURLPostRequest alloc] initWithURL:url
                                                                          formData:params
                                                                         imageData:nil];
@@ -94,7 +88,6 @@
             NSLog(@"Error updating user: %@", [error localizedDescription]);
         } else {
             updatedUser = [GOTActiveUser activeUserFromDictionary:updatedUserDict];
-            NSLog(@"saving block user: %@", updatedUser);
             [self saveChanges];
         }
         if (block) {
@@ -176,16 +169,13 @@
     
     GOTUser *user = [self fetchLocalUserWithUserID:userID];
     if (user) {
-        NSLog(@"Fetched user from local storage");
         if (block) {
             block(user, nil);
         }
         return user;
     }
     
-    NSLog(@"Fetching user from the web");
     NSDictionary *params = [NSDictionary dictionaryWithObject:userID forKey:@"user_id"];
-    NSLog(@"Creating a new user for %@ because could not find in local storage", userID);
     GOTUser *newUser = [self createNewUser];
     [self fetchUserFromWebWithParams:params withRootObject:newUser withCompletion:block];
     
@@ -216,17 +206,14 @@
         }
     }];
     [stringURL appendString:[paramStrs componentsJoinedByString:@"&"]];
-    NSLog(@"Fetching user from %@", stringURL);
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:stringURL
                                                                    relativeToURL:[GOTConstants baseURL]]];
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     
     [conn setJsonRootObject:rootObject];
     [conn setCompletionBlock:^(id<User> user, NSError *err) {
-        NSLog(@"Got user id:%@", [user userID]);
         if ([user isKindOfClass:[GOTUser class]]) {
             // Make sure the user is now saved
-            NSLog(@"Saving user: %@", user);
             if ([GOTActiveUser isActiveUser:user]) {
                 // update the active user
                 [[GOTActiveUser activeUser] setUser:user];
@@ -254,7 +241,6 @@
                                                       argumentArray:[NSArray arrayWithObject:userID]];
     GOTUser *user = [self fetchUserFromDBWithPredicate:userIDPredicate];
     if (!user) {
-        NSLog(@"Creating a new user in createOrFetchUser with userID: %@", userID);
         user = [self createNewUser];
     }
     return user;
@@ -312,7 +298,6 @@
     GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
     [conn setDataType:JSON];
     [conn setCompletionBlock:^(NSDictionary *dict, NSError *err) {
-        NSLog(@"Dict of users who want item: %@", dict);
         if (dict) {
             NSArray *usersDictArray = [dict objectForKey:@"users"];
             NSMutableArray *users = [[NSMutableArray alloc] initWithCapacity:[usersDictArray count]];

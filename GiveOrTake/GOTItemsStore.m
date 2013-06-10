@@ -54,7 +54,6 @@
         [strParams addObject:param];
     }];
     [urlStr appendString:[strParams componentsJoinedByString:@"&"]];
-    NSLog(@"Loading items from: %@", urlStr);
     
     NSURL *url = [NSURL URLWithString:urlStr
                         relativeToURL:[GOTConstants baseURL]];

@@ -102,7 +102,6 @@
         GOTLocationUpdateViewController *locUpdateVC = [[GOTLocationUpdateViewController alloc] init];
         [[self navigationController] pushViewController:locUpdateVC animated:YES];
     }
-    NSLog(@"Tapped accessory at: %@", indexPath);
 }
 
 - (IBAction)karmaInfoPressed:(id)sender {
@@ -116,7 +115,6 @@
 }
 
 - (IBAction)logout:(id)sender {
-    NSLog(@"logout");
     GOTAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate logout];
 }

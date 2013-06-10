@@ -99,7 +99,6 @@ static float border = 10;
     [postParams setValue:[textView text] forKey:@"message"];
     [postParams setValue:FBSession.activeSession.accessTokenData.accessToken
                   forKey:@"access_token"];
-    NSLog(@"Trying to post");
     [FBRequestConnection
      startWithGraphPath:@"me/feed"
      parameters:postParams
@@ -107,7 +106,6 @@ static float border = 10;
      completionHandler:^(FBRequestConnection *connection,
                          id result,
                          NSError *error) {
-         NSLog(@"Post complete");
          [activityIndicator stopAnimating];
          NSString *alertText;
          if (error) {

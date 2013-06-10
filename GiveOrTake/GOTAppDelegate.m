@@ -40,10 +40,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [[GOTSettings instance] setupDefaults];
     
     if ([self loggedIn]) {
-        NSLog(@"Active user token: %@, userID: %@", [[GOTActiveUser activeUser] token], [[GOTActiveUser activeUser] userID]);
         [self setupTabBarControllersWithURL:nil];
     } else {
-        NSLog(@"not logged in");
         [self setupLoginControllerWithURL:nil];
     }
     
@@ -122,16 +120,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     
     if (url) {
         if ([[url host] isEqual:@"freeItem"]) {
-            NSLog(@"URL: url host is freeItem");
             [tvc setSelectedIndex:1];
-            NSDictionary *dict = [self parseURLQuery:url];
-            NSLog(@"URL: query dict: %@", dict);
             NSString *freeItemIDStr = [[self parseURLQuery:url] objectForKey:@"itemID"];
             NSNumber *freeItemID = [NSNumber numberWithInt:[freeItemIDStr intValue]];
             [ivc setFreeItemID:freeItemID];
-        } else {
-            NSLog(@"URL: url host is not freeItem");
-        }
+        } 
     }
     
     [[self window] setRootViewController:tvc];
@@ -141,10 +134,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     NSArray *components = [[url query] componentsSeparatedByString:@"&"];
-    NSLog(@"URL: components = %@", components);
     for (NSString *component in components) {
         NSArray *keyVals = [component componentsSeparatedByString:@"="];
-        NSLog(@"URL: keyValues: %@", keyVals);
         if ([keyVals count] == 2) {
             [values setValue:[keyVals objectAtIndex:1] forKey:[keyVals objectAtIndex:0]];
         } else {
@@ -162,7 +153,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 - (void)logout
 {
-    NSLog(@"logout and clear token info");
     [[FBSession activeSession] closeAndClearTokenInformation];
     [GOTActiveUser logout];
     [[GOTItemsStore sharedStore] clearItems];
@@ -174,14 +164,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    NSLog(@"URL passed in: %@", url);
     if ([[url scheme] hasPrefix:@"fb"]) {
         return [FBSession.activeSession handleOpenURL:url];
     } else if ([[url scheme] hasPrefix:@"giveortakeapp"]) {
         if ([self loggedIn]) {
             [self setupTabBarControllersWithURL:url];
         } else {
-            NSLog(@"not logged in");
             [self setupLoginControllerWithURL:url];
         }
         return YES;

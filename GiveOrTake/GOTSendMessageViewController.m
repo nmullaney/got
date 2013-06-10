@@ -132,7 +132,6 @@ static float border = 10;
 }
 
 - (void)sendMessage:(id)sender {
-    NSLog(@"Sending message");
     NSString *message = [messageTextView text];
     // TODO: could also check for too short of a message
     if ([message length] == 0) {
@@ -148,13 +147,11 @@ static float border = 10;
             if (itemDict) {
                 GOTItem *item = [self item];
                 [item readFromJSONDictionary:itemDict];
-                NSLog(@"item state = %@", [item state]);
                 if ([[item state] isEqual:[GOTItemState DELETED]] || [[item state] isEqual:[GOTItemState TAKEN]]) {
                     [[self itemList] removeItemAtIndex:[self selectedIndex]];
                     [[self navigationController] popToRootViewControllerAnimated:YES];
                 }
                 if ([[item state] isEqual:[GOTItemState PENDING]]) {
-                    NSLog(@"Item is pending, popping controller");
                     [[self itemList] refreshItems];
                     [[self navigationController] popViewControllerAnimated:YES];
                 }
@@ -167,7 +164,6 @@ static float border = 10;
         } else {
             NSNumber *numMessagesSent = [result objectForKey:@"numMessagesSent"];
             [[self item] setNumMessagesSent:numMessagesSent];
-            NSLog(@"Got new value for messages sent");
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message sent" message:@"You've sent a message!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [av show];
         }

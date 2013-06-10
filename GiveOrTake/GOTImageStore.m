@@ -69,15 +69,11 @@
 {
     UIImage *memCachedImage = [imageCache objectForKey:s];
     if (!memCachedImage) {
-        NSLog(@"Could not find memCachedImage: looking at disk");
         UIImage *fileCachedImage = [self fetchImageFromDisk:s updatedAfter:date];
         if (fileCachedImage) {
-            NSLog(@"Fetched image from filesystem");
             [imageCache setObject:fileCachedImage forKey:s];
             return fileCachedImage;
         }
-    } else {
-        NSLog(@"Found memCachedImage");
     }
     return memCachedImage;
 }
@@ -97,7 +93,6 @@
 
 - (void)clearCache:(NSNotification *)note
 {
-    NSLog(@"Clearing %d images", [imageCache count]);
     [self saveCacheToDisk];
     [imageCache removeAllObjects];
 }
@@ -138,10 +133,7 @@
         if (!imageData) {
             NSLog(@"Failed to save cache to disk in ImageStore");
             return;
-        } else {
-            NSLog(@"Saved image to cache for key: %@", key);
         }
-        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager createFileAtPath:[self filePathForKey:key]
                              contents:imageData attributes:nil];
@@ -150,18 +142,14 @@
 
 - (void)deleteOldImagesOnDisk
 {
-    //NSLog(@"Looking for old images to delete");
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *directory = [GOTImageStore imageCachePath];
     NSArray *files = [fileManager contentsOfDirectoryAtPath:directory error:nil];
     for (NSString *file in files) {
         NSString *filePath = [directory stringByAppendingPathComponent:file];
-        //NSLog(@"Check file %@", filePath);
         NSDictionary *fileAttr = [fileManager attributesOfItemAtPath:filePath error:nil];
         // Delete if the file is older than one week
-        //NSLog(@"Interval: %f", [[fileAttr fileCreationDate] timeIntervalSinceNow]);
         if ([[fileAttr fileCreationDate] timeIntervalSinceNow] < -604800) {
-            //NSLog(@"Removing file for: %@", filePath);
             [fileManager removeItemAtPath:filePath error:nil];
         }
     }
@@ -169,24 +157,18 @@
 
 - (UIImage *)fetchImageFromDisk:(NSString *)key updatedAfter:(NSDate *)date
 {
-    NSLog(@"Looking for image updated after: %@", date);
     NSString *filePath = [self filePathForKey:key];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:filePath]) {
         NSDictionary *fileAttr = [fileManager attributesOfItemAtPath:filePath error:nil];
-        NSLog(@"Image updated on: %@", [fileAttr fileModificationDate]);
         if (date && [[fileAttr fileModificationDate] timeIntervalSinceDate:date] < 0) {
             // Image is out of date
-            NSLog(@"Image is out of date");
             [fileManager removeItemAtPath:filePath error:nil];
             return nil;
         } 
         NSData *imageData = [fileManager contentsAtPath:filePath];
-        NSLog(@"Creating image from data");
         UIImage *image = [UIImage imageWithData:imageData];
         return image;
-    } else {
-        NSLog(@"No file at %@", filePath);
     }
     return nil;
 }
@@ -201,14 +183,7 @@
     }
     UIImage *image = [self imageForKey:[item imageKey]];
     if (image == nil) {
-        NSLog(@"Image to upload is nil!  Checking disk");
         image = [self fetchImageFromDisk:[item imageKey] updatedAfter:nil];
-        if (image) {
-            NSLog(@"Found image on disk");
-        }
-    }
-    if (!image) {
-        NSLog(@"Image to upload is STILL nil!");
     }
     NSData *jpgData = UIImageJPEGRepresentation(image, 0.8);
     if (!jpgData) {
@@ -222,7 +197,6 @@
     }
     
     NSURL *url = [NSURL URLWithString:@"/item/image.php" relativeToURL:[GOTConstants baseURL]];
-    NSLog(@"item = %@, item ID = %@", item, [item itemID]);
     NSDictionary *formData = [NSDictionary dictionaryWithObject:[item itemID]
                                                          forKey:@"item_id"];
     NSDictionary *imageData = [NSDictionary
@@ -235,7 +209,6 @@
     GOTConnection *connection = [[GOTConnection alloc] initWithRequest:req];
     [connection setCompletionBlock:^(id result, NSError *err) {
         [item setImageNeedsUpload:NO];
-        NSLog(@"result = %@", result);
         if (block) {
             block(result, err);
         }
@@ -245,35 +218,28 @@
 
 - (void)fetchImageForItem:(GOTItem *)item withCompletion:(void (^)(id, NSError *))block
 {
-    NSLog(@"Fetching image");
     if ([item image]) {
-        NSLog(@"Found image in item object");
         block([item image], nil);
         return;
     }
     
     UIImage *image = nil;
     if ([item imageKey]) {
-        NSLog(@"Found image key: attempting to load image from cache");
         image = [self imageForKey:[item imageKey] updatedAfter:[item dateUpdated]];
     }
     if (image) {
-        NSLog(@"Loaded image from store cache");
         block(image, nil);
         return;
     }
     
     if ([item imageURL]) {
-        NSLog(@"found image url: %@ fetching it from the web", [item imageURL]);
         NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[item imageURL]];
         GOTConnection *conn = [[GOTConnection alloc] initWithRequest:req];
         [conn setCompletionBlock:^(id imageData, NSError *err) {
             if (err) {
-                NSLog(@"Got error: %@", err);
                 block(nil, err);
                 return;
             } else if (imageData) {
-                NSLog(@"Got image data from the web");
                 UIImage *image = [UIImage imageWithData:imageData];
                 if (!image) {
                     NSLog(@"Error: failed to create image from data");

@@ -79,9 +79,7 @@
         NSMutableDictionary *d = [NSJSONSerialization JSONObjectWithData:[self dataObject]
                                                           options:NSJSONReadingMutableContainers
                                                             error:nil];
-        NSLog(@"JSON Data: %@", d);
         if ([d objectForKey:@"error"]) {
-            NSLog(@"returning error");
             NSError *err = [self errorWithLocalizedDescription:[d objectForKey:@"error"]];
             [self completionBlock](d, err);
             return;
@@ -122,12 +120,9 @@ canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    NSLog(@"Challenge: %@", challenge);
-    NSLog(@"Proposed Credential: %@", challenge.proposedCredential);
     NSArray *trustedHosts = [GOTConstants trustedHosts];
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         if ([trustedHosts containsObject:challenge.protectionSpace.host]) {
-            NSLog(@"Is trusted host");
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
                  forAuthenticationChallenge:challenge];
             return;

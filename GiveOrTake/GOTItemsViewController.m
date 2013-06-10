@@ -65,7 +65,6 @@
 {
     // prevents an initial load of other items
     [[self fisvc] setFilterChanged:NO];
-    NSLog(@"URL: setting freeItemID to %@", itemID);
     freeItemID = itemID;
 }
 
@@ -86,7 +85,6 @@
     if ([self freeItemID]) {
         [[self itemList] loadSingleItem:[self freeItemID]];
     } else if ([[self fisvc] filterChanged] || [[self itemList] itemCount] == 0) {
-        NSLog(@"Filter changed, should load most recent items");
         [activityIndicator setFrame:[[self view] bounds]];
         [activityIndicator startAnimating];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
@@ -156,7 +154,6 @@
         [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id itemList, NSError *err) {
             [[self tableView] setTableHeaderView:nil];
-            NSLog(@"Reloading data because most recent loaded");
         }];
     }
 }
@@ -288,7 +285,6 @@
     [sivc setSelectedIndex:index];
     [sivc setHidesBottomBarWhenPushed:YES];
     
-    NSLog(@"Selectedc index:%d, item:%@", index, [[self itemList] getItemAtIndex:index]);
     [[self navigationController] pushViewController:sivc animated:YES];
 }
 
@@ -327,13 +323,11 @@
 
 - (void)reloadBannerView
 {
-    NSLog(@"Loading ad banner");
     [[self bannerView] loadRequest:[self bannerRequest]];
 }
 
 - (void)adViewDidReceiveAd:(GADBannerView *)view
 {
-    NSLog(@"Received ad");
     adIndex = 0;
     [[self tableView] reloadData];
 }
