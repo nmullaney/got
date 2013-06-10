@@ -168,6 +168,8 @@ static float border = 10;
             NSNumber *numMessagesSent = [result objectForKey:@"numMessagesSent"];
             [[self item] setNumMessagesSent:numMessagesSent];
             NSLog(@"Got new value for messages sent");
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Message sent" message:@"You've sent a message!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [av show];
         }
         [[self navigationController] popViewControllerAnimated:YES];
     }];
