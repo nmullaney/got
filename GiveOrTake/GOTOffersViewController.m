@@ -38,6 +38,16 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityIndicator setFrame:[[self view] bounds]];
+    activityIndicator.color = [UIColor darkGrayColor];
+    [activityIndicator setHidesWhenStopped:YES];
+    [[self view] addSubview:activityIndicator];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -199,7 +209,10 @@
 - (void)updateOffers
 {
     [[self offersList] setOwnedByID:[[GOTActiveUser activeUser] userID]];
+    [activityIndicator setFrame:[[self view] bounds]];
+    [activityIndicator startAnimating];
     [[self offersList] loadMostRecentItemsWithCompletion:^(id items, NSError *err) {
+        [activityIndicator stopAnimating];
         if (err) {
             NSString *errorString = [NSString stringWithFormat:@"Failed to fetch offers: %@",
                                      [err localizedDescription]];

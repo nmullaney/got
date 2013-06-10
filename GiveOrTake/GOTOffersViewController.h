@@ -14,6 +14,7 @@
 {
     
     IBOutlet UITableView *tableView;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, strong) GOTItemList *offersList;

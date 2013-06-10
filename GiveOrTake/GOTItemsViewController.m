@@ -69,6 +69,16 @@
     freeItemID = itemID;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityIndicator setFrame:[[self view] bounds]];
+    activityIndicator.color = [UIColor darkGrayColor];
+    [activityIndicator setHidesWhenStopped:YES];
+    [[self view] addSubview:activityIndicator];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -77,11 +87,14 @@
         [[self itemList] loadSingleItem:[self freeItemID]];
     } else if ([[self fisvc] filterChanged] || [[self itemList] itemCount] == 0) {
         NSLog(@"Filter changed, should load most recent items");
+        [activityIndicator setFrame:[[self view] bounds]];
+        [activityIndicator startAnimating];
         [[self itemList] setDistance:[NSNumber numberWithInteger:[self distance]]];
         [[self itemList] setSearchText:[[self fisvc] searchText]];
         [[self itemList] setShowMyItems:[[self fisvc] getCurrentShowItems]];
         [self reloadBannerView];
         [[self itemList] loadMostRecentItemsWithCompletion:^(id il, NSError *err) {
+            [activityIndicator stopAnimating];
             if (err) {
                 NSString *errorString = [NSString stringWithFormat:@"Failed to fetch items: %@",
                                          [err localizedDescription]];

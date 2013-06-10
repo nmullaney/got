@@ -19,6 +19,7 @@
 @interface GOTItemsViewController : UITableViewController <GADBannerViewDelegate>
 {
     IBOutlet UITableView *tableView;
+    UIActivityIndicatorView *activityIndicator;
     GADBannerView *bannerView;
     GADRequest *bannerRequest;
     int adIndex;
