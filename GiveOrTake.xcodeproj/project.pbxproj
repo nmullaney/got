@@ -791,7 +791,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -805,9 +805,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "53A5B2C9-CC8E-4D2E-A584-8907CE6A7B6B";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -832,7 +832,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "53A5B2C9-CC8E-4D2E-A584-8907CE6A7B6B";
 				SDKROOT = iphoneos;
@@ -844,6 +844,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -864,6 +865,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "C00C6138-919B-4594-BEB4-78D0FAAA7F21";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -872,6 +874,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -893,6 +896,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "C00C6138-919B-4594-BEB4-78D0FAAA7F21";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
