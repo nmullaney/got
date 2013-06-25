@@ -16,6 +16,8 @@
 #import "GOTConstants.h"
 #import "GOTTextView.h"
 
+#import "UIBarButtonItem+FlatBarButtonItem.h"
+
 @implementation GOTShareViewController
 
 @synthesize item;
@@ -35,10 +37,11 @@ static float border = 10;
 {
     [super viewDidLoad];
     [[self navigationItem] setTitle:[NSString stringWithFormat:@"Share %@", [[self item] name]]];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPost:)];
+    UIBarButtonItem *cancelButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Cancel" target:self action:@selector(cancelPost:)];
     [[self navigationItem] setLeftBarButtonItem:cancelButton];
     
-    postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleDone target:self action:@selector(sendPost:)];
+    postButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Post" target:self action:@selector(sendPost:)];
+    
     [[self navigationItem] setRightBarButtonItem:postButton];
     
     [self.view setBackgroundColor:[GOTConstants defaultBackgroundColor]];
@@ -72,18 +75,6 @@ static float border = 10;
     [activityIndicator setHidesWhenStopped:YES];
     [self.view addSubview:activityIndicator];
     
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[[self navigationController] navigationBar] setTintColor:[GOTConstants defaultDarkBlueColor]];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[[self navigationController] navigationBar] setTintColor:[GOTConstants defaultNavBarColor]];
 }
 
 // Returns true if this item belongs to the active user

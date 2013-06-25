@@ -12,6 +12,7 @@
 #import "GOTActiveUser.h"
 #import "GOTAppDelegate.h"
 #import "GOTConstants.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTEmailUpdateViewController
 
@@ -50,6 +51,9 @@
     }
     
     [errorLabel setTextColor:[UIColor redColor]];
+    
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 }
 
 - (IBAction)updateEmail:(id)sender

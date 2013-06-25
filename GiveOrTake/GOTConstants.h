@@ -28,11 +28,17 @@
 + (UIFont *)defaultBold0Font;
 + (UIFont *)barButtonItemFont;
 
++ (NSDictionary *)navDefaultTitleAttributes;
++ (NSDictionary *)freeItemTitleAttributes;
+
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;
 + (UIColor *)defaultGrayTextColor;
 
 + (UIColor *)defaultNavBarColor;
++ (UIColor *)navTextColor;
++ (UIColor *)navTextShadowColor;
++ (UIColor *)navButtonTextColor;
 + (UIColor *)actionButtonColor;
 + (UIColor *)iconLightGreen;
 + (UIColor *)iconMediumGreen;

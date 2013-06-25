@@ -12,6 +12,7 @@
 #import "GOTActiveUser.h"
 #import "GOTConstants.h"
 #import "GOTEmailUpdateViewController.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTLocationUpdateViewController
 
@@ -37,6 +38,8 @@
     [mapView setDelegate:self];
     locationManager = [[CLLocationManager alloc] init];
     [locationManager setDelegate:self];
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated

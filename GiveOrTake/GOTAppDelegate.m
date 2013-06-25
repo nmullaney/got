@@ -83,6 +83,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // My Offers Controller
     GOTOffersViewController *ovc = [[GOTOffersViewController alloc] init];
     UINavigationController *offerNav = [[UINavigationController alloc] initWithRootViewController:ovc];
+    [[offerNav navigationBar] setBackgroundImage:[UIImage imageNamed:@"navbarBackground"] forBarMetrics:UIBarMetricsDefault];
     UITabBarItem *offerItem = [[UITabBarItem alloc] init];
     [offerItem setTitle:@"Give"];
     [offerItem setFinishedSelectedImage:[UIImage imageNamed:@"give-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"give"]];
@@ -91,6 +92,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Free Items Controller
     GOTItemsViewController *ivc = [[GOTItemsViewController alloc] init];
     UINavigationController *freeNav = [[UINavigationController alloc] initWithRootViewController:ivc];
+    [[freeNav navigationBar] setBackgroundImage:[UIImage imageNamed:@"navbarBackground"] forBarMetrics:UIBarMetricsDefault];
     UITabBarItem *freeItem = [[UITabBarItem alloc] init];
     [freeItem setTitle:@"Take"];
     [freeItem setFinishedSelectedImage:[UIImage imageNamed:@"take-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"take"]];
@@ -101,6 +103,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
                                                                 bundle:nil];
     GOTProfileViewController *pvc = [profileStoryboard instantiateInitialViewController];
     UINavigationController *profileNav = [[UINavigationController alloc] initWithRootViewController:pvc];
+    [[profileNav navigationBar] setBackgroundImage:[UIImage imageNamed:@"navbarBackground"] forBarMetrics:UIBarMetricsDefault];
     UITabBarItem *profileItem = [[UITabBarItem alloc] init];
     [profileItem setTitle:@"Profile"];
     [profileItem setFinishedSelectedImage:[UIImage imageNamed:@"profile-selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"profile"]];
@@ -119,8 +122,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [[UIToolbar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
     
     // Setup default fonts
-    [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeFont: [GOTConstants defaultVeryLargeFont]}];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{UITextAttributeFont: [GOTConstants barButtonItemFont]} forState:UIControlStateNormal];
+    [[UINavigationBar appearance] setTitleTextAttributes:[GOTConstants navDefaultTitleAttributes]];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{UITextAttributeFont: [GOTConstants barButtonItemFont],
+                                UITextAttributeTextColor:[GOTConstants navButtonTextColor],
+                         UITextAttributeTextShadowOffset:@0} forState:UIControlStateNormal];
     [[UITextField appearance] setFont:[GOTConstants defaultMediumFont]];
     
     if (url) {

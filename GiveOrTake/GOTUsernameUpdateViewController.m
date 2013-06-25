@@ -12,6 +12,7 @@
 #import "GOTConstants.h"
 #import "GOTUserStore.h"
 #import "GOTLocationUpdateViewController.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTUsernameUpdateViewController
 
@@ -36,6 +37,8 @@
     NSString *currentUsername = [[GOTActiveUser activeUser] username];
     [usernameField setText:currentUsername];
     [[self navigationItem] setTitle:@"Edit Username"];
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 }
 
 - (IBAction)updateUsername:(id)sender

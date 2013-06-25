@@ -15,6 +15,9 @@
     
     IBOutlet UITableView *tableView;
     UIActivityIndicatorView *activityIndicator;
+    
+    UIBarButtonItem *editButton;
+    UIBarButtonItem *doneButton;
 }
 
 @property (nonatomic, strong) GOTItemList *offersList;

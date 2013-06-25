@@ -101,7 +101,24 @@
 }
 
 + (UIFont *)barButtonItemFont {
-    return [UIFont fontWithName:[self defaultBoldFontName] size:12.0];
+    return [UIFont fontWithName:[self defaultBoldFontName] size:15.0];
+}
+
+#pragma mark -
+#pragma mark title text attributes
+
++ (NSDictionary *)navDefaultTitleAttributes
+{
+    return @{UITextAttributeFont: [GOTConstants defaultVeryLargeFont],
+             UITextAttributeTextColor: [GOTConstants navTextColor],
+             UITextAttributeTextShadowOffset: @0};
+}
+
++ (NSDictionary *)freeItemTitleAttributes
+{
+    return @{UITextAttributeFont: [GOTConstants defaultLargeFont],
+             UITextAttributeTextColor: [GOTConstants navTextColor],
+             UITextAttributeTextShadowOffset: @0};
 }
 
 #pragma mark -
@@ -136,12 +153,32 @@
 
 + (UIColor *)defaultNavBarColor
 {
-    return [GOTConstants iconMediumGreen];
+    return [GOTConstants blueishGreen];
+}
+
++ (UIColor *)navTextColor
+{
+    return [UIColor blackColor];
+}
+
++ (UIColor *)navTextShadowColor
+{
+    return [UIColor clearColor];
+}
+
++ (UIColor *)navButtonTextColor
+{
+    return [GOTConstants colorWith255Red:71 with255Green:151 with255Blue:249];
 }
 
 + (UIColor *)actionButtonColor
 {
     return [GOTConstants iconDarkPink];
+}
+
++ (UIColor *)blueishGreen
+{
+    return [GOTConstants colorWith255Red:129 with255Green:219 with255Blue:171];
 }
 
 + (UIColor *)iconLightGreen

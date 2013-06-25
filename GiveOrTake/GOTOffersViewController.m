@@ -18,6 +18,7 @@
 #import "GOTConstants.h"
 #import "GOTItemState.h"
 #import "GOTActiveUser.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTOffersViewController
 
@@ -28,12 +29,6 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         offersList = [[GOTItemList alloc] init];
-        
-        [[self navigationItem] setTitle:@"My Offers"];
-        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
-        [[self navigationItem]  setRightBarButtonItem:bbi];
-        [[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
-        
     }
     return self;
 }
@@ -46,6 +41,25 @@
     activityIndicator.color = [UIColor darkGrayColor];
     [activityIndicator setHidesWhenStopped:YES];
     [[self view] addSubview:activityIndicator];
+    
+    [[self navigationItem] setTitle:@"My Offers"];
+    UIBarButtonItem *rightBbi = [UIBarButtonItem flatBarButtonItemWithTitle:@"Add" target:self action:@selector(addNewItem:)];
+    [[self navigationItem]  setRightBarButtonItem:rightBbi];
+    editButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Edit" target:self action:@selector(startEditing)];
+    doneButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Done" target:self action:@selector(stopEditing)];
+    [[self navigationItem] setLeftBarButtonItem:editButton];
+}
+
+- (void)startEditing
+{
+    [self setEditing:YES animated:YES];
+    [[self navigationItem] setLeftBarButtonItem:doneButton];
+}
+
+- (void)stopEditing
+{
+    [self setEditing:NO animated:YES];
+    [[self navigationItem] setLeftBarButtonItem:editButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -139,7 +153,7 @@
         UIView *messageView = [[[GOTMessageFooterViewBuilder alloc]
                                 initWithFrame:frame
                                 title:@"You haven't created any offers."
-                                message:@"To give away an item, touch the '+' button, fill out information about your item, and press the 'Post Item' button."] view];
+                                message:@"To give away an item, touch the 'Add' button, fill out information about your item, and press the 'Post Item' button."] view];
         [footer addSubview:messageView];
     }
     return footer;

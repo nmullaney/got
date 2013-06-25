@@ -17,6 +17,7 @@
 #import "GOTScrollItemsViewController.h"
 #import "GOTMessageFooterViewBuilder.h"
 #import "GOTItemCell.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 #import "GADBannerView.h"
 #import <AdSupport/ASIdentifierManager.h>
@@ -30,9 +31,7 @@
     self = [super init];
     if (self) {
         
-        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Filter"
-                                                                style:UIBarButtonItemStyleDone
-                                                               target:self action:@selector(filterSearch:)];
+        UIBarButtonItem *bbi = [UIBarButtonItem flatBarButtonItemWithTitle:@"Filter" target:self action:@selector(filterSearch:)];
         
         [[self navigationItem] setLeftBarButtonItem:bbi];
         FilterItemSettingsViewController *filterVC = [[FilterItemSettingsViewController alloc] init];

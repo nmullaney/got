@@ -16,6 +16,7 @@
 #import "GOTUserStore.h"
 #import "GOTItemState.h"
 #import "GOTActiveUser.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @interface GOTSendMessageViewController ()
 
@@ -52,10 +53,12 @@ static float border = 10;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
     
     [[self navigationItem] setTitle:@"New Message"];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelMessage:)];
+    UIBarButtonItem *cancelButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Cancel"
+                                                                         target:self
+                                                                         action:@selector(cancelMessage:)];
     [[self navigationItem] setLeftBarButtonItem:cancelButton];
     
-    UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleDone target:self action:@selector(sendMessage:)];
+    UIBarButtonItem *sendButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"Send" target:self action:@selector(sendMessage:)];
     [[self navigationItem] setRightBarButtonItem:sendButton];
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];

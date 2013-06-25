@@ -9,6 +9,7 @@
 #import "GOTWebViewController.h"
 
 #import "GOTConstants.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTWebViewController
 
@@ -30,6 +31,8 @@
     if (request) {
         [webView loadRequest:[self request]];
     }
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 }
 
 - (UIWebView *)webView

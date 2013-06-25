@@ -9,6 +9,7 @@
 #import "FilterItemSettingsViewController.h"
 #import "GOTSettings.h"
 #import "GOTConstants.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -39,6 +40,9 @@
     [filterButton setBackgroundColor:[GOTConstants actionButtonColor]];
     [filterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     filterButton.layer.cornerRadius = 8.0;
+    
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated

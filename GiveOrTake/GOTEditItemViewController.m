@@ -21,6 +21,7 @@
 #import "GOTConstants.h"
 #import "JSONUtil.h"
 #import "GOTShareViewController.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTEditItemViewController
 
@@ -39,11 +40,7 @@ int DESC_MAX_LENGTH = 250;
         
         // Custom leftBarButton allows us to check for whether or not the item
         // has been updated before popping the view
-        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
-                                          initWithTitle:@"All Offers"
-                                          style:UIBarButtonItemStyleBordered
-                                          target:self
-                                          action:@selector(backButtonPressed:)];
+        UIBarButtonItem *leftBarButton = [UIBarButtonItem flatBarButtonItemWithTitle:@"All Offers" target:self action:@selector(backButtonPressed:)];
         [[self navigationItem] setLeftBarButtonItem:leftBarButton];
     }
     return self;

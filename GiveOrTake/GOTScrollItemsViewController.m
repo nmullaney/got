@@ -18,6 +18,7 @@
 #import "GOTSendMessageViewController.h"
 #import "GOTConstants.h"
 #import "GOTActiveUser.h"
+#import "UIBarButtonItem+FlatBarButtonItem.h"
 
 @implementation GOTScrollItemsViewController
 
@@ -133,7 +134,7 @@
     [super viewWillAppear:animated];
     
     [[[self navigationController] navigationBar] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObject:[GOTConstants defaultLargeFont] forKey:UITextAttributeFont]];
+     [GOTConstants freeItemTitleAttributes]];
     [[self navigationController] setToolbarHidden:NO animated:YES];
     
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
@@ -177,12 +178,23 @@
 
 }
 
+- (void)viewDidLoad
+{
+    UIBarButtonItem *backButton = [UIBarButtonItem flatBackBarButtonItemForNavigationController:[self navigationController]];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
+}
+
+- (void)back
+{
+    
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[self navigationController] setToolbarHidden:YES animated:animated];
     [[[self navigationController] navigationBar] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObject:[GOTConstants defaultVeryLargeFont] forKey:UITextAttributeFont]];
+     [GOTConstants navDefaultTitleAttributes]];
 }
 
 - (void)wantButtonPressed:(id)sender
