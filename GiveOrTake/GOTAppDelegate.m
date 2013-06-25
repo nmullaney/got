@@ -118,6 +118,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     [[UINavigationBar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
     [[UIToolbar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
     
+    // Setup default fonts
+    [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeFont: [GOTConstants defaultVeryLargeFont]}];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{UITextAttributeFont: [GOTConstants barButtonItemFont]} forState:UIControlStateNormal];
+    [[UITextField appearance] setFont:[GOTConstants defaultMediumFont]];
+    
     if (url) {
         if ([[url host] isEqual:@"freeItem"]) {
             [tvc setSelectedIndex:1];

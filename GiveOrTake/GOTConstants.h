@@ -20,7 +20,13 @@
 + (UIFont *)defaultMediumFont;
 + (UIFont *)defaultLargeFont;
 + (UIFont *)defaultVeryLargeFont;
++ (UIFont *)defaultBoldMediumFont;
++ (UIFont *)defaultBoldLargeFont;
 + (UIFont *)defaultBoldVeryLargeFont;
++ (UIFont *)defaultBold16Font;
++ (UIFont *)defaultBold18Font;
++ (UIFont *)defaultBold0Font;
++ (UIFont *)barButtonItemFont;
 
 + (UIColor *)defaultBackgroundColor;
 + (UIColor *)greenBackgroundColor;

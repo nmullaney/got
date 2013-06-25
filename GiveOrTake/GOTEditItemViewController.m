@@ -194,7 +194,7 @@ int DESC_MAX_LENGTH = 250;
                                           fullWidth,
                                           descFieldHeight)];
     [descField setPlaceholder:@"Describe your item."];
-    [descField setFont:[nameField font]];
+    [descField setFont:[GOTConstants defaultMediumFont]];
     [descField setMaxContentLength:[NSNumber numberWithInt:DESC_MAX_LENGTH]];
     [control addSubview:descField];
     currentY = currentY + border + descFieldHeight;
@@ -211,6 +211,7 @@ int DESC_MAX_LENGTH = 250;
  
     // TODO: be nice to have a camera icon, instead of text here
     [takePhotoButton setTitle:@"Add Photo" forState:UIControlStateNormal];
+    [[takePhotoButton titleLabel] setFont:[GOTConstants defaultBoldMediumFont]];
     [control addSubview:takePhotoButton];
     
     imageView = [[UIImageView alloc]
@@ -233,7 +234,7 @@ int DESC_MAX_LENGTH = 250;
         UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [shareButton setFrame:CGRectMake(threequartStartX, currentY, threequartWidth, picButtonHeight)];
         [shareButton setTitle:@"Share on Facebook" forState:UIControlStateNormal];
-        [[shareButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
+        [[shareButton titleLabel] setFont:[GOTConstants defaultBold16Font]];
         shareButton.layer.cornerRadius = 10.0;
         [shareButton setBackgroundColor:[GOTConstants defaultDarkBlueColor]];
         [shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -250,7 +251,7 @@ int DESC_MAX_LENGTH = 250;
                                          picButtonHeight)];
     [control addSubview:postOfferButton];
     [postOfferButton setBackgroundColor:[GOTConstants actionButtonColor]];
-    [[postOfferButton titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
+    [[postOfferButton titleLabel] setFont:[GOTConstants defaultBold16Font]];
     postOfferButton.layer.cornerRadius = 10.0;
     [postOfferButton addTarget:self
                         action:@selector(uploadItem)

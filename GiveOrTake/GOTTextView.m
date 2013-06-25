@@ -7,6 +7,7 @@
 //
 
 #import "GOTTextView.h"
+#import "GOTConstants.h"
 
 #import <QuartzCore/QuartzCore.h>
 

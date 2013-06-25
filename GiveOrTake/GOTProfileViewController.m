@@ -36,7 +36,7 @@
     
     [logoutButton setBackgroundColor:[UIColor redColor]];
     [logoutButton.titleLabel setTextColor:[UIColor whiteColor]];
-    [logoutButton.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [logoutButton.titleLabel setFont:[GOTConstants defaultBold18Font]];
     logoutButton.layer.cornerRadius = 8.0;
     
     [mapView setMapType:MKMapTypeStandard];

@@ -29,9 +29,11 @@
 {
     self = [super init];
     if (self) {
+        
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Filter"
                                                                 style:UIBarButtonItemStyleDone
                                                                target:self action:@selector(filterSearch:)];
+        
         [[self navigationItem] setLeftBarButtonItem:bbi];
         FilterItemSettingsViewController *filterVC = [[FilterItemSettingsViewController alloc] init];
         [self setFisvc:filterVC];

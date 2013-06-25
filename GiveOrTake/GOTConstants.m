@@ -43,29 +43,65 @@
 #pragma mark -
 #pragma mark fonts
 
++ (NSString *)defaultFontName
+{
+    return @"HelveticaNeue-Light";
+}
+
++ (NSString *)defaultBoldFontName
+{
+    return @"HelveticaNeue-Bold";
+}
+
 + (UIFont *)defaultSmallFont
 {
-    return [UIFont systemFontOfSize:13.0];
+    return [UIFont fontWithName:[self defaultFontName] size:13.0];
 }
 
 + (UIFont *)defaultMediumFont
 {
-    return [UIFont systemFontOfSize:15.0];
+    return [UIFont fontWithName:[self defaultFontName] size:15.0];
 }
 
 + (UIFont *)defaultLargeFont
 {
-    return [UIFont systemFontOfSize:17.0];
+    return [UIFont fontWithName:[self defaultFontName] size:17.0];
 }
 
 + (UIFont *)defaultVeryLargeFont
 {
-    return [UIFont systemFontOfSize:19.0];
+    return [UIFont fontWithName:[self defaultFontName] size:19.0];
+}
+
++ (UIFont *)defaultBoldMediumFont
+{
+    return [UIFont fontWithName:[self defaultBoldFontName] size:15.0];
+}
+
++ (UIFont *)defaultBoldLargeFont
+{
+    return [UIFont fontWithName:[self defaultBoldFontName] size:17.0];
 }
 
 + (UIFont *)defaultBoldVeryLargeFont
 {
-    return [UIFont boldSystemFontOfSize:19.0];
+    return [UIFont fontWithName:[self defaultBoldFontName] size:19.0];
+}
+
++ (UIFont *)defaultBold16Font {
+    return [UIFont fontWithName:[self defaultBoldFontName] size:16.0];
+}
+
++ (UIFont *)defaultBold18Font {
+    return [UIFont fontWithName:[self defaultBoldFontName] size:18.0];
+}
+
++ (UIFont *)defaultBold0Font {
+    return [UIFont fontWithName:[self defaultBoldFontName] size:0.0];
+}
+
++ (UIFont *)barButtonItemFont {
+    return [UIFont fontWithName:[self defaultBoldFontName] size:12.0];
 }
 
 #pragma mark -

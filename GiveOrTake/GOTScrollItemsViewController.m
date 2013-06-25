@@ -133,7 +133,7 @@
     [super viewWillAppear:animated];
     
     [[[self navigationController] navigationBar] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObject:[UIFont boldSystemFontOfSize:17] forKey:UITextAttributeFont]];
+     [NSDictionary dictionaryWithObject:[GOTConstants defaultLargeFont] forKey:UITextAttributeFont]];
     [[self navigationController] setToolbarHidden:NO animated:YES];
     
     CGRect bounds = [[UIScreen mainScreen] applicationFrame];
@@ -168,7 +168,7 @@
     UIButton *wantButton = [[UIButton alloc] init];
     [wantButton setFrame:CGRectMake(wantButtonX, wantButtonY, wantButtonWidth, wantButtonHeight)];
     [wantButton setTitle:@"I want this!" forState:UIControlStateNormal];
-    wantButton.titleLabel.font = [GOTConstants defaultBoldVeryLargeFont];
+    wantButton.titleLabel.font = [GOTConstants defaultBoldLargeFont];
     [wantButton addTarget:self action:@selector(wantButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:wantButton];
     
@@ -182,7 +182,7 @@
     [super viewWillDisappear:animated];
     [[self navigationController] setToolbarHidden:YES animated:animated];
     [[[self navigationController] navigationBar] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObject:[UIFont boldSystemFontOfSize:0] forKey:UITextAttributeFont]];
+     [NSDictionary dictionaryWithObject:[GOTConstants defaultVeryLargeFont] forKey:UITextAttributeFont]];
 }
 
 - (void)wantButtonPressed:(id)sender
