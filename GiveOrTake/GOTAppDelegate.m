@@ -120,6 +120,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     // Setup default color scheme
     [[UINavigationBar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
     [[UIToolbar appearance] setTintColor:[GOTConstants defaultNavBarColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
     // Setup default fonts
     [[UINavigationBar appearance] setTitleTextAttributes:[GOTConstants navDefaultTitleAttributes]];

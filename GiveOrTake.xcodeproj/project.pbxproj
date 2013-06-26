@@ -805,8 +805,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nora Mullaney (46PYK2GG94)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -821,7 +820,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0BA94CEE-6DDE-46BA-97A5-89C4315B0F6C";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -839,8 +838,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nora Mullaney (46PYK2GG94)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -848,7 +846,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "53A5B2C9-CC8E-4D2E-A584-8907CE6A7B6B";
+				PROVISIONING_PROFILE = "0BA94CEE-6DDE-46BA-97A5-89C4315B0F6C";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -858,7 +856,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nora Mullaney (46PYK2GG94)";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -879,7 +877,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C00C6138-919B-4594-BEB4-78D0FAAA7F21";
+				PROVISIONING_PROFILE = "F0252995-80A8-43F2-833C-0BF2F1448E17";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -888,7 +886,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 88976458173C6922008B5CDB /* HockeySDK.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nora Mullaney";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nora Mullaney (46PYK2GG94)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -910,7 +908,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C00C6138-919B-4594-BEB4-78D0FAAA7F21";
+				PROVISIONING_PROFILE = "F0252995-80A8-43F2-833C-0BF2F1448E17";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

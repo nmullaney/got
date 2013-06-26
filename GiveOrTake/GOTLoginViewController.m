@@ -41,7 +41,11 @@
     [backgroundImageView setFrame:screenBounds];
     
     [self createLoginView];
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [activityIndicatorView setHidesWhenStopped:YES];
     activityIndicatorView.color = [UIColor darkGrayColor];
+    [activityIndicatorView setCenter:[loginView center]];
+    [[self view] addSubview:activityIndicatorView];
     [[self view] sendSubviewToBack:backgroundImageView];
 }
 

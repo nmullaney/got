@@ -11,7 +11,7 @@
 @interface GOTLoginViewController : UIViewController <FBLoginViewDelegate>
 {
     __weak IBOutlet UIImageView *backgroundImageView;
-    __weak IBOutlet UIActivityIndicatorView *activityIndicatorView;
+    UIActivityIndicatorView *activityIndicatorView;
     FBLoginView *loginView;
     BOOL loggingIn;
 }
