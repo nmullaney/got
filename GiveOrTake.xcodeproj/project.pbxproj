@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		88183BEB177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183BEA177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m */; };
 		88183BED177A15040070C90D /* navbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BEC177A15040070C90D /* navbarBackground.png */; };
+		88183BEF177B672E0070C90D /* navbarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BEE177B672E0070C90D /* navbarBackground@2x.png */; };
 		8828071216E935EC00C13F61 /* GOTEmailUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */; };
 		8828072316E9631400C13F61 /* GOTUsernameUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072216E9631400C13F61 /* GOTUsernameUpdateViewController.m */; };
 		8828072616E9632800C13F61 /* GOTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072516E9632800C13F61 /* GOTUser.m */; };
@@ -122,6 +123,7 @@
 		88183BE9177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+FlatBarButtonItem.h"; sourceTree = "<group>"; };
 		88183BEA177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+FlatBarButtonItem.m"; sourceTree = "<group>"; };
 		88183BEC177A15040070C90D /* navbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarBackground.png; sourceTree = "<group>"; };
+		88183BEE177B672E0070C90D /* navbarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbarBackground@2x.png"; sourceTree = "<group>"; };
 		8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEmailUpdateViewController.h; sourceTree = "<group>"; };
 		8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEmailUpdateViewController.m; sourceTree = "<group>"; };
 		8828072116E9631400C13F61 /* GOTUsernameUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTUsernameUpdateViewController.h; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				88183BEE177B672E0070C90D /* navbarBackground@2x.png */,
 				88183BEC177A15040070C90D /* navbarBackground.png */,
 				88D1A008175D4AC700009CEB /* spotlight@2x.png */,
 				88D1A009175D4AC700009CEB /* spotlight.png */,
@@ -725,6 +728,7 @@
 				88D1A00F175D4AC800009CEB /* iTunesArtwork.png in Resources */,
 				88D1A018175FBCDC00009CEB /* GOTItemMetadataView.xib in Resources */,
 				88183BED177A15040070C90D /* navbarBackground.png in Resources */,
+				88183BEF177B672E0070C90D /* navbarBackground@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
