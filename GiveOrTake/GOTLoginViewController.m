@@ -29,16 +29,38 @@
 {
     [super viewDidLoad];
     
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    UIImage *defaultImage = [UIImage imageNamed:@"Default"];
+    if ([self isLongScreen]) {
+        NSLog(@"Setting default image to Default-568h");
+        defaultImage = [UIImage imageNamed:@"Default-568h"];
+    } else {
+        NSLog(@"Setting default image to Default, height = %f", screenBounds.size.height);
+    }
+    [backgroundImageView setImage:defaultImage];
+    [backgroundImageView setFrame:screenBounds];
     
     [self createLoginView];
+    activityIndicatorView.color = [UIColor darkGrayColor];
+    [[self view] sendSubviewToBack:backgroundImageView];
+}
+
+- (BOOL)isLongScreen
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    return (screenBounds.size.height == 568);
 }
 
 - (void)createLoginView
 {
     loginView = [[FBLoginView alloc]
                  initWithReadPermissions:[NSArray arrayWithObject:@"email"]];
-    [loginView setCenter:[[self view] center]];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    float loginViewPosition = 380;
+    if ([self isLongScreen]) {
+        loginViewPosition = 420;
+    }
+    [loginView setCenter:CGPointMake(screenBounds.size.width / 2, loginViewPosition)];
     [loginView setDelegate:self];
     [[self view] addSubview:loginView];
     [loginView sizeToFit];
@@ -54,14 +76,12 @@
 
 - (void)showLoggingIn
 {
-    [pleaseLoginLabel setText:@"Logging in..."];
     [loginView setHidden:YES];
     [activityIndicatorView startAnimating];
 }
 
 - (void)showCanLogIn
 {
-    [pleaseLoginLabel setText:@"Please log in with Facebook"];
     [loginView setHidden:NO];
     [activityIndicatorView stopAnimating];
 }

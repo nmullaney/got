@@ -10,6 +10,9 @@
 		88183BEB177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183BEA177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m */; };
 		88183BED177A15040070C90D /* navbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BEC177A15040070C90D /* navbarBackground.png */; };
 		88183BEF177B672E0070C90D /* navbarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BEE177B672E0070C90D /* navbarBackground@2x.png */; };
+		88183BF2177B683F0070C90D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BF0177B683F0070C90D /* Default.png */; };
+		88183BF3177B683F0070C90D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BF1177B683F0070C90D /* Default@2x.png */; };
+		88183BF5177B684A0070C90D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88183BF4177B684A0070C90D /* Default-568h@2x.png */; };
 		8828071216E935EC00C13F61 /* GOTEmailUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */; };
 		8828072316E9631400C13F61 /* GOTUsernameUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072216E9631400C13F61 /* GOTUsernameUpdateViewController.m */; };
 		8828072616E9632800C13F61 /* GOTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8828072516E9632800C13F61 /* GOTUser.m */; };
@@ -106,9 +109,6 @@
 		88F2BCCF16CC39F5003C9D90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCCD16CC39F5003C9D90 /* InfoPlist.strings */; };
 		88F2BCD116CC39F5003C9D90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCD016CC39F5003C9D90 /* main.m */; };
 		88F2BCD516CC39F5003C9D90 /* GOTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCD416CC39F5003C9D90 /* GOTAppDelegate.m */; };
-		88F2BCD716CC39F5003C9D90 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCD616CC39F5003C9D90 /* Default.png */; };
-		88F2BCD916CC39F5003C9D90 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCD816CC39F5003C9D90 /* Default@2x.png */; };
-		88F2BCDB16CC39F5003C9D90 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88F2BCDA16CC39F5003C9D90 /* Default-568h@2x.png */; };
 		88F2BCE316CC3AA4003C9D90 /* GOTItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F2BCE216CC3AA4003C9D90 /* GOTItem.m */; };
 		88F2BCE516CC3B62003C9D90 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCE416CC3B62003C9D90 /* CoreLocation.framework */; };
 		88F2BCE716CC3EBA003C9D90 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F2BCE616CC3EBA003C9D90 /* MapKit.framework */; };
@@ -124,6 +124,9 @@
 		88183BEA177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+FlatBarButtonItem.m"; sourceTree = "<group>"; };
 		88183BEC177A15040070C90D /* navbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarBackground.png; sourceTree = "<group>"; };
 		88183BEE177B672E0070C90D /* navbarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbarBackground@2x.png"; sourceTree = "<group>"; };
+		88183BF0177B683F0070C90D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		88183BF1177B683F0070C90D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		88183BF4177B684A0070C90D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		8828071016E935EC00C13F61 /* GOTEmailUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTEmailUpdateViewController.h; sourceTree = "<group>"; };
 		8828071116E935EC00C13F61 /* GOTEmailUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTEmailUpdateViewController.m; sourceTree = "<group>"; };
 		8828072116E9631400C13F61 /* GOTUsernameUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTUsernameUpdateViewController.h; sourceTree = "<group>"; };
@@ -264,9 +267,6 @@
 		88F2BCD216CC39F5003C9D90 /* GiveOrTake-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GiveOrTake-Prefix.pch"; sourceTree = "<group>"; };
 		88F2BCD316CC39F5003C9D90 /* GOTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTAppDelegate.h; sourceTree = "<group>"; };
 		88F2BCD416CC39F5003C9D90 /* GOTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GOTAppDelegate.m; sourceTree = "<group>"; };
-		88F2BCD616CC39F5003C9D90 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		88F2BCD816CC39F5003C9D90 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		88F2BCDA16CC39F5003C9D90 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		88F2BCE116CC3AA4003C9D90 /* GOTItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTItem.h; sourceTree = "<group>"; };
 		88F2BCE216CC3AA4003C9D90 /* GOTItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTItem.m; sourceTree = "<group>"; };
 		88F2BCE416CC3B62003C9D90 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -576,6 +576,9 @@
 		88F2BCCB16CC39F5003C9D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				88183BF4177B684A0070C90D /* Default-568h@2x.png */,
+				88183BF0177B683F0070C90D /* Default.png */,
+				88183BF1177B683F0070C90D /* Default@2x.png */,
 				88183BEE177B672E0070C90D /* navbarBackground@2x.png */,
 				88183BEC177A15040070C90D /* navbarBackground.png */,
 				88D1A008175D4AC700009CEB /* spotlight@2x.png */,
@@ -614,9 +617,6 @@
 				88F2BCCD16CC39F5003C9D90 /* InfoPlist.strings */,
 				88F2BCD016CC39F5003C9D90 /* main.m */,
 				88F2BCD216CC39F5003C9D90 /* GiveOrTake-Prefix.pch */,
-				88F2BCD616CC39F5003C9D90 /* Default.png */,
-				88F2BCD816CC39F5003C9D90 /* Default@2x.png */,
-				88F2BCDA16CC39F5003C9D90 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -676,9 +676,6 @@
 				8897645B173C69AD008B5CDB /* HockeySDKResources.bundle in Resources */,
 				88957D3F16E1863900ADDC8A /* FacebookSDKResources.bundle in Resources */,
 				88F2BCCF16CC39F5003C9D90 /* InfoPlist.strings in Resources */,
-				88F2BCD716CC39F5003C9D90 /* Default.png in Resources */,
-				88F2BCD916CC39F5003C9D90 /* Default@2x.png in Resources */,
-				88F2BCDB16CC39F5003C9D90 /* Default-568h@2x.png in Resources */,
 				88F2BCEC16CC4147003C9D90 /* GOTItemsViewController.xib in Resources */,
 				8894FD1416D16451006955F6 /* GOTOffersViewController.xib in Resources */,
 				8894FD3416D7F0BF006955F6 /* GOTFreeItemDetailViewController.xib in Resources */,
@@ -729,6 +726,9 @@
 				88D1A018175FBCDC00009CEB /* GOTItemMetadataView.xib in Resources */,
 				88183BED177A15040070C90D /* navbarBackground.png in Resources */,
 				88183BEF177B672E0070C90D /* navbarBackground@2x.png in Resources */,
+				88183BF2177B683F0070C90D /* Default.png in Resources */,
+				88183BF3177B683F0070C90D /* Default@2x.png in Resources */,
+				88183BF5177B684A0070C90D /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

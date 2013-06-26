@@ -10,14 +10,15 @@
 
 @interface GOTLoginViewController : UIViewController <FBLoginViewDelegate>
 {
+    __weak IBOutlet UIImageView *backgroundImageView;
     __weak IBOutlet UIActivityIndicatorView *activityIndicatorView;
-    __weak IBOutlet UILabel *pleaseLoginLabel;
     FBLoginView *loginView;
     BOOL loggingIn;
 }
 
 - (void)showLoggingIn;
 - (void)showCanLogIn;
+- (BOOL)isLongScreen;
 
 @property (nonatomic) BOOL loggingIn;
 @property (nonatomic, copy) void (^postLoginBlock)(void);
