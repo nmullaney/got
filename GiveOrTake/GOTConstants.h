@@ -32,7 +32,7 @@
 + (NSDictionary *)freeItemTitleAttributes;
 
 + (UIColor *)defaultBackgroundColor;
-+ (UIColor *)greenBackgroundColor;
++ (UIColor *)colorBackground;
 + (UIColor *)defaultGrayTextColor;
 
 + (UIColor *)defaultNavBarColor;

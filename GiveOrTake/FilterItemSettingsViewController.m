@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad
 {
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    [[self view] setBackgroundColor:[GOTConstants colorBackground]];
     UILabel *magnifyingGlass = [[UILabel alloc] init];
     [magnifyingGlass setText:[[NSString alloc] initWithUTF8String:"\xF0\x9F\x94\x8D"]];
     [magnifyingGlass sizeToFit];

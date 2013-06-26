@@ -34,7 +34,7 @@
 {
     [super viewDidLoad];
     
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    [[self view] setBackgroundColor:[GOTConstants colorBackground]];
     
     [[self navigationItem] setTitle:@"Edit Email Address"];
     GOTActiveUser *activeUser = [GOTActiveUser activeUser];

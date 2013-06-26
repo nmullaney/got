@@ -46,7 +46,7 @@
 {
     GOTActiveUser *user = [GOTActiveUser activeUser];
     
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    [[self view] setBackgroundColor:[GOTConstants colorBackground]];
     
     [[self navigationItem] setTitle:@"Edit Location"];
     

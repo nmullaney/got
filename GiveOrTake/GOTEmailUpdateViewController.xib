@@ -52,10 +52,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">Please enter the email address you would like to use.  If you change your email, we'll send an email to this address to verify that it's yours.</string>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC40IDAuNCAwLjQAA</bytes>
-						</object>
+						<nil key="IBUITextColor"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">4</int>
@@ -101,13 +98,13 @@
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
 						<int key="IBUIClearButtonMode">1</int>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="139042662">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="820711598">
 							<string key="name">HelveticaNeue-Light</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">0</int>
 							<double key="pointSize">14</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="608025538">
+						<object class="NSFont" key="IBUIFont" id="582933808">
 							<string key="NSName">HelveticaNeue-Medium</string>
 							<double key="NSSize">14</double>
 							<int key="NSfFlags">16</int>
@@ -183,8 +180,8 @@
 							<int key="IBUIKeyboardType">4</int>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
-						<reference key="IBUIFontDescription" ref="139042662"/>
-						<reference key="IBUIFont" ref="608025538"/>
+						<reference key="IBUIFontDescription" ref="820711598"/>
+						<reference key="IBUIFont" ref="582933808"/>
 					</object>
 					<object class="IBUIButton" id="968523950">
 						<reference key="NSNextResponder" ref="570098059"/>
@@ -211,13 +208,13 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="132815807">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="269826016">
 							<string key="name">HelveticaNeue-Bold</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">2</int>
 							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="207042205">
+						<object class="NSFont" key="IBUIFont" id="201069058">
 							<string key="NSName">HelveticaNeue-Bold</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
@@ -241,8 +238,8 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="172002198"/>
-						<reference key="IBUIFontDescription" ref="132815807"/>
-						<reference key="IBUIFont" ref="207042205"/>
+						<reference key="IBUIFontDescription" ref="269826016"/>
+						<reference key="IBUIFont" ref="201069058"/>
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 568}</string>

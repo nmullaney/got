@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    [[self view] setBackgroundColor:[GOTConstants colorBackground]];
     NSString *currentUsername = [[GOTActiveUser activeUser] username];
     [usernameField setText:currentUsername];
     [[self navigationItem] setTitle:@"Edit Username"];

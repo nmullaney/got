@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad
 {
-    [[self view] setBackgroundColor:[GOTConstants greenBackgroundColor]];
+    [[self view] setBackgroundColor:[GOTConstants colorBackground]];
 }
 
 - (IBAction)startButtonPressed:(id)sender {

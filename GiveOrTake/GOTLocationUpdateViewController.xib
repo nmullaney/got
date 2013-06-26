@@ -64,13 +64,13 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="13698387">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="248456398">
 							<string key="name">HelveticaNeue-Bold</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">2</int>
 							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="535148722">
+						<object class="NSFont" key="IBUIFont" id="348626253">
 							<string key="NSName">HelveticaNeue-Bold</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
@@ -89,10 +89,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">Press to choose a location.  Other users will see this location, so you may wish to choose an approximate location.</string>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC40IDAuNCAwLjQAA</bytes>
-						</object>
+						<nil key="IBUITextColor"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">3</int>
@@ -140,8 +137,8 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="658484902"/>
-						<reference key="IBUIFontDescription" ref="13698387"/>
-						<reference key="IBUIFont" ref="535148722"/>
+						<reference key="IBUIFontDescription" ref="248456398"/>
+						<reference key="IBUIFont" ref="348626253"/>
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 568}</string>
