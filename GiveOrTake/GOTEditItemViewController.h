@@ -26,6 +26,8 @@
     UIActivityIndicatorView *imageActivityIndicator;
     UIButton *postOfferButton;
     
+    UIButton *saveStateChangeButton;
+    
     UIImagePickerController *imagePicker;
     UIAlertView *alertView;
 }

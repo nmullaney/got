@@ -133,8 +133,7 @@
 // This returns a non-gray color
 + (UIColor *)colorBackground
 {
-    // TODO: something other than white
-    return [UIColor whiteColor];
+    return [GOTConstants colorWith255Red:170 with255Green:212 with255Blue:191];
 }
 
 // This is the steel crayon color

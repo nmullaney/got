@@ -163,8 +163,6 @@ int DESC_MAX_LENGTH = 250;
     
     float stateLabelWidth = [self maxStatusLabelWidth];
     UIView *stateLabelView = [[UIView alloc] initWithFrame:CGRectMake(currentX, currentY, stateLabelWidth + 30, stateButtonHeight)];
-    [stateLabelView setBackgroundColor:[UIColor whiteColor]];
-    stateLabelView.layer.cornerRadius = 8.0;
     stateImage = [[UIImageView alloc] initWithFrame:CGRectMake(7.5, 7.5, 15, 15)];
     [stateLabelView addSubview:stateImage];
     stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, stateLabelWidth, stateButtonHeight)];
@@ -239,8 +237,6 @@ int DESC_MAX_LENGTH = 250;
         currentY = currentY + border + picButtonHeight;
     }
     
-    // TODO: this button should change to "Update Offer"
-    // once the offer is posted
     postOfferButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [postOfferButton setFrame:CGRectMake(threequartStartX,
                                          currentY,
@@ -621,13 +617,13 @@ int DESC_MAX_LENGTH = 250;
     }
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [saveButton setFrame:CGRectMake(screenRect.size.width / 4,
+    saveStateChangeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [saveStateChangeButton setFrame:CGRectMake(screenRect.size.width / 4,
                                     [self stateViewBorder],
                                     screenRect.size.width / 2,
                                     [self saveButtonHeight])];
-    [saveButton setTitle:@"Set Item State" forState:UIControlStateNormal];
-    [saveButton addTarget:self action:@selector(saveAndDismissStatePicker:)
+    [saveStateChangeButton setTitle:@"Set Item State" forState:UIControlStateNormal];
+    [saveStateChangeButton addTarget:self action:@selector(saveAndDismissStatePicker:)
          forControlEvents:UIControlEventTouchUpInside];
     [statePicker setFrame:CGRectMake(0,
                                      2 * [self stateViewBorder] + [self saveButtonHeight],
@@ -635,14 +631,16 @@ int DESC_MAX_LENGTH = 250;
                                      [self statePickerHeight])];
     UIView *subView = [[UIView alloc]
                        initWithFrame:CGRectMake(0, screenRect.size.height, screenRect.size.width, [self stateSubViewHeight])];
-    [subView addSubview:saveButton];
+    
+    [subView addSubview:saveStateChangeButton];
     [subView addSubview:statePicker];
     UIColor *subviewBackgroundColor = [UIColor colorWithRed:0.573 green:0.608 blue:0.675 alpha:0.95];
     [subView setBackgroundColor:subviewBackgroundColor];
-    
-    UIView *fullView = [[UIView alloc] initWithFrame:screenRect];
+
+    UIControl *fullView = [[UIControl alloc] initWithFrame:screenRect];
     UIColor *backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
     [fullView setBackgroundColor:backgroundColor];
+    [fullView addTarget:self action:@selector(saveAndDismissStatePicker:) forControlEvents:UIControlEventTouchUpInside];
     [fullView addSubview:subView];
     
     UIScrollView *scrollView = (UIScrollView *)self.view;
@@ -661,8 +659,7 @@ int DESC_MAX_LENGTH = 250;
 
 - (void)saveAndDismissStatePicker:(id)sender
 {
-    UIButton *saveButton = (UIButton *)sender;
-    UIView *subView = [saveButton superview];
+    UIView *subView = [saveStateChangeButton superview];
     UIPickerView *pickerView = (UIPickerView *)[subView viewWithTag:PICKER_VIEW_TAG];
     UIView *fullView = [subView superview];
     NSInteger row = [pickerView selectedRowInComponent:0];
@@ -696,6 +693,7 @@ int DESC_MAX_LENGTH = 250;
                      }
                      completion:^(BOOL finished) {
                          [fullView removeFromSuperview];
+                         saveStateChangeButton = nil;
                      }];
 }
 
