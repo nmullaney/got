@@ -310,10 +310,15 @@ int DESC_MAX_LENGTH = 250;
 
 - (BOOL)haveUnpostedChanges
 {
+    // Make sure empty strings are treated as nils
     NSString *descFieldText = [descField text];
     if ([descFieldText isEqualToString:@""]) {
         descFieldText = nil;
     }
+    if ([[self item] desc] != nil && [[[self item] desc] isEqualToString:@""]) {
+        [[self item] setDesc:nil];
+    }
+    
     if (![[[self item] name] isEqualToString:[nameField text]] ||
         ![self nilOrEqual:[[self item] desc] to:descFieldText] ||
         ![[[self item] state] isEqualToString:[GOTItemState getValue:[stateLabel text]]] ||
