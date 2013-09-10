@@ -203,7 +203,7 @@ static int localItemID = -1;
 - (UIImage *)image
 {
     if ([self imageKey]) {
-        return [[GOTImageStore sharedStore] imageForKey:[self imageKey]];
+        return [[GOTImageStore sharedStore] imageForKey:[self imageKey] updatedAfter:[NSDate date]];
     }
     return nil;
 }

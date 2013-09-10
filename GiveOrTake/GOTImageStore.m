@@ -12,6 +12,7 @@
 #import "GOTMutableURLPostRequest.h"
 #import "GOTConstants.h"
 #import "GOTItem.h"
+#import "GOTImageCache.h"
 
 @implementation GOTImageStore
 
@@ -37,7 +38,7 @@
 {
     self = [super init];
     if (self) {
-        imageCache = [[NSMutableDictionary alloc] init];
+        imageCache = [[GOTImageCache alloc] init];
         
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self
@@ -54,24 +55,24 @@
 
 - (void)setImage:(UIImage *)i forKey:(NSString *)s
 {
-    [imageCache setObject:i forKey:s];
+    [imageCache setImage:i forKey:s];
 }
 
 // Get image from the in-memory cache
 - (UIImage *)imageForKey:(NSString *)s
 {
-    return [imageCache objectForKey:s];
+    return [imageCache imageForKey:s];
 }
 
 // Get the image from the in-memory cache or disk
 // If the disk image is older than the date, delete it and return nil
 - (UIImage *)imageForKey:(NSString *)s updatedAfter:(NSDate *)date
 {
-    UIImage *memCachedImage = [imageCache objectForKey:s];
+    UIImage *memCachedImage = [imageCache imageForKey:s after:date];
     if (!memCachedImage) {
         UIImage *fileCachedImage = [self fetchImageFromDisk:s updatedAfter:date];
         if (fileCachedImage) {
-            [imageCache setObject:fileCachedImage forKey:s];
+            [imageCache setImage:fileCachedImage forKey:s];
             return fileCachedImage;
         }
     }
@@ -83,7 +84,7 @@
     if (!s) {
         return;
     }
-    [imageCache removeObjectForKey:s];
+    [imageCache removeImageForKey:s];
     NSString *filePath = [self filePathForKey:s];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:filePath]) {
@@ -94,7 +95,7 @@
 - (void)clearCache:(NSNotification *)note
 {
     [self saveCacheToDisk];
-    [imageCache removeAllObjects];
+    [imageCache removeAllImages];
 }
 
 + (NSString *)imageCachePath
@@ -162,10 +163,13 @@
     if ([fileManager fileExistsAtPath:filePath]) {
         NSDictionary *fileAttr = [fileManager attributesOfItemAtPath:filePath error:nil];
         if (date && [[fileAttr fileModificationDate] timeIntervalSinceDate:date] < 0) {
+            NSLog(@"Image is out of date");
             // Image is out of date
             [fileManager removeItemAtPath:filePath error:nil];
             return nil;
-        } 
+        } else {
+            NSLog(@"image date is fine");
+        }
         NSData *imageData = [fileManager contentsAtPath:filePath];
         UIImage *image = [UIImage imageWithData:imageData];
         return image;
@@ -226,6 +230,7 @@
     UIImage *image = nil;
     if ([item imageKey]) {
         image = [self imageForKey:[item imageKey] updatedAfter:[item dateUpdated]];
+        NSLog(@"Fetching image updated after: %@", [item dateUpdated]);
     }
     if (image) {
         block(image, nil);

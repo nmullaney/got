@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @class GOTItem;
+@class GOTImageCache;
 
 @interface GOTImageStore : NSObject
 {
-    NSMutableDictionary *imageCache;
+    GOTImageCache *imageCache;
 }
 
 + (GOTImageStore *)sharedStore;

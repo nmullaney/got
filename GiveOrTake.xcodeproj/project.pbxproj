@@ -59,6 +59,8 @@
 		889764B0174D8BA7008B5CDB /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764AE174D8BA7008B5CDB /* checked@2x.png */; };
 		889764B3174EAAA3008B5CDB /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764B1174EAAA1008B5CDB /* checked.png */; };
 		889764B4174EAAA3008B5CDB /* notchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 889764B2174EAAA2008B5CDB /* notchecked.png */; };
+		889A211617DE8FCF00266038 /* GOTImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 889A211517DE8FCF00266038 /* GOTImageCache.m */; };
+		889A211917DE92FE00266038 /* GOTImageCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 889A211817DE92FE00266038 /* GOTImageCacheObject.m */; };
 		889B08E41713511B001901B1 /* GOTSendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 889B08E21713511B001901B1 /* GOTSendMessageViewController.m */; };
 		889B08E51713511B001901B1 /* GOTSendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */; };
 		88AD62B91700EF820091E80E /* GOTMessageFooterViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AD62B81700EF820091E80E /* GOTMessageFooterViewBuilder.m */; };
@@ -204,6 +206,10 @@
 		889764AE174D8BA7008B5CDB /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		889764B1174EAAA1008B5CDB /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
 		889764B2174EAAA2008B5CDB /* notchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notchecked.png; sourceTree = "<group>"; };
+		889A211417DE8FCF00266038 /* GOTImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTImageCache.h; sourceTree = "<group>"; };
+		889A211517DE8FCF00266038 /* GOTImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTImageCache.m; sourceTree = "<group>"; };
+		889A211717DE92FE00266038 /* GOTImageCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTImageCacheObject.h; sourceTree = "<group>"; };
+		889A211817DE92FE00266038 /* GOTImageCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTImageCacheObject.m; sourceTree = "<group>"; };
 		889B08E11713511B001901B1 /* GOTSendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOTSendMessageViewController.h; sourceTree = "<group>"; };
 		889B08E21713511B001901B1 /* GOTSendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOTSendMessageViewController.m; sourceTree = "<group>"; };
 		889B08E31713511B001901B1 /* GOTSendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GOTSendMessageViewController.xib; sourceTree = "<group>"; };
@@ -329,6 +335,10 @@
 				88AD62DF170CB45E0091E80E /* User.h */,
 				88AD62E0170CD1380091E80E /* JSONUtil.h */,
 				88AD62E1170CD1390091E80E /* JSONUtil.m */,
+				889A211417DE8FCF00266038 /* GOTImageCache.h */,
+				889A211517DE8FCF00266038 /* GOTImageCache.m */,
+				889A211717DE92FE00266038 /* GOTImageCacheObject.h */,
+				889A211817DE92FE00266038 /* GOTImageCacheObject.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -775,6 +785,8 @@
 				889764AA174ADF17008B5CDB /* GOTWebViewController.m in Sources */,
 				88D1A016175FBCB200009CEB /* GOTItemMetadataView.m in Sources */,
 				88183BEB177A0C9C0070C90D /* UIBarButtonItem+FlatBarButtonItem.m in Sources */,
+				889A211617DE8FCF00266038 /* GOTImageCache.m in Sources */,
+				889A211917DE92FE00266038 /* GOTImageCacheObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
